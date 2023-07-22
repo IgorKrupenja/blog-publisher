@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/publish-article.ts",
   "scripts": {
-    "publish": "ts-node --esm src/publish-article.ts"
+    "publish": "ts-node --esm src/publish-article.ts",
+    "build": "tsc --build"
   },
   "author": "Igor Krupenja",
   "license": "CC BY-NC 4.0 & MIT",

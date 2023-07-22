@@ -4,8 +4,8 @@ import fs from 'fs';
 import matter from 'gray-matter';
 import fetch from 'node-fetch';
 
-import { HASHNODE_TAGS } from './data/index.js';
-import { HashnodeTag } from './interfaces/index.js';
+import { HASHNODE_TAGS } from './data';
+import { HashnodeTag } from './interfaces';
 
 const getArticle = (): Article => {
   // E.g. articles/2023/nextjs-expo-monorepo.md
