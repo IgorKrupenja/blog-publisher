@@ -15,8 +15,12 @@ const getArticle = (): Article => {
   const fileContent = fs.readFileSync(articlePath, 'utf-8');
   const parsedContent = matter(fileContent);
   const frontMatter = parsedContent.data as ArticleFrontMatter;
-  if (!frontMatter.title) throw new Error('Hashnode: no title found in article.');
-  if (!frontMatter.tags) throw new Error('Hashnode: no tags found in article.');
+
+  if (!frontMatter.title) throw new Error('getArticle: No title found in article.');
+  if (!frontMatter.tags) throw new Error('getArticle: No tags found in article.');
+  if (!parsedContent.content.length) throw new Error('getArticle: No content found in article.');
+
+  if (!frontMatter.coverImageURL) console.warn('getArticle: No cover image found in article.');
 
   return { frontMatter, ...parsedContent };
 };
@@ -58,9 +62,7 @@ const publishArticleOnHashnode = async ({ frontMatter, content }: Article): Prom
         contentMarkdown: content,
         tags: hashNodeTags.map((tag) => ({ _id: tag.objectID })),
         isPartOfPublication: { publicationId: HASHNODE_PUBLICATION_ID },
-        // TODO: coverImageURL
-        coverImageURL:
-          'https://res.cloudinary.com/practicaldev/image/fetch/s--8v2gm_yz--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pxvrnkjgnu5kbg9nv5lt.png',
+        coverImageURL: frontMatter.coverImageURL,
       },
     },
   };
@@ -104,6 +106,7 @@ interface Article {
 interface ArticleFrontMatter {
   title?: string;
   tags?: string[];
+  coverImageURL?: string;
 }
 
 interface HashnodeCreatePublicationStoryResponse {
@@ -118,4 +121,4 @@ interface HashnodeCreatePublicationStoryResponse {
 }
 
 await publishArticle(getArticle());
-// getArticle();
+// console.log(getArticle());
