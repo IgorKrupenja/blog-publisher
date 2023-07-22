@@ -1,17 +1,24 @@
 import 'dotenv/config';
 
+import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
 import matter from 'gray-matter';
+import mime from 'mime';
 import fetch from 'node-fetch';
 
 import { HASHNODE_TAGS } from './data/hashnode-tags.js';
 
 const getArticle = (): Article => {
-  // E.g. articles/2023/nextjs-expo-monorepo.md
-  const articlePath = process.argv[2];
-  if (!articlePath) throw new Error('No article path provided.');
+  // E.g. articles/2023/01-nextjs-expo-monorepo
+  const path = process.argv[2];
+  if (!path) throw new Error('No article path provided.');
 
-  const fileContent = fs.readFileSync(articlePath, 'utf-8');
+  const files = fs.readdirSync(path);
+  const markdownFile = files.find((file) => file.endsWith('.md'));
+
+  if (!markdownFile) throw new Error('getArticle: No markdown file found in article path.');
+
+  const fileContent = fs.readFileSync(`${path}/${markdownFile}`, 'utf-8');
   const parsedContent = matter(fileContent);
   const frontMatter = parsedContent.data as ArticleFrontMatter;
 
@@ -19,21 +26,44 @@ const getArticle = (): Article => {
   if (!frontMatter.tags) throw new Error('getArticle: No tags found in article.');
   if (!parsedContent.content.length) throw new Error('getArticle: No content found in article.');
 
-  if (!frontMatter.coverImageURL) console.warn('getArticle: No cover image found in article.');
+  if (!frontMatter.coverImage) console.warn('getArticle: No cover image found in article.');
 
-  return { frontMatter, ...parsedContent };
+  return { frontMatter, ...parsedContent, coverImagePath: `${path}/${frontMatter.coverImage}` };
+};
+
+const uploadCoverImage = async ({ coverImagePath, frontMatter }: Article): Promise<void> => {
+  if (!frontMatter.coverImage) return;
+
+  const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_STORAGE_BUCKET } = process.env;
+  if (!SUPABASE_URL || !SUPABASE_KEY || !SUPABASE_STORAGE_BUCKET)
+    throw new Error('uploadCoverImage: environment variables missing.');
+
+  const file = fs.readFileSync(coverImagePath);
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const { error } = await supabase.storage.from('images').upload(coverImagePath, file, {
+    cacheControl: '604800',
+    contentType: mime.getType(coverImagePath) ?? 'image/jpg',
+  });
+
+  if (error) throw new Error(`uploadCoverImage: ${JSON.stringify(error)}`);
+  console.log(`uploadCoverImage: uploaded image '${coverImagePath}'`);
 };
 
 const publishArticle = async (article: Article): Promise<void> => {
   await Promise.all([publishArticleOnHashnode(article)]);
 };
 
-const publishArticleOnHashnode = async ({ frontMatter, content }: Article): Promise<void> => {
+const publishArticleOnHashnode = async ({
+  frontMatter,
+  content,
+  coverImagePath,
+}: Article): Promise<void> => {
   if (!frontMatter.title || !frontMatter.tags) return;
 
-  const HASHNODE_PUBLICATION_ID = process.env.HASHNODE_PUBLICATION_ID;
-  const HASHNODE_TOKEN = process.env.HASHNODE_TOKEN;
-
+  const { HASHNODE_PUBLICATION_ID, HASHNODE_TOKEN, SUPABASE_URL, SUPABASE_STORAGE_BUCKET } =
+    process.env;
   if (!HASHNODE_PUBLICATION_ID || !HASHNODE_TOKEN)
     throw new Error('publishArticleOnHashnode: environment variables missing.');
 
@@ -55,13 +85,14 @@ const publishArticleOnHashnode = async ({ frontMatter, content }: Article): Prom
       `,
     variables: {
       publicationId: HASHNODE_PUBLICATION_ID,
-      //   hideFromHashnodeFeed: true,
+      // todo disable this
+      hideFromHashnodeFeed: true,
       input: {
         title: frontMatter.title,
         contentMarkdown: content,
         tags: hashNodeTags.map((tag) => ({ _id: tag.objectID })),
         isPartOfPublication: { publicationId: HASHNODE_PUBLICATION_ID },
-        coverImageURL: frontMatter.coverImageURL,
+        coverImageURL: `${SUPABASE_URL}/storage/v1/object/public/${SUPABASE_STORAGE_BUCKET}/${coverImagePath}`,
       },
     },
   };
@@ -79,18 +110,19 @@ const publishArticleOnHashnode = async ({ frontMatter, content }: Article): Prom
   if (responseBody.errors && responseBody.errors.length > 0)
     throw Error(responseBody.errors.map((e) => e.message).join(', '));
 
-  console.log(`Hashnode: published article '${frontMatter.title}'`);
+  console.log(`publishArticleOnHashnode: published article '${frontMatter.title}'`);
 };
 
 interface Article {
   frontMatter: ArticleFrontMatter;
   content: string;
+  coverImagePath: string;
 }
 
 interface ArticleFrontMatter {
   title?: string;
   tags?: string[];
-  coverImageURL?: string;
+  coverImage?: string;
 }
 
 interface HashnodeCreatePublicationStoryRequestBody {
@@ -119,5 +151,6 @@ interface HashnodeCreatePublicationStoryResponse {
   errors: { message: string }[];
 }
 
-await publishArticle(getArticle());
 // console.log(getArticle());
+const article = getArticle();
+await Promise.all([uploadCoverImage(article), publishArticle(article)]);
