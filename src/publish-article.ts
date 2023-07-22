@@ -1,7 +1,8 @@
-import fs from 'fs';
-import fetch from 'node-fetch';
+import 'dotenv/config';
 
-console.log('Hello world!');
+import fs from 'fs';
+
+// import fetch from 'node-fetch';
 
 const HASHNODE_PUBLICATION_ID = process.env.HASHNODE_PUBLICATION_ID;
 const HASHNODE_TOKEN = process.env.HASHNODE_TOKEN;
@@ -15,10 +16,10 @@ if (!articlePath) throw new Error('No article path provided.');
 const content = fs.readFileSync(articlePath, 'utf-8');
 // const titleRegex = /^# (.*)$/m;
 const title = content.match(/^# (.*)$/m)?.[1];
-
 if (!title) throw new Error('No title found in article.');
 
 // todo cover image
+// todo tags
 
 const requestBody = {
   query: `mutation CreatePublicationStory {
@@ -30,26 +31,28 @@ const requestBody = {
         }`,
 };
 
-const response = await fetch('https://api.hashnode.com', {
-  method: 'POST',
-  body: JSON.stringify(requestBody),
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: HASHNODE_TOKEN,
-  },
-});
-const responseBody = (await response.json()) as CreatePublicationStoryResponse;
+console.log(requestBody);
 
-if (responseBody.errors && responseBody.errors.length > 0)
-  throw Error(responseBody.errors.map((e) => e.message).join(', '));
+// const response = await fetch('https://api.hashnode.com', {
+//   method: 'POST',
+//   body: JSON.stringify(requestBody),
+//   headers: {
+//     'Content-Type': 'application/json',
+//     Authorization: HASHNODE_TOKEN,
+//   },
+// });
+// const responseBody = (await response.json()) as CreatePublicationStoryResponse;
 
-interface CreatePublicationStoryResponse {
-  data: {
-    createPublicationStory: {
-      code: string;
-      success: boolean;
-      message: string;
-    };
-  };
-  errors: [{ message: string }];
-}
+// if (responseBody.errors && responseBody.errors.length > 0)
+//   throw Error(responseBody.errors.map((e) => e.message).join(', '));
+
+// interface CreatePublicationStoryResponse {
+//   data: {
+//     createPublicationStory: {
+//       code: string;
+//       success: boolean;
+//       message: string;
+//     };
+//   };
+//   errors: [{ message: string }];
+// }
