@@ -7,7 +7,7 @@
     "publish": "ts-node src/publish-post.ts"
   },
   "author": "Igor Krupenja",
-  "license": "ISC",
+  "license": "CC BY-NC 4.0 & MIT",
   "devDependencies": {
     "@tsconfig/node18": "^18.2.0",
     "@types/node": "^20.4.3",
