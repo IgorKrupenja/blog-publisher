@@ -14,11 +14,11 @@ const getArticle = (): Article => {
   if (!path) throw new Error('No article path provided.');
 
   const files = fs.readdirSync(path);
-  const markdownFile = files.find((file) => file.endsWith('.md'));
+  const markdown = files.find((file) => file.endsWith('.md'));
 
-  if (!markdownFile) throw new Error('getArticle: No markdown file found in article path.');
+  if (!markdown) throw new Error('getArticle: No markdown file found in article path.');
 
-  const fileContent = fs.readFileSync(`${path}/${markdownFile}`, 'utf-8');
+  const fileContent = fs.readFileSync(`${path}/${markdown}`, 'utf-8');
   const parsedContent = matter(fileContent);
   const frontMatter = parsedContent.data as ArticleFrontMatter;
 
