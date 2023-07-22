@@ -4,8 +4,8 @@ import fs from 'fs';
 import matter from 'gray-matter';
 import fetch from 'node-fetch';
 
-import { HASHNODE_TAGS } from './data';
-import { HashnodeTag } from './interfaces';
+import { HASHNODE_TAGS } from './data/hashnode-tags.js';
+import { HashnodeTag } from './interfaces/hashnode-tag.js';
 
 const getArticle = (): Article => {
   // E.g. articles/2023/nextjs-expo-monorepo.md
@@ -52,15 +52,15 @@ const publishArticleOnHashnode = async ({ frontMatter, content }: Article): Prom
       `,
     variables: {
       publicationId: HASHNODE_PUBLICATION_ID,
-      //   todo remove this
-      hideFromHashnodeFeed: true,
+      //   hideFromHashnodeFeed: true,
       input: {
         title: frontMatter.title,
         contentMarkdown: content,
         tags: hashNodeTags.map((tag) => ({ _id: tag.objectID })),
         isPartOfPublication: { publicationId: HASHNODE_PUBLICATION_ID },
-        // todo coverImageURL
-        coverImageURL: '',
+        // TODO: coverImageURL
+        coverImageURL:
+          'https://res.cloudinary.com/practicaldev/image/fetch/s--8v2gm_yz--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pxvrnkjgnu5kbg9nv5lt.png',
       },
     },
   };
@@ -74,10 +74,11 @@ const publishArticleOnHashnode = async ({ frontMatter, content }: Article): Prom
     body: JSON.stringify(requestBody),
   });
   const responseBody = (await response.json()) as HashnodeCreatePublicationStoryResponse;
-  console.log(responseBody);
 
   if (responseBody.errors && responseBody.errors.length > 0)
     throw Error(responseBody.errors.map((e) => e.message).join(', '));
+
+  console.log(`Hashnode: published article '${frontMatter.title}'`);
 };
 
 interface HashnodeCreatePublicationStoryRequestBody {
