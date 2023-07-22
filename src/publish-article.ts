@@ -82,6 +82,17 @@ const publishArticleOnHashnode = async ({ frontMatter, content }: Article): Prom
   console.log(`Hashnode: published article '${frontMatter.title}'`);
 };
 
+interface Article {
+  frontMatter: ArticleFrontMatter;
+  content: string;
+}
+
+interface ArticleFrontMatter {
+  title?: string;
+  tags?: string[];
+  coverImageURL?: string;
+}
+
 interface HashnodeCreatePublicationStoryRequestBody {
   query: string;
   variables: {
@@ -95,17 +106,6 @@ interface HashnodeCreatePublicationStoryRequestBody {
       coverImageURL?: string;
     };
   };
-}
-
-interface Article {
-  frontMatter: ArticleFrontMatter;
-  content: string;
-}
-
-interface ArticleFrontMatter {
-  title?: string;
-  tags?: string[];
-  coverImageURL?: string;
 }
 
 interface HashnodeCreatePublicationStoryResponse {
