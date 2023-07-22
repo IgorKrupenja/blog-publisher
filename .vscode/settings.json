@@ -11,5 +11,6 @@
   },
   "files.readonlyInclude": {
     "**/node_modules/**": true
-  }
+  },
+  "editor.rulers": [100]
 }

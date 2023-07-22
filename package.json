@@ -8,6 +8,7 @@
   },
   "author": "Igor Krupenja",
   "license": "CC BY-NC 4.0 & MIT",
+  "type": "module",
   "devDependencies": {
     "@tsconfig/node18": "^18.2.0",
     "@types/node": "^20.4.3",
@@ -22,6 +23,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-unused-imports": "^3.0.0",
+    "node-fetch": "^3.3.1",
     "prettier": "^3.0.0"
   }
 }
