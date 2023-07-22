@@ -60,7 +60,6 @@ const publishArticleOnHashnode = async ({ frontMatter, content }: Article): Prom
         tags: hashNodeTags.map((tag) => ({ _id: tag.objectID })),
         isPartOfPublication: { publicationId: HASHNODE_PUBLICATION_ID },
         // todo coverImageURL
-        // Available tags: https://github.com/Hashnode/support/blob/main/misc/tags.json
         coverImageURL: '',
       },
     },
