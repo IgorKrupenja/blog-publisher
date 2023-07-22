@@ -5,7 +5,6 @@ import matter from 'gray-matter';
 import fetch from 'node-fetch';
 
 import { HASHNODE_TAGS } from './data/hashnode-tags.js';
-import { HashnodeTag } from './interfaces/hashnode-tag.js';
 
 const getArticle = (): Article => {
   // E.g. articles/2023/nextjs-expo-monorepo.md
@@ -38,11 +37,11 @@ const publishArticleOnHashnode = async ({ frontMatter, content }: Article): Prom
   if (!HASHNODE_PUBLICATION_ID || !HASHNODE_TOKEN)
     throw new Error('publishArticleOnHashnode: environment variables missing.');
 
-  const hashNodeTags = frontMatter.tags.reduce((tags, frontMatterTag) => {
+  const hashNodeTags = frontMatter.tags.map((frontMatterTag) => {
     const hashNodeTag = HASHNODE_TAGS.find((t) => t.slug === frontMatterTag);
-    if (hashNodeTag) return [hashNodeTag, ...tags];
+    if (hashNodeTag) return hashNodeTag;
     else throw new Error(`publishArticleOnHashnode: invalid tag: ${frontMatterTag}`);
-  }, [] as HashnodeTag[]);
+  });
 
   const requestBody: HashnodeCreatePublicationStoryRequestBody = {
     query: `
