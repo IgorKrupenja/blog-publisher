@@ -40,7 +40,7 @@ const uploadCoverImage = async ({ coverImagePath, frontMatter }: Article): Promi
 
   const file = fs.readFileSync(coverImagePath);
 
-  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } });
 
   const { error } = await supabase.storage.from('images').upload(coverImagePath, file, {
     cacheControl: '604800',
@@ -51,8 +51,13 @@ const uploadCoverImage = async ({ coverImagePath, frontMatter }: Article): Promi
   console.log(`uploadCoverImage: uploaded image '${coverImagePath}'`);
 };
 
-const publishArticle = async (article: Article): Promise<void> => {
-  await Promise.all([publishArticleOnHashnode(article)]);
+const publishArticle = async (): Promise<void> => {
+  const article = getArticle();
+  await Promise.all([
+    uploadCoverImage(article),
+    // TODO: Other platforms
+    publishArticleOnHashnode(article),
+  ]);
 };
 
 const publishArticleOnHashnode = async ({
@@ -151,6 +156,4 @@ interface HashnodeCreatePublicationStoryResponse {
   errors: { message: string }[];
 }
 
-// console.log(getArticle());
-const article = getArticle();
-await Promise.all([uploadCoverImage(article), publishArticle(article)]);
+await publishArticle();
