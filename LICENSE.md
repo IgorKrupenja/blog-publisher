@@ -5,13 +5,18 @@
 All the files inside `articles` directory are licensed under
 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). The attribution requirement is only met when:
 
-<!-- todo better link example -->
-
 1. The canonical link is directed towards the original article, e.g.
-   `<link rel="canonical" href="https://blog.IgorKrupenja.com/something.html" />`
-2. The following message is displayed above and below the article:
-   `This article has been originally published on <a href="https://blog.IgorKrupenja.com/">Igor Krupenja's blog</a>.`
 
+```html
+<link rel="canonical" href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm" />
+```
+
+2. The following message is displayed above and below the article:
+
+```html
+This article has been originally published on <a href="https://blog.IgorKrupenja.com/">Igor Krupenja's blog</a> at this <a href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm">link</a>.
+```
+  
 ## Other files
 
 Files not mentioned in previous paragraphs are licensed under MIT License.
