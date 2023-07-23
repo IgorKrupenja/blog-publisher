@@ -12,22 +12,23 @@ import { CreateDevToArticleResponse } from './interfaces/create-dev-to-article-r
 
 const publishArticle = async (): Promise<void> => {
   const article = getArticle();
-  // await uploadCoverImage(article);
-  // const slug = await publishArticleOnHashnode(article);
+  await uploadCoverImage(article);
+  const slug = await publishArticleOnHashnode(article);
+  const canonicalUrl = getCanonicalUrl(slug);
 
-  // todo remove
-  // await publishArticleOnDevTo({
-  //   ...article,
-  //   canonicalUrl: 'https://blog.igorkrupenja.com/nextjs-expo-monorepo-with-pnpm',
-  // });
-
-  // TODO: Other platforms
   await Promise.all([
-    // await publishArticleOnDevTo({ ...article, canonicalUrl: getCanonicalUrl(slug) });
-    publishArticleOnMedium({
-      ...article,
-      canonicalUrl: 'https://blog.igorkrupenja.com/nextjs-expo-monorepo-with-pnpm',
-    }),
+    await publishArticleOnDevTo({ ...article, canonicalUrl }),
+    await publishArticleOnMedium({ ...article, canonicalUrl }),
+
+    // TODO: temporary for testing
+    // await publishArticleOnDevTo({
+    //   ...article,
+    //   canonicalUrl: 'https://blog.igorkrupenja.com/nextjs-expo-monorepo-with-pnpm',
+    // });
+    // publishArticleOnMedium({
+    //   ...article,
+    //   canonicalUrl: 'https://blog.igorkrupenja.com/nextjs-expo-monorepo-with-pnpm',
+    // }),
   ]);
 };
 
@@ -98,7 +99,7 @@ const publishArticleOnHashnode = async ({
       `,
     variables: {
       publicationId: HASHNODE_PUBLICATION_ID,
-      // todo disable this
+      // TODO: disable this
       hideFromHashnodeFeed: true,
       input: {
         title,
