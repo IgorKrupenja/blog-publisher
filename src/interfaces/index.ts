@@ -5,3 +5,4 @@ export * from './create-dev-to-article-response.js';
 export * from './create-hashnode-article-request.js';
 export * from './create-hashnode-article-response.js';
 export * from './create-medium-article-request.js';
+export * from './hashnode-tag.js';

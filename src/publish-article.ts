@@ -15,6 +15,7 @@ import {
   CreateHashnodeArticleRequest,
   CreateHashnodeArticleResponse,
   CreateMediumArticleRequest,
+  HashnodeTag,
 } from './interfaces/index.js';
 
 const publishArticle = async (): Promise<void> => {
@@ -87,11 +88,7 @@ const publishArticleOnHashnode = async ({
 }: Article): Promise<string> => {
   const { HASHNODE_PUBLICATION_ID, HASHNODE_TOKEN } = process.env;
 
-  const hashNodeTags = tags.map((frontMatterTag) => {
-    const hashNodeTag = HASHNODE_TAGS.find((tag) => tag.slug === frontMatterTag);
-    if (hashNodeTag) return hashNodeTag;
-    else throw new Error(`publishArticleOnHashnode: invalid tag: ${frontMatterTag}`);
-  });
+  const hashNodeTags = getHashNodeTags(tags);
 
   if (hashNodeTags.length < 1 || hashNodeTags.length > 5)
     throw new Error('publishArticleOnHashnode: must have4 between 1 and 5 tags');
@@ -224,6 +221,14 @@ const insertCanonicalUrl = (markdown: string, url: string): string => {
 
 const getCanonicalUrl = (slug: string): string => {
   return `${process.env.HASHNODE_URL}/${slug}`;
+};
+
+const getHashNodeTags = (tags: string[]): HashnodeTag[] => {
+  return tags.map((frontMatterTag) => {
+    const hashNodeTag = HASHNODE_TAGS.find((tag) => tag.slug === frontMatterTag);
+    if (hashNodeTag) return hashNodeTag;
+    else throw new Error(`publishArticleOnHashnode: invalid tag: ${frontMatterTag}`);
+  });
 };
 
 await publishArticle();
