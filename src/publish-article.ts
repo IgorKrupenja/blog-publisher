@@ -8,18 +8,25 @@ import fetch from 'node-fetch';
 
 import { HASHNODE_TAGS } from './data/hashnode-tags.js';
 
+const publishArticle = async (): Promise<void> => {
+  const article = getArticle();
+  await Promise.all([
+    uploadCoverImage(article),
+    // TODO: Other platforms
+    publishArticleOnHashnode(article),
+  ]);
+};
+
 const getArticle = (): Article => {
   // E.g. articles/2023/01-nextjs-expo-monorepo
   const path = process.argv[2];
   if (!path) throw new Error('No article path provided.');
 
-  const files = fs.readdirSync(path);
-  const markdown = files.find((file) => file.endsWith('.md'));
+  const markdown = fs.readdirSync(path).find((file) => file.endsWith('.md'));
 
   if (!markdown) throw new Error('getArticle: No markdown file found in article path.');
 
-  const fileContent = fs.readFileSync(`${path}/${markdown}`, 'utf-8');
-  const parsedContent = matter(fileContent);
+  const parsedContent = matter(fs.readFileSync(`${path}/${markdown}`, 'utf-8'));
   const frontMatter = parsedContent.data as ArticleFrontMatter;
 
   if (!frontMatter.title) throw new Error('getArticle: No title found in article.');
@@ -38,26 +45,17 @@ const uploadCoverImage = async ({ coverImagePath, frontMatter }: Article): Promi
   if (!SUPABASE_URL || !SUPABASE_KEY || !SUPABASE_STORAGE_BUCKET)
     throw new Error('uploadCoverImage: environment variables missing.');
 
-  const file = fs.readFileSync(coverImagePath);
-
   const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } });
 
-  const { error } = await supabase.storage.from('images').upload(coverImagePath, file, {
-    cacheControl: '604800',
-    contentType: mime.getType(coverImagePath) ?? 'image/jpg',
-  });
+  const { error } = await supabase.storage
+    .from('images')
+    .upload(coverImagePath, fs.readFileSync(coverImagePath), {
+      cacheControl: '604800',
+      contentType: mime.getType(coverImagePath) ?? 'image/jpg',
+    });
 
   if (error) throw new Error(`uploadCoverImage: ${JSON.stringify(error)}`);
   console.log(`uploadCoverImage: uploaded image '${coverImagePath}'`);
-};
-
-const publishArticle = async (): Promise<void> => {
-  const article = getArticle();
-  await Promise.all([
-    uploadCoverImage(article),
-    // TODO: Other platforms
-    publishArticleOnHashnode(article),
-  ]);
 };
 
 const publishArticleOnHashnode = async ({
@@ -73,12 +71,12 @@ const publishArticleOnHashnode = async ({
     throw new Error('publishArticleOnHashnode: environment variables missing.');
 
   const hashNodeTags = frontMatter.tags.map((frontMatterTag) => {
-    const hashNodeTag = HASHNODE_TAGS.find((t) => t.slug === frontMatterTag);
+    const hashNodeTag = HASHNODE_TAGS.find((tag) => tag.slug === frontMatterTag);
     if (hashNodeTag) return hashNodeTag;
     else throw new Error(`publishArticleOnHashnode: invalid tag: ${frontMatterTag}`);
   });
 
-  const requestBody: HashnodeCreatePublicationStoryRequestBody = {
+  const requestBody: HashnodeCreatePublicationStoryRequest = {
     query: `
         mutation createPublicationStory($input: CreateStoryInput!, $publicationId: String!) {
           createPublicationStory(input: $input, publicationId: $publicationId) {
@@ -110,10 +108,10 @@ const publishArticleOnHashnode = async ({
     },
     body: JSON.stringify(requestBody),
   });
-  const responseBody = (await response.json()) as HashnodeCreatePublicationStoryResponse;
+  const responseJson = (await response.json()) as HashnodeCreatePublicationStoryResponse;
 
-  if (responseBody.errors && responseBody.errors.length > 0)
-    throw Error(responseBody.errors.map((e) => e.message).join(', '));
+  if (responseJson.errors && responseJson.errors.length > 0)
+    throw Error(responseJson.errors.map((e) => e.message).join(', '));
 
   console.log(`publishArticleOnHashnode: published article '${frontMatter.title}'`);
 };
@@ -130,7 +128,7 @@ interface ArticleFrontMatter {
   coverImage?: string;
 }
 
-interface HashnodeCreatePublicationStoryRequestBody {
+interface HashnodeCreatePublicationStoryRequest {
   query: string;
   variables: {
     publicationId: string;
