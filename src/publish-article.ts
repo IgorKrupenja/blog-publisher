@@ -10,7 +10,7 @@ import { getArticle, getCanonicalUrl } from './utils/index.js';
 
 const publishArticle = async (): Promise<void> => {
   const article = getArticle();
-  await uploadCoverImage(article);
+  await uploadCoverImage(article.coverImagePath);
   const slug = await publishArticleOnHashnode(article);
   const canonicalUrl = getCanonicalUrl(slug);
 

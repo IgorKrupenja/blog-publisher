@@ -1,27 +1,10 @@
 import fetch from 'node-fetch';
 
-import { Article } from '../interfaces/article.js';
-import { CreateMediumArticleRequest } from '../interfaces/create-medium-article-request.js';
-import { insertCanonicalUrl, insertCoverImage } from '../utils/markdown.js';
+import { Article, CreateMediumArticleRequest } from '../interfaces/index.js';
+import { insertCanonicalUrl, insertCoverImage } from '../utils/index.js';
 
-export const publishArticleOnMedium = async ({
-  title,
-  content,
-  tags,
-  canonicalUrl,
-  coverImagePath,
-}: Required<Article>): Promise<void> => {
-  const markdownWithCoverImage = insertCoverImage(title, content, coverImagePath);
-
-  const requestBody: CreateMediumArticleRequest = {
-    title,
-    contentFormat: 'markdown',
-    content: insertCanonicalUrl(markdownWithCoverImage, canonicalUrl),
-    tags: tags.map((tag) => tag.replace(/-/g, ' ')),
-    canonicalUrl,
-    publishStatus: 'draft',
-    notifyFollowers: true,
-  };
+export const publishArticleOnMedium = async (article: Required<Article>): Promise<void> => {
+  const contentWithCoverImage = insertCoverImage(article);
 
   const response = await fetch(
     `https://api.medium.com/v1/users/${process.env.MEDIUM_AUTHOR_ID}/posts`,
@@ -33,11 +16,29 @@ export const publishArticleOnMedium = async ({
         Accept: 'application/json',
         'Accept-Charset': 'utf-8',
       },
-      body: JSON.stringify(requestBody),
+      body: JSON.stringify(
+        getCreateMediumArticleRequest({ ...article, content: contentWithCoverImage })
+      ),
     }
   );
 
   if (response.status !== 201) throw Error(`Medium: ${response.status} ${response.statusText}`);
 
-  console.log(`Medium: published draft article '${title}'`);
+  console.log(`Medium: published draft article '${article.title}'`);
 };
+
+// todo required simplify?
+const getCreateMediumArticleRequest = ({
+  title,
+  content,
+  tags,
+  canonicalUrl,
+}: Required<Article>): CreateMediumArticleRequest => ({
+  title,
+  contentFormat: 'markdown',
+  content: insertCanonicalUrl(content, canonicalUrl),
+  tags: tags.map((tag) => tag.replace(/-/g, ' ')),
+  canonicalUrl,
+  publishStatus: 'draft',
+  notifyFollowers: true,
+});
