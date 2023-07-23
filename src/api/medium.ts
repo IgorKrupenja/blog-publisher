@@ -23,7 +23,6 @@ export const publishArticleOnMedium = async (article: Required<Article>): Promis
   console.log(`Medium: published draft article '${article.title}'`);
 };
 
-// todo required simplify?
 const getCreateMediumArticleRequest = ({
   title,
   content,

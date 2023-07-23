@@ -9,7 +9,10 @@ import {
 import { getArticle, getCanonicalUrl } from './utils/index.js';
 
 const publishArticle = async (): Promise<void> => {
-  const article = getArticle();
+  // E.g. articles/2023/01-nextjs-expo-monorepo
+  const path = process.argv[2];
+  const article = getArticle(path);
+
   await uploadCoverImage(article.coverImagePath);
   const slug = await publishArticleOnHashnode(article);
   const canonicalUrl = getCanonicalUrl(slug);

@@ -1,12 +1,10 @@
 import fs from 'fs';
 import matter from 'gray-matter';
 
-import { Article } from '../interfaces/article.js';
-import { ArticleFrontMatter } from '../interfaces/article-front-matter.js';
+import { Article } from '../interfaces/index.js';
+import { ArticleFrontMatter } from '../interfaces/index.js';
 
-export const getArticle = (): Article => {
-  // E.g. articles/2023/01-nextjs-expo-monorepo
-  const path = process.argv[2];
+export const getArticle = (path: string): Article => {
   if (!path) throw new Error('No article path provided.');
 
   const markdown = fs.readdirSync(path).find((file) => file.endsWith('.md'));

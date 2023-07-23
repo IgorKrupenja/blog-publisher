@@ -1,9 +1,11 @@
 import fetch from 'node-fetch';
 
-import { Article } from '../interfaces/article.js';
-import { CreateDevToArticleRequest } from '../interfaces/create-dev-to-article-request.js';
-import { CreateDevToArticleResponse } from '../interfaces/create-dev-to-article-response.js';
-import { getCoverImageUrl, insertCanonicalUrl } from '../utils/markdown.js';
+import {
+  Article,
+  CreateDevToArticleRequest,
+  CreateDevToArticleResponse,
+} from '../interfaces/index.js';
+import { getCoverImageUrl, insertCanonicalUrl } from '../utils/index.js';
 
 export const publishArticleOnDevTo = async (article: Required<Article>): Promise<void> => {
   const response = await fetch('https://dev.to/api/articles', {
