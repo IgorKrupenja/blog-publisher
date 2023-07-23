@@ -5,9 +5,7 @@
   "main": "src/publish-article.ts",
   "scripts": {
     "publish": "ts-node --esm src/publish-article.ts",
-    "publish-actions-test": "ts-node --esm src/publish-article.ts articles/2023/01-nextjs-expo-monorepo",
-    "build": "tsc --build",
-    "node-publish-built": "node dist/publish-article.js"
+    "publish-actions-test": "ts-node --esm src/publish-article.ts articles/2023/01-nextjs-expo-monorepo"
   },
   "author": "Igor Krupenja",
   "license": "CC BY-NC 4.0 & MIT",
