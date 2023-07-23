@@ -39,7 +39,7 @@ const getCreateHashnodeArticleRequest = ({
   const hashnodeTags = getHashnodeTags(tags);
 
   return {
-    query: `
+    query: `#graphql
         mutation createPublicationStory($input: CreateStoryInput!, $publicationId: String!) {
           createPublicationStory(input: $input, publicationId: $publicationId) {
             post { slug }

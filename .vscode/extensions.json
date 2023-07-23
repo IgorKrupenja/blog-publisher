@@ -2,6 +2,7 @@
   "recommendations": [
     "DavidAnson.vscode-markdownlint",
     "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "orsenkucher.vscode-graphql"
   ]
 }
