@@ -14,15 +14,21 @@ const publishArticle = async (): Promise<void> => {
   const article = getArticle();
   // await uploadCoverImage(article);
   // const slug = await publishArticleOnHashnode(article);
-  // await publishArticleOnDevTo({ ...article, canonicalUrl: getCanonicalUrl(slug) });
-  await publishArticleOnDevTo({
-    ...article,
-    canonicalUrl: 'https://blog.igorkrupenja.com/nextjs-expo-monorepo-with-pnpm',
-  });
+
+  // todo remove
+  // await publishArticleOnDevTo({
+  //   ...article,
+  //   canonicalUrl: 'https://blog.igorkrupenja.com/nextjs-expo-monorepo-with-pnpm',
+  // });
 
   // TODO: Other platforms
-  // await Promise.allSettled([
-  // ]);
+  await Promise.all([
+    // await publishArticleOnDevTo({ ...article, canonicalUrl: getCanonicalUrl(slug) });
+    publishArticleOnMedium({
+      ...article,
+      canonicalUrl: 'https://blog.igorkrupenja.com/nextjs-expo-monorepo-with-pnpm',
+    }),
+  ]);
 };
 
 const getArticle = (): Article => {
@@ -115,7 +121,7 @@ const publishArticleOnHashnode = async ({
   const responseJson = (await response.json()) as CreateHashnodeArticleResponse;
 
   if (responseJson.errors && responseJson.errors.length > 0)
-    throw Error(responseJson.errors.map((error) => error.message).join(', '));
+    throw Error(`Hashnode: ${responseJson.errors.map((error) => error.message).join(', ')}`);
 
   console.log(`Hashnode: published article '${title}'`);
 
@@ -152,15 +158,65 @@ const publishArticleOnDevTo = async ({
   });
   const responseJson = (await response.json()) as CreateDevToArticleResponse;
 
-  if (responseJson.error)
-    throw new Error(`publishArticleOnDevTo: ${responseJson.status} ${responseJson.error}`);
+  if (responseJson.error) throw new Error(`Dev.to: ${responseJson.status} ${responseJson.error}`);
 
-  console.log(`Dev.to: published article '${title}'`);
+  console.log(`Dev.to: published draft article '${title}'`);
 };
+
+const publishArticleOnMedium = async ({
+  title,
+  content,
+  tags,
+  canonicalUrl,
+  coverImagePath,
+}: Required<Article>): Promise<void> => {
+  const requestBody: CreateMediumArticleRequest = {
+    title,
+    contentFormat: 'markdown',
+    content: insertCanonicalUrlText(insertCoverImage(title, content, coverImagePath), canonicalUrl),
+    tags: tags.map((tag) => tag.replace(/-/g, ' ')),
+    canonicalUrl,
+    publishStatus: 'draft',
+    notifyFollowers: true,
+  };
+
+  const response = await fetch(
+    `https://api.medium.com/v1/users/${process.env.MEDIUM_AUTHOR_ID}/posts`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.MEDIUM_INTEGRATION_TOKEN}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'Accept-Charset': 'utf-8',
+      },
+      body: JSON.stringify(requestBody),
+    }
+  );
+
+  if (response.status !== 201) throw Error(`Medium: ${response.status} ${response.statusText}`);
+
+  console.log(`Medium: published draft article '${title}'`);
+};
+
+interface CreateMediumArticleRequest {
+  title: string;
+  contentFormat: 'markdown' | 'html';
+  content: string;
+  tags?: string[];
+  canonicalUrl?: string;
+  publishStatus?: 'draft' | 'public' | 'unlisted';
+  notifyFollowers?: boolean;
+}
 
 const getCoverImageUrl = (coverImagePath: string): string => {
   const { SUPABASE_URL, SUPABASE_STORAGE_BUCKET } = process.env;
   return `${SUPABASE_URL}/storage/v1/object/public/${SUPABASE_STORAGE_BUCKET}/${coverImagePath}`;
+};
+
+const insertCoverImage = (title: string, markdown: string, coverImagePath: string): string => {
+  const string = `\n![${title}](${getCoverImageUrl(coverImagePath)})\n`;
+  return `${string}${markdown}`;
 };
 
 const getCanonicalUrl = (slug: string): string => {
