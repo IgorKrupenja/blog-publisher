@@ -32,7 +32,7 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'error',
         '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
         'unused-imports/no-unused-imports': 'error',
-        'unused-imports/no-unused-vars': [
+        '@typescript-eslint/no-unused-vars': [
           'warn',
           {
             vars: 'all',

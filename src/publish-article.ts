@@ -10,11 +10,14 @@ import { HASHNODE_TAGS } from './data/hashnode-tags.js';
 
 const publishArticle = async (): Promise<void> => {
   const article = getArticle();
-  await Promise.all([
-    uploadCoverImage(article),
-    // TODO: Other platforms
-    publishArticleOnHashnode(article),
-  ]);
+  // await uploadCoverImage(article);
+  const slug = await publishArticleOnHashnode(article);
+  const canonicalUrl = getCanonicalUrl(slug);
+  console.log(canonicalUrl);
+
+  // TODO: Other platforms
+  // await Promise.allSettled([
+  // ]);
 };
 
 const getArticle = (): Article => {
@@ -31,24 +34,23 @@ const getArticle = (): Article => {
 
   if (!frontMatter.title) throw new Error('getArticle: No title found in article.');
   if (!frontMatter.tags) throw new Error('getArticle: No tags found in article.');
+  if (!frontMatter.coverImage) throw new Error('getArticle: No cover image found in article.');
   if (!parsedContent.content.length) throw new Error('getArticle: No content found in article.');
 
-  if (!frontMatter.coverImage) console.warn('getArticle: No cover image found in article.');
-
-  return { frontMatter, ...parsedContent, coverImagePath: `${path}/${frontMatter.coverImage}` };
+  return {
+    ...(frontMatter as Required<ArticleFrontMatter>),
+    ...parsedContent,
+    coverImagePath: `${path}/${frontMatter.coverImage}`,
+  };
 };
 
-const uploadCoverImage = async ({ coverImagePath, frontMatter }: Article): Promise<void> => {
-  if (!frontMatter.coverImage) return;
-
+const uploadCoverImage = async ({ coverImagePath }: Article): Promise<void> => {
   const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_STORAGE_BUCKET } = process.env;
-  if (!SUPABASE_URL || !SUPABASE_KEY || !SUPABASE_STORAGE_BUCKET)
-    throw new Error('uploadCoverImage: environment variables missing.');
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } });
 
   const { error } = await supabase.storage
-    .from('images')
+    .from(SUPABASE_STORAGE_BUCKET)
     .upload(coverImagePath, fs.readFileSync(coverImagePath), {
       cacheControl: '604800',
       contentType: mime.getType(coverImagePath) ?? 'image/jpg',
@@ -59,18 +61,15 @@ const uploadCoverImage = async ({ coverImagePath, frontMatter }: Article): Promi
 };
 
 const publishArticleOnHashnode = async ({
-  frontMatter,
+  title,
   content,
   coverImagePath,
-}: Article): Promise<void> => {
-  if (!frontMatter.title || !frontMatter.tags) return;
-
+  tags,
+}: Required<Article>): Promise<string> => {
   const { HASHNODE_PUBLICATION_ID, HASHNODE_TOKEN, SUPABASE_URL, SUPABASE_STORAGE_BUCKET } =
     process.env;
-  if (!HASHNODE_PUBLICATION_ID || !HASHNODE_TOKEN)
-    throw new Error('publishArticleOnHashnode: environment variables missing.');
 
-  const hashNodeTags = frontMatter.tags.map((frontMatterTag) => {
+  const hashNodeTags = tags.map((frontMatterTag) => {
     const hashNodeTag = HASHNODE_TAGS.find((tag) => tag.slug === frontMatterTag);
     if (hashNodeTag) return hashNodeTag;
     else throw new Error(`publishArticleOnHashnode: invalid tag: ${frontMatterTag}`);
@@ -80,9 +79,7 @@ const publishArticleOnHashnode = async ({
     query: `
         mutation createPublicationStory($input: CreateStoryInput!, $publicationId: String!) {
           createPublicationStory(input: $input, publicationId: $publicationId) {
-            code,
-            success,
-            message
+            post { slug }
           }
         }
       `,
@@ -91,7 +88,7 @@ const publishArticleOnHashnode = async ({
       // todo disable this
       hideFromHashnodeFeed: true,
       input: {
-        title: frontMatter.title,
+        title,
         contentMarkdown: content,
         tags: hashNodeTags.map((tag) => ({ _id: tag.objectID })),
         isPartOfPublication: { publicationId: HASHNODE_PUBLICATION_ID },
@@ -113,7 +110,13 @@ const publishArticleOnHashnode = async ({
   if (responseJson.errors && responseJson.errors.length > 0)
     throw Error(responseJson.errors.map((error) => error.message).join(', '));
 
-  console.log(`publishArticleOnHashnode: published article '${frontMatter.title}'`);
+  console.log(`publishArticleOnHashnode: published article '${title}'`);
+
+  return responseJson.data.createPublicationStory.post.slug;
+};
+
+const getCanonicalUrl = (slug: string): string => {
+  return `${process.env.HASHNODE_URL}/${slug}`;
 };
 
 const getCanonicalUrlText = (url: string): string => {
@@ -121,9 +124,12 @@ const getCanonicalUrlText = (url: string): string => {
 };
 
 interface Article {
-  frontMatter: ArticleFrontMatter;
+  title: string;
   content: string;
   coverImagePath: string;
+  tags: string[];
+  // todo unused?
+  // coverImage: string;
 }
 
 interface ArticleFrontMatter {
@@ -147,7 +153,19 @@ interface CreateHashnodeArticleRequest {
   };
 }
 
-interface CreateDevToArticleBody {
+interface CreateHashnodeArticleResponse {
+  data: {
+    createPublicationStory: {
+      // code: string;
+      // success: boolean;
+      // message: string;
+      post: { slug: string };
+    };
+  };
+  errors: { message: string }[];
+}
+
+interface CreateDevToArticleRequest {
   title: string;
   body_markdown: string;
   published: boolean;
@@ -156,17 +174,6 @@ interface CreateDevToArticleBody {
   description: string;
   tags: string[];
   // organization_id?: number;
-}
-
-interface CreateHashnodeArticleResponse {
-  data: {
-    createPublicationStory: {
-      code: string;
-      success: boolean;
-      message: string;
-    };
-  };
-  errors: { message: string }[];
 }
 
 await publishArticle();
