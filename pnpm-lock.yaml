@@ -8,6 +8,9 @@ dependencies:
   '@supabase/supabase-js':
     specifier: ^2.26.0
     version: 2.26.0
+  '@tsconfig/node18':
+    specifier: ^18.2.0
+    version: 18.2.0
   dotenv:
     specifier: ^16.3.1
     version: 16.3.1
@@ -25,9 +28,6 @@ dependencies:
     version: 10.9.1(@types/node@20.4.3)(typescript@5.1.6)
 
 devDependencies:
-  '@tsconfig/node18':
-    specifier: ^18.2.0
-    version: 18.2.0
   '@types/mime':
     specifier: ^3.0.1
     version: 3.0.1
@@ -256,7 +256,7 @@ packages:
 
   /@tsconfig/node18@18.2.0:
     resolution: {integrity: sha512-yhxwIlFVSVcMym3O31HoMnRXpoenmpIxcj4Yoes2DUpe+xCJnA7ECQP1Vw889V0jTt/2nzvpLQ/UuMYCd3JPIg==}
-    dev: true
+    dev: false
 
   /@types/json-schema@7.0.12:
     resolution: {integrity: sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==}
