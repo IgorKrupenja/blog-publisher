@@ -11,6 +11,9 @@ dependencies:
   '@tsconfig/node18':
     specifier: ^18.2.0
     version: 18.2.0
+  '@types/mime':
+    specifier: ^3.0.1
+    version: 3.0.1
   dotenv:
     specifier: ^16.3.1
     version: 16.3.1
@@ -28,9 +31,6 @@ dependencies:
     version: 10.9.1(@types/node@20.4.3)(typescript@5.1.6)
 
 devDependencies:
-  '@types/mime':
-    specifier: ^3.0.1
-    version: 3.0.1
   '@types/node':
     specifier: ^20.4.3
     version: 20.4.3
@@ -264,7 +264,7 @@ packages:
 
   /@types/mime@3.0.1:
     resolution: {integrity: sha512-Y4XFY5VJAuw0FgAqPNd6NNoV44jbq9Bz2L7Rh/J6jLTiHBSBJa9fxqQIvkIld4GsoDOcCbvzOUAbLPsSKKg+uA==}
-    dev: true
+    dev: false
 
   /@types/node@20.4.3:
     resolution: {integrity: sha512-Yu3+r4Mn/iY6Mf0aihncZQ1qOjOUrCiodbHHY1hds5O+7BbKp9t+Li7zLO13zO8j9L2C6euz8xsYQP0rjGvVXw==}
