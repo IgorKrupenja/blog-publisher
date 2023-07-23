@@ -9,7 +9,7 @@ import {
 } from '../interfaces/index.js';
 import { getCoverImageUrl } from '../utils/index.js';
 
-export const publishArticleOnHashnode = async (article: Article): Promise<string> => {
+export const createHashnodeArticle = async (article: Article): Promise<string> => {
   const response = await fetch('https://api.hashnode.com', {
     method: 'POST',
     headers: {

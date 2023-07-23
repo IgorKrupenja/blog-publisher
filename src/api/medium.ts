@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import { Article, CreateMediumArticleRequest } from '../interfaces/index.js';
 import { insertCanonicalUrl, insertCoverImage } from '../utils/index.js';
 
-export const publishArticleOnMedium = async (article: Required<Article>): Promise<void> => {
+export const createMediumArticle = async (article: Required<Article>): Promise<void> => {
   const response = await fetch(
     `https://api.medium.com/v1/users/${process.env.MEDIUM_AUTHOR_ID}/posts`,
     {

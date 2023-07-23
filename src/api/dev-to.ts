@@ -7,7 +7,7 @@ import {
 } from '../interfaces/index.js';
 import { getCoverImageUrl, insertCanonicalUrl } from '../utils/index.js';
 
-export const publishArticleOnDevTo = async (article: Required<Article>): Promise<void> => {
+export const createDevToArticle = async (article: Required<Article>): Promise<void> => {
   const response = await fetch('https://dev.to/api/articles', {
     method: 'POST',
     headers: {
