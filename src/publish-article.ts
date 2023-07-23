@@ -76,7 +76,7 @@ const publishArticleOnHashnode = async ({
     else throw new Error(`publishArticleOnHashnode: invalid tag: ${frontMatterTag}`);
   });
 
-  const requestBody: HashnodeCreatePublicationStoryRequest = {
+  const requestBody: CreateHashnodeArticleRequest = {
     query: `
         mutation createPublicationStory($input: CreateStoryInput!, $publicationId: String!) {
           createPublicationStory(input: $input, publicationId: $publicationId) {
@@ -108,12 +108,16 @@ const publishArticleOnHashnode = async ({
     },
     body: JSON.stringify(requestBody),
   });
-  const responseJson = (await response.json()) as HashnodeCreatePublicationStoryResponse;
+  const responseJson = (await response.json()) as CreateHashnodeArticleResponse;
 
   if (responseJson.errors && responseJson.errors.length > 0)
     throw Error(responseJson.errors.map((error) => error.message).join(', '));
 
   console.log(`publishArticleOnHashnode: published article '${frontMatter.title}'`);
+};
+
+const getCanonicalUrlText = (url: string): string => {
+  return `*This article was originally published on [${url}](${url}).*`;
 };
 
 interface Article {
@@ -128,7 +132,7 @@ interface ArticleFrontMatter {
   coverImage?: string;
 }
 
-interface HashnodeCreatePublicationStoryRequest {
+interface CreateHashnodeArticleRequest {
   query: string;
   variables: {
     publicationId: string;
@@ -143,7 +147,18 @@ interface HashnodeCreatePublicationStoryRequest {
   };
 }
 
-interface HashnodeCreatePublicationStoryResponse {
+interface CreateDevToArticleBody {
+  title: string;
+  body_markdown: string;
+  published: boolean;
+  main_image?: string;
+  canonical_url?: string;
+  description: string;
+  tags: string[];
+  // organization_id?: number;
+}
+
+interface CreateHashnodeArticleResponse {
   data: {
     createPublicationStory: {
       code: string;
