@@ -7,13 +7,18 @@ import mime from 'mime';
 import fetch from 'node-fetch';
 
 import { HASHNODE_TAGS } from './data/hashnode-tags.js';
+import { CreateDevToArticleRequest } from './interfaces/create-dev-to-article-request.js';
+import { CreateDevToArticleResponse } from './interfaces/create-dev-to-article-response.js';
 
 const publishArticle = async (): Promise<void> => {
   const article = getArticle();
   // await uploadCoverImage(article);
-  const slug = await publishArticleOnHashnode(article);
-  const canonicalUrl = getCanonicalUrl(slug);
-  console.log(canonicalUrl);
+  // const slug = await publishArticleOnHashnode(article);
+  // await publishArticleOnDevTo({ ...article, canonicalUrl: getCanonicalUrl(slug) });
+  await publishArticleOnDevTo({
+    ...article,
+    canonicalUrl: 'https://blog.igorkrupenja.com/nextjs-expo-monorepo-with-pnpm',
+  });
 
   // TODO: Other platforms
   // await Promise.allSettled([
@@ -65,15 +70,17 @@ const publishArticleOnHashnode = async ({
   content,
   coverImagePath,
   tags,
-}: Required<Article>): Promise<string> => {
-  const { HASHNODE_PUBLICATION_ID, HASHNODE_TOKEN, SUPABASE_URL, SUPABASE_STORAGE_BUCKET } =
-    process.env;
+}: Article): Promise<string> => {
+  const { HASHNODE_PUBLICATION_ID, HASHNODE_TOKEN } = process.env;
 
   const hashNodeTags = tags.map((frontMatterTag) => {
     const hashNodeTag = HASHNODE_TAGS.find((tag) => tag.slug === frontMatterTag);
     if (hashNodeTag) return hashNodeTag;
     else throw new Error(`publishArticleOnHashnode: invalid tag: ${frontMatterTag}`);
   });
+
+  if (hashNodeTags.length < 1 || hashNodeTags.length > 5)
+    throw new Error('publishArticleOnHashnode: must have4 between 1 and 5 tags');
 
   const requestBody: CreateHashnodeArticleRequest = {
     query: `
@@ -92,7 +99,7 @@ const publishArticleOnHashnode = async ({
         contentMarkdown: content,
         tags: hashNodeTags.map((tag) => ({ _id: tag.objectID })),
         isPartOfPublication: { publicationId: HASHNODE_PUBLICATION_ID },
-        coverImageURL: `${SUPABASE_URL}/storage/v1/object/public/${SUPABASE_STORAGE_BUCKET}/${coverImagePath}`,
+        coverImageURL: getCoverImageUrl(coverImagePath),
       },
     },
   };
@@ -110,17 +117,59 @@ const publishArticleOnHashnode = async ({
   if (responseJson.errors && responseJson.errors.length > 0)
     throw Error(responseJson.errors.map((error) => error.message).join(', '));
 
-  console.log(`publishArticleOnHashnode: published article '${title}'`);
+  console.log(`Hashnode: published article '${title}'`);
 
   return responseJson.data.createPublicationStory.post.slug;
+};
+
+const publishArticleOnDevTo = async ({
+  content,
+  canonicalUrl,
+  coverImagePath,
+  tags,
+  title,
+}: Required<Article>): Promise<void> => {
+  if (tags.length > 4)
+    console.warn('publishArticleOnDevTo: more than 4 tags, publishing only first 4');
+
+  const requestBody: CreateDevToArticleRequest = {
+    title,
+    body_markdown: insertCanonicalUrlText(content, canonicalUrl),
+    published: false,
+    main_image: getCoverImageUrl(coverImagePath),
+    canonical_url: canonicalUrl,
+    tags: tags.map((tag) => tag.replace(/-/g, '')).slice(0, 4),
+  };
+
+  const response = await fetch('https://dev.to/api/articles', {
+    method: 'POST',
+    headers: {
+      'api-key': process.env.DEV_TO_KEY,
+      accept: 'application/vnd.forem.api-v1+json',
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ article: requestBody }),
+  });
+  const responseJson = (await response.json()) as CreateDevToArticleResponse;
+
+  if (responseJson.error)
+    throw new Error(`publishArticleOnDevTo: ${responseJson.status} ${responseJson.error}`);
+
+  console.log(`Dev.to: published article '${title}'`);
+};
+
+const getCoverImageUrl = (coverImagePath: string): string => {
+  const { SUPABASE_URL, SUPABASE_STORAGE_BUCKET } = process.env;
+  return `${SUPABASE_URL}/storage/v1/object/public/${SUPABASE_STORAGE_BUCKET}/${coverImagePath}`;
 };
 
 const getCanonicalUrl = (slug: string): string => {
   return `${process.env.HASHNODE_URL}/${slug}`;
 };
 
-const getCanonicalUrlText = (url: string): string => {
-  return `*This article was originally published on [${url}](${url}).*`;
+const insertCanonicalUrlText = (markdown: string, url: string): string => {
+  const string = `\n*This article was originally published on [my blog](${url}).*\n`;
+  return `${string}${markdown}`;
 };
 
 interface Article {
@@ -128,8 +177,7 @@ interface Article {
   content: string;
   coverImagePath: string;
   tags: string[];
-  // todo unused?
-  // coverImage: string;
+  canonicalUrl?: string;
 }
 
 interface ArticleFrontMatter {
@@ -156,24 +204,10 @@ interface CreateHashnodeArticleRequest {
 interface CreateHashnodeArticleResponse {
   data: {
     createPublicationStory: {
-      // code: string;
-      // success: boolean;
-      // message: string;
       post: { slug: string };
     };
   };
-  errors: { message: string }[];
-}
-
-interface CreateDevToArticleRequest {
-  title: string;
-  body_markdown: string;
-  published: boolean;
-  main_image?: string;
-  canonical_url?: string;
-  description: string;
-  tags: string[];
-  // organization_id?: number;
+  errors?: { message: string }[];
 }
 
 await publishArticle();
