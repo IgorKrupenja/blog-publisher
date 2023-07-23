@@ -13,9 +13,9 @@
   "type": "module",
   "packageManager": "pnpm@8.6.3",
   "dependencies": {
-    "@types/mime": "^3.0.1",
+    "@supabase/supabase-js": "^2.27.0",
     "@tsconfig/node18": "^18.2.0",
-    "@supabase/supabase-js": "^2.26.0",
+    "@types/mime": "^3.0.1",
     "dotenv": "^16.3.1",
     "gray-matter": "^4.0.3",
     "mime": "^3.0.0",
@@ -23,7 +23,7 @@
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
-    "@types/node": "^20.4.3",
+    "@types/node": "^20.4.4",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
     "eslint": "^8.45.0",
