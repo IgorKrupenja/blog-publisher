@@ -13,7 +13,7 @@ const publishArticle = async (): Promise<void> => {
   await Promise.all([
     uploadCoverImage(article),
     // TODO: Other platforms
-    publishArticleOnHashnode(article),
+    // publishArticleOnHashnode(article),
   ]);
 };
 
