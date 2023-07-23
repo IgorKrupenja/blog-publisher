@@ -175,10 +175,12 @@ const publishArticleOnMedium = async ({
   canonicalUrl,
   coverImagePath,
 }: Required<Article>): Promise<void> => {
+  const markdownWithCoverImage = insertCoverImage(title, content, coverImagePath);
+
   const requestBody: CreateMediumArticleRequest = {
     title,
     contentFormat: 'markdown',
-    content: insertCanonicalUrl(insertCoverImage(title, content, coverImagePath), canonicalUrl),
+    content: insertCanonicalUrl(markdownWithCoverImage, canonicalUrl),
     tags: tags.map((tag) => tag.replace(/-/g, ' ')),
     canonicalUrl,
     publishStatus: 'draft',
