@@ -6,9 +6,16 @@ import matter from 'gray-matter';
 import mime from 'mime';
 import fetch from 'node-fetch';
 
-import { HASHNODE_TAGS } from './data/hashnode-tags.js';
-import { CreateDevToArticleRequest } from './interfaces/create-dev-to-article-request.js';
-import { CreateDevToArticleResponse } from './interfaces/create-dev-to-article-response.js';
+import { HASHNODE_TAGS } from './data/index.js';
+import {
+  Article,
+  ArticleFrontMatter,
+  CreateDevToArticleRequest,
+  CreateDevToArticleResponse,
+  CreateHashnodeArticleRequest,
+  CreateHashnodeArticleResponse,
+  CreateMediumArticleRequest,
+} from './interfaces/index.js';
 
 const publishArticle = async (): Promise<void> => {
   const article = getArticle();
@@ -141,7 +148,7 @@ const publishArticleOnDevTo = async ({
 
   const requestBody: CreateDevToArticleRequest = {
     title,
-    body_markdown: insertCanonicalUrlText(content, canonicalUrl),
+    body_markdown: insertCanonicalUrl(content, canonicalUrl),
     published: false,
     main_image: getCoverImageUrl(coverImagePath),
     canonical_url: canonicalUrl,
@@ -174,7 +181,7 @@ const publishArticleOnMedium = async ({
   const requestBody: CreateMediumArticleRequest = {
     title,
     contentFormat: 'markdown',
-    content: insertCanonicalUrlText(insertCoverImage(title, content, coverImagePath), canonicalUrl),
+    content: insertCanonicalUrl(insertCoverImage(title, content, coverImagePath), canonicalUrl),
     tags: tags.map((tag) => tag.replace(/-/g, ' ')),
     canonicalUrl,
     publishStatus: 'draft',
@@ -200,71 +207,23 @@ const publishArticleOnMedium = async ({
   console.log(`Medium: published draft article '${title}'`);
 };
 
-interface CreateMediumArticleRequest {
-  title: string;
-  contentFormat: 'markdown' | 'html';
-  content: string;
-  tags?: string[];
-  canonicalUrl?: string;
-  publishStatus?: 'draft' | 'public' | 'unlisted';
-  notifyFollowers?: boolean;
-}
+const insertCoverImage = (title: string, markdown: string, coverImagePath: string): string => {
+  const string = `\n![${title}](${getCoverImageUrl(coverImagePath)})\n`;
+  return `${string}${markdown}`;
+};
 
 const getCoverImageUrl = (coverImagePath: string): string => {
   const { SUPABASE_URL, SUPABASE_STORAGE_BUCKET } = process.env;
   return `${SUPABASE_URL}/storage/v1/object/public/${SUPABASE_STORAGE_BUCKET}/${coverImagePath}`;
 };
 
-const insertCoverImage = (title: string, markdown: string, coverImagePath: string): string => {
-  const string = `\n![${title}](${getCoverImageUrl(coverImagePath)})\n`;
+const insertCanonicalUrl = (markdown: string, url: string): string => {
+  const string = `\n*This article was originally published on [my blog](${url}).*\n`;
   return `${string}${markdown}`;
 };
 
 const getCanonicalUrl = (slug: string): string => {
   return `${process.env.HASHNODE_URL}/${slug}`;
 };
-
-const insertCanonicalUrlText = (markdown: string, url: string): string => {
-  const string = `\n*This article was originally published on [my blog](${url}).*\n`;
-  return `${string}${markdown}`;
-};
-
-interface Article {
-  title: string;
-  content: string;
-  coverImagePath: string;
-  tags: string[];
-  canonicalUrl?: string;
-}
-
-interface ArticleFrontMatter {
-  title?: string;
-  tags?: string[];
-  coverImage?: string;
-}
-
-interface CreateHashnodeArticleRequest {
-  query: string;
-  variables: {
-    publicationId: string;
-    hideFromHashnodeFeed?: boolean;
-    input: {
-      title: string;
-      contentMarkdown: string;
-      tags: { _id: string }[];
-      isPartOfPublication: { publicationId: string };
-      coverImageURL?: string;
-    };
-  };
-}
-
-interface CreateHashnodeArticleResponse {
-  data: {
-    createPublicationStory: {
-      post: { slug: string };
-    };
-  };
-  errors?: { message: string }[];
-}
 
 await publishArticle();
