@@ -4,8 +4,6 @@ import { Article, CreateMediumArticleRequest } from '../interfaces/index.js';
 import { insertCanonicalUrl, insertCoverImage } from '../utils/index.js';
 
 export const publishArticleOnMedium = async (article: Required<Article>): Promise<void> => {
-  const contentWithCoverImage = insertCoverImage(article);
-
   const response = await fetch(
     `https://api.medium.com/v1/users/${process.env.MEDIUM_AUTHOR_ID}/posts`,
     {
@@ -16,9 +14,7 @@ export const publishArticleOnMedium = async (article: Required<Article>): Promis
         Accept: 'application/json',
         'Accept-Charset': 'utf-8',
       },
-      body: JSON.stringify(
-        getCreateMediumArticleRequest({ ...article, content: contentWithCoverImage })
-      ),
+      body: JSON.stringify(getCreateMediumArticleRequest(article)),
     }
   );
 
@@ -33,12 +29,17 @@ const getCreateMediumArticleRequest = ({
   content,
   tags,
   canonicalUrl,
-}: Required<Article>): CreateMediumArticleRequest => ({
-  title,
-  contentFormat: 'markdown',
-  content: insertCanonicalUrl(content, canonicalUrl),
-  tags: tags.map((tag) => tag.replace(/-/g, ' ')),
-  canonicalUrl,
-  publishStatus: 'draft',
-  notifyFollowers: true,
-});
+  coverImagePath,
+}: Required<Article>): CreateMediumArticleRequest => {
+  const contentWithCoverImage = insertCoverImage(title, content, coverImagePath);
+
+  return {
+    title,
+    contentFormat: 'markdown',
+    content: insertCanonicalUrl(contentWithCoverImage, canonicalUrl),
+    tags: tags.map((tag) => tag.replace(/-/g, ' ')),
+    canonicalUrl,
+    publishStatus: 'draft',
+    notifyFollowers: true,
+  };
+};
