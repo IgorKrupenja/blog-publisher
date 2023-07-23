@@ -111,7 +111,7 @@ const publishArticleOnHashnode = async ({
   const responseJson = (await response.json()) as HashnodeCreatePublicationStoryResponse;
 
   if (responseJson.errors && responseJson.errors.length > 0)
-    throw Error(responseJson.errors.map((e) => e.message).join(', '));
+    throw Error(responseJson.errors.map((error) => error.message).join(', '));
 
   console.log(`publishArticleOnHashnode: published article '${frontMatter.title}'`);
 };

@@ -10,6 +10,7 @@
   "author": "Igor Krupenja",
   "license": "CC BY-NC 4.0 & MIT",
   "type": "module",
+  "packageManager": "^pnpm@8.6.3",
   "dependencies": {
     "@supabase/supabase-js": "^2.26.0",
     "dotenv": "^16.3.1",
