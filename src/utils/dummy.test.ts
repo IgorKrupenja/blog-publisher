@@ -1,10 +1,12 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import * as dummy from './dummy.js';
 
 describe('parent', () => {
   it('should return foobar', () => {
+    const spy = vi.spyOn(dummy, 'child').mockImplementationOnce(() => 'bar');
     expect(dummy.parent()).eq('foobar');
+    expect(spy).toHaveBeenCalled();
   });
 });
 
