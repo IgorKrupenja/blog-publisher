@@ -43,7 +43,7 @@ describe('insertCoverImage', () => {
     const content = '## Heading';
     const coverImagePath = 'path/to/image.jpg';
     expect(insertCoverImage(title, content, coverImagePath)).eq(
-      '\n![title](https://supabase.IgorKrpenja.com/storage/v1/object/public/images/path/to/path/to/image.jpg)\n## Heading'
+      '\n![title](https://supabase.IgorKrpenja.com/storage/v1/object/public/images/path/to/image.jpg)\n## Heading'
     );
   });
 });
