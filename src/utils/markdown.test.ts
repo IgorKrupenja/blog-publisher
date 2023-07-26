@@ -4,9 +4,7 @@ import { setup } from '../test/setup-tests';
 import { getCanonicalUrl, insertCanonicalUrl, insertCoverImage } from './markdown';
 import * as supabase from './supabase';
 
-beforeAll(() => {
-  setup();
-});
+beforeAll(() => setup());
 
 describe('getCanonicalUrl', () => {
   it('should return correct URL', () => {
