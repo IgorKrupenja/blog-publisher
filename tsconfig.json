@@ -10,6 +10,5 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "Bundler",
     "outDir": "dist"
-    // "allowImportingTsExtensions": true
   }
 }
