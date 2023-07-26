@@ -3,6 +3,7 @@
     "DavidAnson.vscode-markdownlint",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "orsenkucher.vscode-graphql"
+    "orsenkucher.vscode-graphql",
+    "ryanluker.vscode-coverage-gutters"
   ]
 }
