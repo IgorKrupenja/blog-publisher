@@ -1,2 +1,2 @@
-export * from './file.js';
-export * from './markdown.js';
+export * from './file';
+export * from './markdown';

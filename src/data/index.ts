@@ -1,1 +1,1 @@
-export * from './hashnode-tags.js';
+export * from './hashnode-tags';

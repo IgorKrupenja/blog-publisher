@@ -10,6 +10,6 @@ coverImage: cover.jpg
 **This article is only a test for programmatic deployment.**
 
 ```ts
-import { HASHNODE_TAGS } from './data/hashnode-tags.js';
-import { HashnodeTag } from './interfaces/hashnode-tag.js';
+import { HASHNODE_TAGS } from './data/hashnode-tags';
+import { HashnodeTag } from './interfaces/hashnode-tag';
 ```

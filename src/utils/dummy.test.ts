@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import * as dummy from './dummy-child.js';
-import { parent } from './dummy-parent.js';
+import * as dummy from './dummy-child';
+import { parent } from './dummy-parent';
 
 describe('parent', () => {
   it('should return foobaz', () => {
