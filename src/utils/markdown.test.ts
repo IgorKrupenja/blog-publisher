@@ -1,10 +1,7 @@
-import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
-import { setup } from '../test/setup-tests';
 import { getCanonicalUrl, insertCanonicalUrl, insertCoverImage } from './markdown';
 import * as supabase from './supabase';
-
-beforeAll(() => setup());
 
 describe('getCanonicalUrl', () => {
   it('should return correct URL', () => {
