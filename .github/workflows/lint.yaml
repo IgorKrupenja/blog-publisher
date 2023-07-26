@@ -1,11 +1,11 @@
-name: Run tests
+name: Run lint
 
 on:
   pull_request:
     types: ['opened', 'edited', 'reopened', 'synchronize', 'ready_for_review']
 
 jobs:
-  test:
+  lint:
     if: github.event.pull_request.draft == false
     runs-on: ubuntu-latest
 
@@ -55,5 +55,5 @@ jobs:
           echo SUPABASE_KEY=${{ secrets.SUPABASE_KEY }} >> .env
           echo SUPABASE_STORAGE_BUCKET=${{ vars.SUPABASE_STORAGE_BUCKET }} >> .env
 
-      - name: Test
-        run: pnpm test:run
+      - name: Lint
+        run: pnpm lint
