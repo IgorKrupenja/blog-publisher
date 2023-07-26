@@ -4,7 +4,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    // TODO: broken
-    setupFiles: ['./test/env-mock.ts'],
+    // setupFiles: ['./test/env-mock.ts'],
+    globalSetup: './test/global-setup.ts',
   },
 });
