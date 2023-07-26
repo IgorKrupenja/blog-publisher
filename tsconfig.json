@@ -1,7 +1,13 @@
 {
-  "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "types": ["node", "vitest"]
+    "lib": ["es2023"],
+    "module": "ESNext",
+    "target": "es2022",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "Bundler",
+    "outDir": "dist"
   }
 }

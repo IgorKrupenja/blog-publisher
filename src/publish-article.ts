@@ -1,12 +1,7 @@
 import 'dotenv/config';
 
-import {
-  createDevToArticle,
-  createHashnodeArticle,
-  createMediumArticle,
-  uploadImage,
-} from './api/index.js';
-import { getArticle, getCanonicalUrl } from './utils/index.js';
+import { createDevToArticle, createHashnodeArticle, createMediumArticle, uploadImage } from './api';
+import { getArticle, getCanonicalUrl } from './utils';
 
 const publishArticle = async (): Promise<void> => {
   // E.g. articles/2023/01-nextjs-expo-monorepo

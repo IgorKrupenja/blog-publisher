@@ -1,11 +1,7 @@
 import fetch from 'node-fetch';
 
-import {
-  Article,
-  CreateDevToArticleRequest,
-  CreateDevToArticleResponse,
-} from '../interfaces/index.js';
-import { getCoverImageUrl, insertCanonicalUrl } from '../utils/index.js';
+import { Article, CreateDevToArticleRequest, CreateDevToArticleResponse } from '../interfaces';
+import { getCoverImageUrl, insertCanonicalUrl } from '../utils';
 
 export const createDevToArticle = async (article: Required<Article>): Promise<void> => {
   const response = await fetch('https://dev.to/api/articles', {

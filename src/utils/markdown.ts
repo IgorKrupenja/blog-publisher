@@ -1,3 +1,5 @@
+import { getCoverImageUrl } from './supabase';
+
 export const insertCoverImage = (
   title: string,
   markdown: string,
@@ -5,11 +7,6 @@ export const insertCoverImage = (
 ): string => {
   const string = `\n![${title}](${getCoverImageUrl(coverImagePath)})\n`;
   return `${string}${markdown}`;
-};
-
-export const getCoverImageUrl = (coverImagePath: string): string => {
-  const { SUPABASE_URL, SUPABASE_STORAGE_BUCKET } = process.env;
-  return `${SUPABASE_URL}/storage/v1/object/public/${SUPABASE_STORAGE_BUCKET}/${coverImagePath}`;
 };
 
 export const insertCanonicalUrl = (markdown: string, url: string): string => {
