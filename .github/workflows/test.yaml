@@ -1,4 +1,4 @@
-name: Run build
+name: Run tests
 
 on:
   pull_request:
@@ -55,5 +55,5 @@ jobs:
           echo SUPABASE_KEY=${{ secrets.SUPABASE_KEY }} >> .env
           echo SUPABASE_STORAGE_BUCKET=${{ vars.SUPABASE_STORAGE_BUCKET }} >> .env
 
-      - name: Build
-        run: pnpm build
+      - name: Test
+        run: pnpm test
