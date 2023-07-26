@@ -1,29 +1,17 @@
-import { beforeAll, describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 
-import {
-  getCanonicalUrl,
-  getCoverImageUrl,
-  insertCanonicalUrl,
-  insertCoverImage,
-} from './markdown';
+import { getCanonicalUrl, insertCanonicalUrl, insertCoverImage } from './markdown';
+import * as supabase from './supabase';
 
 beforeAll(() => {
   import.meta.env.HASHNODE_URL = 'https://blog.IgorKrpenja.com';
-  import.meta.env.SUPABASE_URL = 'https://supabase.IgorKrpenja.com';
-  import.meta.env.SUPABASE_STORAGE_BUCKET = 'images';
+  // import.meta.env.SUPABASE_URL = 'https://supabase.IgorKrpenja.com';
+  // import.meta.env.SUPABASE_STORAGE_BUCKET = 'images';
 });
 
 describe('getCanonicalUrl', () => {
   it('should return correct URL', () => {
     expect(getCanonicalUrl('foo')).eq('https://blog.IgorKrpenja.com/foo');
-  });
-});
-
-describe('getCoverImageUrl', () => {
-  it('should return correct URL', () => {
-    expect(getCoverImageUrl('foo')).eq(
-      'https://supabase.IgorKrpenja.com/storage/v1/object/public/images/foo'
-    );
   });
 });
 
@@ -42,8 +30,16 @@ describe('insertCoverImage', () => {
     const title = 'title';
     const content = '## Heading';
     const coverImagePath = 'path/to/image.jpg';
+
+    const spy = vi
+      .spyOn(supabase, 'getCoverImageUrl')
+      .mockReturnValueOnce(
+        'https://supabase.IgorKrpenja.com/storage/v1/object/public/images/path/to/image.jpg'
+      );
+
     expect(insertCoverImage(title, content, coverImagePath)).eq(
       '\n![title](https://supabase.IgorKrpenja.com/storage/v1/object/public/images/path/to/image.jpg)\n## Heading'
     );
+    expect(spy).toHaveBeenCalled();
   });
 });

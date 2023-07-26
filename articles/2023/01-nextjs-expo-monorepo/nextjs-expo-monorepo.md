@@ -1,6 +1,6 @@
 ---
 title: Next.js + Expo monorepo with pnpm
-# todo add one more
+# TODO: add one more
 tags: [nextjs, expo, typescript, react-native]
 coverImage: cover.jpg
 ---
