@@ -1,11 +1,9 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 
+import { setup } from '../test/setup-tests';
 import { getCoverImageUrl } from './supabase';
 
-beforeAll(() => {
-  import.meta.env.SUPABASE_URL = 'https://supabase.IgorKrpenja.com';
-  import.meta.env.SUPABASE_STORAGE_BUCKET = 'images';
-});
+beforeAll(() => setup());
 
 describe('getCoverImageUrl', () => {
   it('should return correct URL', () => {
