@@ -1,4 +1,4 @@
-import { HashnodeTag } from '../interfaces/hashnode-tag';
+import { HashnodeTag } from '../interfaces/hashnode-tag.js';
 
 export const HASHNODE_TAGS: HashnodeTag[] = [
   {
@@ -32,7 +32,7 @@ export const HASHNODE_TAGS: HashnodeTag[] = [
     objectID: '56744721958ef13879b94d67',
   },
   {
-    name: 'Node',
+    name: 'Node.js',
     logo: 'https://cdn.hashnode.com/res/hashnode/image/upload/v1513321388034/SJV3QgWfz.png',
     slug: 'nodejs',
     objectID: '56744722958ef13879b94ffb',
@@ -267,7 +267,7 @@ export const HASHNODE_TAGS: HashnodeTag[] = [
     objectID: '56744721958ef13879b94c0a',
   },
   {
-    name: 'Vue',
+    name: 'Vue.js',
     logo: 'https://res.cloudinary.com/hashnode/image/upload/v1505294440/t5igqu22z1s86xa7nkqi.png',
     slug: 'vuejs',
     objectID: '56744722958ef13879b950e4',
@@ -442,7 +442,7 @@ export const HASHNODE_TAGS: HashnodeTag[] = [
     objectID: '56744720958ef13879b94811',
   },
   {
-    name: 'Next',
+    name: 'Next.js',
     slug: 'nextjs',
     objectID: '584879f0c0aaf085e2012086',
   },
@@ -1087,7 +1087,7 @@ export const HASHNODE_TAGS: HashnodeTag[] = [
     objectID: '56744721958ef13879b94c20',
   },
   {
-    name: 'Express',
+    name: 'Express.js',
     slug: 'expressjs-cilb5apda0066e053g7td7q24',
     objectID: '56d729602c0ee8a839b966f1',
   },
@@ -2582,7 +2582,7 @@ export const HASHNODE_TAGS: HashnodeTag[] = [
     objectID: '57c7c7c7e53060955aa8c018',
   },
   {
-    name: 'D3',
+    name: 'D3.js',
     logo: 'https://res.cloudinary.com/hashnode/image/upload/v1459873316/fdlqr3pk587gddsrirxe.jpg',
     slug: 'd3js',
     objectID: '56744721958ef13879b94d8c',
@@ -3429,7 +3429,7 @@ export const HASHNODE_TAGS: HashnodeTag[] = [
     objectID: '56744723958ef13879b95216',
   },
   {
-    name: 'Ember',
+    name: 'Ember.js',
     slug: 'emberjs',
     logo: 'https://res.cloudinary.com/hashnode/image/upload/v1498115063/txor4lfourtkcofjipii.png',
     objectID: '56744721958ef13879b94c17',
