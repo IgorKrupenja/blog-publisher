@@ -1,9 +1,6 @@
-import { beforeAll, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
-import { setup } from '../test/setup-tests';
 import { getCoverImageUrl } from './supabase';
-
-// beforeAll(() => setup());
 
 describe('getCoverImageUrl', () => {
   it('should return correct URL', () => {
