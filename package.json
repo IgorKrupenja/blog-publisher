@@ -9,7 +9,8 @@
     "publish-actions-test": "ts-node --experimental-specifier-resolution=node --esm src/publish-article.ts articles/2023/01-nextjs-expo-monorepo",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "lint": "eslint"
   },
   "author": "Igor Krupenja",
   "license": "CC BY-NC 4.0 & MIT",
