@@ -1,13 +1,13 @@
 import fetch from 'node-fetch';
 
-import { HASHNODE_TAGS } from '../data/index.js';
+import { HASHNODE_TAGS } from '../data';
 import {
   Article,
   CreateHashnodeArticleRequest,
   CreateHashnodeArticleResponse,
   HashnodeTag,
-} from '../interfaces/index.js';
-import { getCoverImageUrl } from '../utils/index.js';
+} from '../interfaces';
+import { getCoverImageUrl } from '../utils';
 
 export const createHashnodeArticle = async (article: Article): Promise<string> => {
   const response = await fetch('https://api.hashnode.com', {

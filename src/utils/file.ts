@@ -1,8 +1,7 @@
 import fs from 'fs';
 import matter from 'gray-matter';
 
-import { Article } from '../interfaces/index';
-import { ArticleFrontMatter } from '../interfaces/index';
+import { Article, ArticleFrontMatter } from '../interfaces';
 
 export const getArticle = (path: string): Article => {
   if (!path) throw new Error('No article path provided.');

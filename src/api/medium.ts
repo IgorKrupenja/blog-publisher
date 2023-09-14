@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
-import { Article, CreateMediumArticleRequest } from '../interfaces/index.js';
-import { insertCanonicalUrl, insertCoverImage } from '../utils/index.js';
+import { Article, CreateMediumArticleRequest } from '../interfaces';
+import { insertCanonicalUrl, insertCoverImage } from '../utils';
 
 export const createMediumArticle = async (article: Required<Article>): Promise<void> => {
   const response = await fetch(
