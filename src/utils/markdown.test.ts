@@ -34,6 +34,6 @@ describe('insertCoverImage', () => {
     expect(insertCoverImage(title, content, coverImagePath)).eq(
       '\n![title](https://supabase.IgorKrpenja.com/storage/v1/object/public/images/path/to/image.jpg)\n## Heading'
     );
-    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledOnce();
   });
 });

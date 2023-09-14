@@ -1,4 +1,4 @@
-import { HashnodeTag } from '../interfaces/hashnode-tag.js';
+import { HashnodeTag } from '../interfaces';
 
 export const HASHNODE_TAGS: HashnodeTag[] = [
   {
