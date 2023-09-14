@@ -15,7 +15,7 @@ const publish = async (): Promise<void> => {
   const canonicalUrl = getCanonicalUrl(slug);
 
   await Promise.all([
-    await createDev ToArticle({ ...article, canonicalUrl }),
+    await createDevToArticle({ ...article, canonicalUrl }),
     await createMediumArticle({ ...article, canonicalUrl }),
   ]);
 };
