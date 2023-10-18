@@ -2,46 +2,56 @@
  * @type {import('eslint').Linter.Config}
  */
 module.exports = {
-  extends: ['eslint:recommended'],
-  plugins: ['prettier', 'simple-import-sort', 'unused-imports'],
-  rules: {
-    'no-return-await': 'warn',
-    'prettier/prettier': ['warn', { singleQuote: true, trailingComma: 'es5', printWidth: 100 }],
-    'simple-import-sort/imports': 'error',
-    'simple-import-sort/exports': 'error',
+  extends: [
+    'eslint:recommended',
+
+    'plugin:import/recommended',
+    'plugin:import/typescript',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+  ],
+  plugins: ['sort-export-all', 'unused-imports', 'unicorn'],
+  parserOptions: {
+    project: './tsconfig.json',
   },
   env: {
     node: true,
   },
-  overrides: [
-    {
-      // Ignore various JS config files
-      files: ['**/*.ts'],
-      extends: [
-        'plugin:@typescript-eslint/eslint-recommended',
-        'plugin:@typescript-eslint/recommended-requiring-type-checking',
-      ],
-      parserOptions: {
-        project: './tsconfig.json',
+  ignorePatterns: ['.eslintrc.cjs'],
+  rules: {
+    '@typescript-eslint/explicit-function-return-type': [
+      'error',
+      {
+        allowExpressions: true,
       },
-      rules: {
-        'no-unused-vars': 'off',
-        // Disabling the base rule as it can report incorrect errors
-        'require-await': 'off',
-        '@typescript-eslint/require-await': 'error',
-        '@typescript-eslint/no-explicit-any': 'error',
-        '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
-        'unused-imports/no-unused-imports': 'error',
-        '@typescript-eslint/no-unused-vars': [
-          'warn',
-          {
-            vars: 'all',
-            varsIgnorePattern: '^_',
-            args: 'after-used',
-            argsIgnorePattern: '^_',
-          },
-        ],
+    ],
+    '@typescript-eslint/require-await': 'error',
+    'import/order': [
+      'warn',
+      {
+        'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+        },
       },
-    },
-  ],
+    ],
+    'no-return-await': 'warn',
+    'no-unused-vars': 'off',
+    'require-await': 'off',
+    'sort-export-all/sort-export-all': ['warn', 'asc'],
+    'sort-imports': [
+      'warn',
+      {
+        ignoreDeclarationSort: true,
+      },
+    ],
+    'unicorn/filename-case': [
+      'error',
+      {
+        case: 'kebabCase',
+      },
+    ],
+    'unused-imports/no-unused-imports': 'warn',
+    'unused-imports/no-unused-vars': 'warn',
+  },
 };
