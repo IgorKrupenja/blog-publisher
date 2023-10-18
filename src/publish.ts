@@ -1,6 +1,11 @@
 import 'dotenv/config';
 
-import { createDevToArticle, createHashnodeArticle, createMediumArticle, uploadImage } from './api';
+import {
+  createDevToArticle,
+  createHashnodeArticle,
+  createMediumArticle,
+  uploadImage,
+} from './fetchers';
 import { getArticle, getCanonicalUrl } from './utils';
 
 const publish = async (): Promise<void> => {
