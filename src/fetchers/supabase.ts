@@ -1,5 +1,6 @@
-import { createClient } from '@supabase/supabase-js';
 import fs from 'fs';
+
+import { createClient } from '@supabase/supabase-js';
 import mime from 'mime';
 
 export const uploadImage = async (imagePath: string): Promise<void> => {

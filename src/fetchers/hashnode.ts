@@ -69,7 +69,7 @@ const getHashnodeTags = (tags: string[]): HashnodeTag[] => {
   });
 
   if (hashnodeTags.length < 1 || hashnodeTags.length > 5)
-    throw new Error('publishArticleOnHashnode: must have4 between 1 and 5 tags');
+    throw new Error('publishArticleOnHashnode: must have between 1 and 5 tags');
 
   return hashnodeTags;
 };
