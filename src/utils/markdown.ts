@@ -17,3 +17,9 @@ export const insertCanonicalUrl = (markdown: string, url: string): string => {
 export const getCanonicalUrl = (slug: string): string => {
   return `${process.env.HASHNODE_URL}/${slug}`;
 };
+
+export const getImages = (markdown: string): string[] => {
+  const regex = /!\[.*\]\((.*)\)/g;
+  const matches = markdown.match(regex);
+  return matches ? matches.map((match) => match.replace(regex, '$1')) : [];
+};
