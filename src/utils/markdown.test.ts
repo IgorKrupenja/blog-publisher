@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { getCanonicalUrl, getImages, insertCanonicalUrl, insertCoverImage } from './markdown';
+import { getCanonicalUrl, getImagePaths, insertCanonicalUrl, insertCoverImage } from './markdown';
 import * as supabase from './supabase';
 
 describe('getCanonicalUrl', () => {
@@ -38,15 +38,15 @@ describe('insertCoverImage', () => {
   });
 });
 
-describe('getImages', () => {
+describe('getImagePaths', () => {
   it('should return an empty array when there are no images', () => {
     const markdown = 'This is some text without images.';
-    expect(getImages(markdown)).toEqual([]);
+    expect(getImagePaths(markdown)).toEqual([]);
   });
 
   it('should return an array with one image when there is one image', () => {
     const markdown = 'This is some text with an image: ![alt text](/path/to/image.jpg)';
-    expect(getImages(markdown)).toEqual(['/path/to/image.jpg']);
+    expect(getImagePaths(markdown)).toEqual(['/path/to/image.jpg']);
   });
 
   it('should return an array with multiple images when there are multiple images', () => {
@@ -55,17 +55,19 @@ describe('getImages', () => {
       ![alt text 1](/path/to/image1.jpg)
       ![alt text 2](/path/to/image2.jpg)
     `;
-    expect(getImages(markdown)).toEqual(['/path/to/image1.jpg', '/path/to/image2.jpg']);
+    expect(getImagePaths(markdown)).toEqual(['/path/to/image1.jpg', '/path/to/image2.jpg']);
   });
 
   it('should return an array with images when there are images with different formats', () => {
     const markdown = `
       This is some text with images:
       ![alt text 1](/path/to/image1.jpg)
+      Some more text.
       ![alt text 2](/path/to/image2.png)
+      ## Title
       ![alt text 3](/path/to/image3.gif)
     `;
-    expect(getImages(markdown)).toEqual([
+    expect(getImagePaths(markdown)).toEqual([
       '/path/to/image1.jpg',
       '/path/to/image2.png',
       '/path/to/image3.gif',
@@ -82,6 +84,6 @@ describe('getImages', () => {
 
       ## Test
     `;
-    expect(getImages(markdown)).toEqual([]);
+    expect(getImagePaths(markdown)).toEqual([]);
   });
 });
