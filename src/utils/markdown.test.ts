@@ -179,4 +179,13 @@ describe('replaceImagePathsNew', () => {
       '{"image": "image.jpg"}\n\nThis is not an image: ![alt text](www.example.com/path/to/images/image.jpg)';
     expect(replaceImagePathsNew(path, markdown)).toEqual(expected);
   });
+
+  it('should not replace image paths in comments', () => {
+    const path = 'www.example.com/path/to/images';
+    const markdown =
+      'This is a comment: <!-- ![alt text](image.jpg) -->\nThis is not a comment: ![alt text](image.jpg)';
+    const expected =
+      'This is a comment: <!-- ![alt text](image.jpg) -->\nThis is not a comment: ![alt text](www.example.com/path/to/images/image.jpg)';
+    expect(replaceImagePathsNew(path, markdown)).toEqual(expected);
+  });
 });
