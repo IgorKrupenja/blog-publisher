@@ -6,7 +6,7 @@
   "scripts": {
     "publish": "ts-node --experimental-specifier-resolution=node --esm --files src/publish.ts",
     "build": "tsc --project tsconfig.build.json",
-    "publish:actions:test": "ts-node --experimental-specifier-resolution=node --esm src/publish.ts src/articles/2023/01-nextjs-expo-monorepo",
+    "publish:test": "ts-node --experimental-specifier-resolution=node --esm src/publish.ts src/articles/2023/01-nextjs-expo-monorepo",
     "test": "vitest --coverage",
     "test:run:coverage": "vitest run --coverage",
     "test:run": "vitest run",
@@ -23,7 +23,12 @@
     "gray-matter": "^4.0.3",
     "mime": "^3.0.0",
     "node-fetch": "^3.3.2",
-    "ts-node": "^10.9.1"
+    "remark-frontmatter": "^5.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-stringify": "^11.0.0",
+    "ts-node": "^10.9.1",
+    "unified": "^11.0.3",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.4.5",
@@ -31,8 +36,8 @@
     "@typescript-eslint/parser": "^6.2.0",
     "@vitest/coverage-istanbul": "^0.33.0",
     "eslint": "^8.46.0",
-    "eslint-plugin-import": "^2.28.1",
     "eslint-config-prettier": "^8.9.0",
+    "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-sort-export-all": "^1.4.1",
     "eslint-plugin-unicorn": "^48.0.1",
     "eslint-plugin-unused-imports": "^3.0.0",
