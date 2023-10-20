@@ -23,9 +23,8 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install
-      # todo remove name and simplify?
-      - name: Create .env file
-        run: |
+      # todo simplify?
+      - run: |
           touch .env
           echo HASHNODE_URL=${{ vars.HASHNODE_URL }} >> .env
           echo HASHNODE_PUBLICATION_ID=${{ vars.HASHNODE_PUBLICATION_ID }} >> .env
