@@ -9,5 +9,9 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "Bundler",
     "outDir": "dist"
-  }
+  },
+  "ts-node": {
+    "files": true
+  },
+  "files": ["src/env.d.ts"]
 }
