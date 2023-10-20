@@ -6,8 +6,6 @@ import { visit } from 'unist-util-visit';
 
 import { getUrl } from './supabase';
 
-const imageRegex = /!\[.*\]\((.*)\)/g;
-
 export const insertCoverImage = (
   title: string,
   markdown: string,
@@ -28,15 +26,12 @@ export const getCanonicalUrl = (slug: string): string => {
 
 // todo also use remark
 export const getImagePaths = (path: string, markdown: string): string[] => {
+  const imageRegex = /!\[.*\]\((.*)\)/g;
   const matches = markdown.match(imageRegex);
-  return matches ? matches.map((match) => replaceImagePaths(path, match)) : [];
+  return matches ? matches.map((match) => match.replace(imageRegex, `${path}/$1`)) : [];
 };
 
-export const replaceImagePaths = (path: string, markdown: string): string => {
-  return markdown.replace(imageRegex, `${path}/$1`);
-};
-
-export function replaceImagePathsNew(path: string, markdown: string): string {
+export function replaceImagePaths(path: string, markdown: string): string {
   const ast = unified().use(remarkParse).use(remarkFrontmatter, ['yaml', 'toml']).parse(markdown);
 
   visit(ast, 'image', (node) => {
