@@ -1,0 +1,19 @@
+name: Run checks
+
+on:
+  pull_request:
+    types: ['opened', 'edited', 'reopened', 'synchronize', 'ready_for_review']
+
+jobs:
+  lint:
+    uses: ./.github/workflows/run-check.yaml
+    with:
+      command: pnpm lint
+  test:
+    uses: ./.github/workflows/run-check.yaml
+    with:
+      command: pnpm test:run
+  build:
+    uses: ./.github/workflows/run-check.yaml
+    with:
+      command: pnpm build
