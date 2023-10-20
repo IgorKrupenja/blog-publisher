@@ -12,9 +12,9 @@ const publish = async (): Promise<void> => {
   // E.g. articles/2023/01-nextjs-expo-monorepo
   const path = process.argv[2];
   const article = getArticle(path);
-  const images = getImagePaths(article.content);
+  const images = getImagePaths(path, article.content);
 
-  await Promise.all([article.coverImagePath].map(uploadImage));
+  await Promise.all([article.coverImagePath, ...images].map(uploadImage));
 
   // const slug = await createHashnodeArticle(article);
   // // TODO: temporary for testing

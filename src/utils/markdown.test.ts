@@ -41,33 +41,36 @@ describe('insertCoverImage', () => {
 describe('getImagePaths', () => {
   it('should return an empty array when there are no images', () => {
     const markdown = 'This is some text without images.';
-    expect(getImagePaths(markdown)).toEqual([]);
+    expect(getImagePaths('/path/to', markdown)).toEqual([]);
   });
 
   it('should return an array with one image when there is one image', () => {
-    const markdown = 'This is some text with an image: ![alt text](/path/to/image.jpg)';
-    expect(getImagePaths(markdown)).toEqual(['/path/to/image.jpg']);
+    const markdown = 'This is some text with an image: ![alt text](image.jpg)';
+    expect(getImagePaths('/path/to', markdown)).toEqual(['/path/to/image.jpg']);
   });
 
   it('should return an array with multiple images when there are multiple images', () => {
     const markdown = `
       This is some text with two images:
-      ![alt text 1](/path/to/image1.jpg)
-      ![alt text 2](/path/to/image2.jpg)
+      ![alt text 1](image1.jpg)
+      ![alt text 2](image2.jpg)
     `;
-    expect(getImagePaths(markdown)).toEqual(['/path/to/image1.jpg', '/path/to/image2.jpg']);
+    expect(getImagePaths('/path/to', markdown)).toEqual([
+      '/path/to/image1.jpg',
+      '/path/to/image2.jpg',
+    ]);
   });
 
   it('should return an array with images when there are images with different formats', () => {
     const markdown = `
       This is some text with images:
-      ![alt text 1](/path/to/image1.jpg)
+      ![alt text 1](image1.jpg)
       Some more text.
-      ![alt text 2](/path/to/image2.png)
+      ![alt text 2](image2.png)
       ## Title
-      ![alt text 3](/path/to/image3.gif)
+      ![alt text 3](image3.gif)
     `;
-    expect(getImagePaths(markdown)).toEqual([
+    expect(getImagePaths('/path/to', markdown)).toEqual([
       '/path/to/image1.jpg',
       '/path/to/image2.png',
       '/path/to/image3.gif',
@@ -84,6 +87,6 @@ describe('getImagePaths', () => {
 
       ## Test
     `;
-    expect(getImagePaths(markdown)).toEqual([]);
+    expect(getImagePaths('/path/to/', markdown)).toEqual([]);
   });
 });
