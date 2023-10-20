@@ -14,7 +14,7 @@ const publish = async (): Promise<void> => {
   const article = getArticle(path);
   const images = getImagePaths(article.content);
 
-  await Promise.all([article.coverImagePath, ...images].map(uploadImage));
+  await Promise.all([article.coverImagePath].map(uploadImage));
 
   // const slug = await createHashnodeArticle(article);
   // // TODO: temporary for testing

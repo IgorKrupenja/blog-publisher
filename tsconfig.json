@@ -10,6 +10,7 @@
     "moduleResolution": "Bundler",
     "outDir": "dist"
   },
+  "include": ["src/**/*"],
   "ts-node": {
     "files": true
   },

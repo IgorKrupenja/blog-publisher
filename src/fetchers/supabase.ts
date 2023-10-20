@@ -10,7 +10,11 @@ export const uploadImage = async (imagePath: string): Promise<void> => {
 
   const { error } = await supabase.storage
     .from(SUPABASE_STORAGE_BUCKET)
-    .upload(imagePath, fs.readFileSync(imagePath), getImageOptions(imagePath));
+    .upload(
+      imagePath.split('/').slice(1).join('/'),
+      fs.readFileSync(imagePath),
+      getImageOptions(imagePath)
+    );
 
   if (error) throw new Error(`uploadCoverImage: ${JSON.stringify(error)}`);
   console.log(`uploadCoverImage: uploaded image '${imagePath}'`);
