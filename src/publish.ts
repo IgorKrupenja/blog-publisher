@@ -17,7 +17,7 @@ const publish = async (): Promise<void> => {
   };
 
   // const slug = await createHashnodeArticle(articleWithUploadedImages);
-  // // TODO: temporary for testing
+  // TODO: temporary for testing
   const slug = 'nextjs-expo-monorepo-with-pnpm';
   const canonicalUrl = getCanonicalUrl(slug);
 
