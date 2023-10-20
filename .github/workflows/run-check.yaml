@@ -23,16 +23,4 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
       - run: pnpm install
-      # todo simplify?
-      #   - run: |
-      #       touch .env
-      #       echo HASHNODE_URL=${{ vars.HASHNODE_URL }} >> .env
-      #       echo HASHNODE_PUBLICATION_ID=${{ vars.HASHNODE_PUBLICATION_ID }} >> .env
-      #       echo HASHNODE_TOKEN=${{ secrets.HASHNODE_TOKEN }} >> .env
-      #       echo DEV_TO_KEY=${{ secrets.DEV_TO_KEY }} >> .env
-      #       echo MEDIUM_AUTHOR_ID=${{ vars.MEDIUM_AUTHOR_ID }} >> .env
-      #       echo MEDIUM_INTEGRATION_TOKEN=${{ secrets.MEDIUM_INTEGRATION_TOKEN }} >> .env
-      #       echo SUPABASE_URL=${{ vars.SUPABASE_URL }} >> .env
-      #       echo SUPABASE_KEY=${{ secrets.SUPABASE_KEY }} >> .env
-      #       echo SUPABASE_STORAGE_BUCKET=${{ vars.SUPABASE_STORAGE_BUCKET }} >> .env
       - run: ${{ inputs.command }}
