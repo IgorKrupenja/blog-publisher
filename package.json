@@ -6,7 +6,7 @@
   "scripts": {
     "publish": "ts-node --experimental-specifier-resolution=node --esm --files src/publish.ts",
     "build": "tsc --project tsconfig.build.json",
-    "publish-actions-test": "ts-node --experimental-specifier-resolution=node --esm src/publish.ts src/articles/2023/01-nextjs-expo-monorepo",
+    "publish:actions:test": "ts-node --experimental-specifier-resolution=node --esm src/publish.ts src/articles/2023/01-nextjs-expo-monorepo",
     "test": "vitest --coverage",
     "test:run:coverage": "vitest run --coverage",
     "test:run": "vitest run",
