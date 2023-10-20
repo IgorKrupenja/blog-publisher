@@ -24,18 +24,19 @@ export const getCanonicalUrl = (slug: string): string => {
   return `${process.env.HASHNODE_URL}/${slug}`;
 };
 
-// todo also use remark
 export const getImagePaths = (path: string, markdown: string): string[] => {
-  const imageRegex = /!\[.*\]\((.*)\)/g;
-  const matches = markdown.match(imageRegex);
-  return matches ? matches.map((match) => match.replace(imageRegex, `${path}/$1`)) : [];
+  const ast = unified().use(remarkParse).parse(markdown);
+
+  const imagePaths: string[] = [];
+  visit(ast, 'image', (node) => imagePaths.push(`${path}/${node.url}`));
+
+  return [...new Set(imagePaths)];
 };
 
 export function replaceImagePaths(path: string, markdown: string): string {
   const ast = unified().use(remarkParse).use(remarkFrontmatter, ['yaml', 'toml']).parse(markdown);
 
   visit(ast, 'image', (node) => {
-    console.log(node);
     if (node.url.startsWith('http') || node.url.startsWith('data:')) {
       return;
     } else if (node.url.startsWith('/')) {
@@ -45,11 +46,11 @@ export function replaceImagePaths(path: string, markdown: string): string {
     }
   });
 
-  const mdx = unified()
+  const processedMarkdown = unified()
     .use(remarkStringify)
     .use(remarkFrontmatter, ['yaml', 'toml'])
     .stringify(ast)
     .trim();
 
-  return mdx;
+  return processedMarkdown;
 }

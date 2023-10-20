@@ -56,11 +56,8 @@ describe('getImagePaths', () => {
   });
 
   it('should return an array with multiple images when there are multiple images', () => {
-    const markdown = `
-      This is some text with two images:
-      ![alt text 1](image1.jpg)
-      ![alt text 2](image2.jpg)
-    `;
+    const markdown =
+      'This is some text with two images:\n![alt text 1](image1.jpg)\n![alt text 2](image2.jpg)';
     expect(getImagePaths('/path/to', markdown)).toEqual([
       '/path/to/image1.jpg',
       '/path/to/image2.jpg',
@@ -68,14 +65,8 @@ describe('getImagePaths', () => {
   });
 
   it('should return an array with images when there are images with different formats', () => {
-    const markdown = `
-      This is some text with images:
-      ![alt text 1](image1.jpg)
-      Some more text.
-      ![alt text 2](image2.png)
-      ## Title
-      ![alt text 3](image3.gif)
-    `;
+    const markdown =
+      'This is some text with images: ![alt text 1](image1.jpg)\nSome more text.\n![alt text 2](image2.png)\n## Title\n![alt text 3](image3.gif)';
     expect(getImagePaths('/path/to', markdown)).toEqual([
       '/path/to/image1.jpg',
       '/path/to/image2.png',
@@ -84,20 +75,18 @@ describe('getImagePaths', () => {
   });
 
   it('should return an empty array if the only image is the cover from front matter', () => {
-    const markdown = `
-      ---
-      title: Next.js + Expo monorepo with pnpm
-      tags: [nextjs, expo, typescript, react-native]
-      coverImage: cover.jpg
-      ---
-
-      ## Test
-    `;
+    const markdown =
+      '\n---\n' +
+      'title: Next.js + Expo monorepo with pnpm\n' +
+      'tags: [nextjs, expo, typescript, react-native]\n' +
+      'coverImage: cover.jpg\n' +
+      '---\n\n' +
+      '## Test';
     expect(getImagePaths('/path/to/', markdown)).toEqual([]);
   });
 });
 
-describe('replaceImagePathsNew', () => {
+describe('replaceImagePaths', () => {
   it('should replace image paths in markdown', () => {
     const path = 'www.example.com/path/to/images';
     const markdown = 'This is an image: ![alt text](image.jpg)';
@@ -157,7 +146,6 @@ describe('replaceImagePathsNew', () => {
   it('should not replace image paths in YAML front matter', () => {
     const path = 'www.example.com/path/to/images';
     const markdown = '---\nimage: image.jpg\n---\n\nThis is not an image: ![alt text](image.jpg)';
-    console.log(markdown);
     const expected =
       '---\nimage: image.jpg\n---\n\nThis is not an image: ![alt text](www.example.com/path/to/images/image.jpg)';
     expect(replaceImagePaths(path, markdown)).toEqual(expected);
