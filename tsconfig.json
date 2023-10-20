@@ -10,10 +10,8 @@
     "moduleResolution": "Bundler",
     "outDir": "dist"
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "src/**/*.test.ts", "src/test"],
   "ts-node": {
     "files": true
   },
-  "files": ["src/publish.ts", "src/env.d.ts"]
+  "files": ["src/env.d.ts"]
 }

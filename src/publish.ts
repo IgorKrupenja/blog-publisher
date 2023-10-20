@@ -13,16 +13,16 @@ const publish = async (): Promise<void> => {
   const path = process.argv[2];
   const article = getArticle(path);
 
-  // await uploadImage(article.coverImagePath);
-  // const slug = await createHashnodeArticle(article);
-  // // TODO: temporary for testing
-  // // const slug = 'nextjs-expo-monorepo-with-pnpm';
-  // const canonicalUrl = getCanonicalUrl(slug);
+  await uploadImage(article.coverImagePath);
+  const slug = await createHashnodeArticle(article);
+  // TODO: temporary for testing
+  // const slug = 'nextjs-expo-monorepo-with-pnpm';
+  const canonicalUrl = getCanonicalUrl(slug);
 
-  // await Promise.all([
-  //   await createDevToArticle({ ...article, canonicalUrl }),
-  //   await createMediumArticle({ ...article, canonicalUrl }),
-  // ]);
+  await Promise.all([
+    await createDevToArticle({ ...article, canonicalUrl }),
+    await createMediumArticle({ ...article, canonicalUrl }),
+  ]);
 };
 
 await publish();
