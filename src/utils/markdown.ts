@@ -1,3 +1,8 @@
+import remarkParse from 'remark-parse';
+import remarkStringify from 'remark-stringify';
+import { unified } from 'unified';
+import { visit } from 'unist-util-visit';
+
 import { getUrl } from './supabase';
 
 const imageRegex = /!\[.*\]\((.*)\)/g;
@@ -20,6 +25,7 @@ export const getCanonicalUrl = (slug: string): string => {
   return `${process.env.HASHNODE_URL}/${slug}`;
 };
 
+// todo also use remark
 export const getImagePaths = (path: string, markdown: string): string[] => {
   const matches = markdown.match(imageRegex);
   return matches ? matches.map((match) => replaceImagePaths(path, match)) : [];
@@ -29,18 +35,38 @@ export const replaceImagePaths = (path: string, markdown: string): string => {
   return markdown.replace(imageRegex, `${path}/$1`);
 };
 
-export function replaceImagePathsNew(path: string, markdown: string): string {
-  const regex = /!\[(.*?)\]\((.*?)\)/g;
+// export function replaceImagePathsNew(path: string, markdown: string): string {
+//   const regex = /!\[(.*?)\]\((.*?)\)/g;
 
-  const replacedMarkdown = markdown.replace(regex, (match, p1: string, p2: string) => {
-    if (p2.startsWith('http') || p2.startsWith('data:')) {
-      return match;
-    } else if (p2.startsWith('/')) {
-      return `![${p1}](${path}${p2})`;
+//   const replacedMarkdown = markdown.replace(regex, (match, p1: string, p2: string) => {
+//     if (p2.startsWith('http') || p2.startsWith('data:')) {
+//       return match;
+//     } else if (p2.startsWith('/')) {
+//       return `![${p1}](${path}${p2})`;
+//     } else {
+//       return `![${p1}](${path}/${p2})`;
+//     }
+//   });
+
+//   return replacedMarkdown;
+// }
+
+export function replaceImagePathsNew(path: string, markdown: string): string {
+  const ast = unified().use(remarkParse).parse(markdown);
+
+  visit(ast, 'image', (node) => {
+    if (node.url.startsWith('http') || node.url.startsWith('data:')) {
+      return;
+    } else if (node.url.startsWith('/')) {
+      node.url = `${path}${node.url}`;
     } else {
-      return `![${p1}](${path}/${p2})`;
+      node.url = `${path}/${node.url}`;
     }
   });
 
-  return replacedMarkdown;
+  const mdx = unified().use(remarkStringify).stringify(ast).trim();
+
+  console.log(mdx);
+
+  return mdx;
 }
