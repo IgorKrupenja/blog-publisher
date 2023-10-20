@@ -1,5 +1,7 @@
 import { getImageUrl } from './supabase';
 
+const imageRegex = /!\[.*\]\((.*)\)/g;
+
 export const insertCoverImage = (
   title: string,
   markdown: string,
@@ -19,7 +21,10 @@ export const getCanonicalUrl = (slug: string): string => {
 };
 
 export const getImagePaths = (path: string, markdown: string): string[] => {
-  const regex = /!\[.*\]\((.*)\)/g;
-  const matches = markdown.match(regex);
-  return matches ? matches.map((match) => match.replace(regex, `${path}/$1`)) : [];
+  const matches = markdown.match(imageRegex);
+  return matches ? matches.map((match) => replaceImagePaths(path, match)) : [];
+};
+
+export const replaceImagePaths = (path: string, markdown: string): string => {
+  return markdown.replace(imageRegex, `${path}/$1`);
 };
