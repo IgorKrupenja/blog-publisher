@@ -9,13 +9,17 @@ coverImage: cover.jpg
 
 **This article is only a test for programmatic deployment.**
 
-![Alt text 1](image-1.jpg)
+<!-- ![Alt text 1](image-1.jpg) -->
 
 Some text
 
-![Alt text 2](image-2.jpg)
+<!-- ![Alt text 2](image-2.jpg) -->
 
 ```ts
 import { HASHNODE_TAGS } from './data/hashnode-tags';
 import { HashnodeTag } from './interfaces/hashnode-tag';
 ```
+
+This is a link: [![alt text](image-1.jpg)](https://example.com)
+
+<!-- This is not a link: ![alt text](image-1.jpg) -->

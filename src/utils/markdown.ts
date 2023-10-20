@@ -1,3 +1,4 @@
+import remarkFrontmatter from 'remark-frontmatter';
 import remarkParse from 'remark-parse';
 import remarkStringify from 'remark-stringify';
 import { unified } from 'unified';
@@ -52,9 +53,10 @@ export const replaceImagePaths = (path: string, markdown: string): string => {
 // }
 
 export function replaceImagePathsNew(path: string, markdown: string): string {
-  const ast = unified().use(remarkParse).parse(markdown);
+  const ast = unified().use(remarkParse).use(remarkFrontmatter, ['yaml', 'toml']).parse(markdown);
 
   visit(ast, 'image', (node) => {
+    console.log(node);
     if (node.url.startsWith('http') || node.url.startsWith('data:')) {
       return;
     } else if (node.url.startsWith('/')) {
@@ -64,9 +66,13 @@ export function replaceImagePathsNew(path: string, markdown: string): string {
     }
   });
 
-  const mdx = unified().use(remarkStringify).stringify(ast).trim();
+  const mdx = unified()
+    .use(remarkStringify)
+    .use(remarkFrontmatter, ['yaml', 'toml'])
+    .stringify(ast)
+    .trim();
 
-  console.log(mdx);
+  // console.log(mdx);
 
   return mdx;
 }
