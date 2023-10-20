@@ -1,4 +1,4 @@
-import { getImageUrl } from './supabase';
+import { getUrl } from './supabase';
 
 const imageRegex = /!\[.*\]\((.*)\)/g;
 
@@ -7,7 +7,7 @@ export const insertCoverImage = (
   markdown: string,
   coverImagePath: string
 ): string => {
-  const string = `\n![${title}](${getImageUrl(coverImagePath)})\n`;
+  const string = `\n![${title}](${getUrl(coverImagePath)})\n`;
   return `${string}${markdown}`;
 };
 

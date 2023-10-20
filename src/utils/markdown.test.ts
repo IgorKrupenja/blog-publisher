@@ -26,7 +26,7 @@ describe('insertCoverImage', () => {
     const coverImagePath = 'path/to/image.jpg';
 
     const spy = vi
-      .spyOn(supabase, 'getImageUrl')
+      .spyOn(supabase, 'getUrl')
       .mockReturnValueOnce(
         'https://supabase.IgorKrpenja.com/storage/v1/object/public/images/path/to/image.jpg'
       );

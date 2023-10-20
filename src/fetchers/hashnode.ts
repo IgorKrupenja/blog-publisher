@@ -7,7 +7,7 @@ import {
   CreateHashnodeArticleResponse,
   HashnodeTag,
 } from '../interfaces';
-import { getImageUrl } from '../utils';
+import { getUrl } from '../utils';
 
 export const createHashnodeArticle = async (article: Article): Promise<string> => {
   const response = await fetch('https://api.hashnode.com', {
@@ -55,7 +55,7 @@ const getCreateHashnodeArticleRequest = ({
         contentMarkdown: content,
         tags: hashnodeTags.map((tag) => ({ _id: tag.objectID })),
         isPartOfPublication: { publicationId: HASHNODE_PUBLICATION_ID },
-        coverImageURL: getImageUrl(coverImagePath),
+        coverImageURL: getUrl(coverImagePath),
       },
     },
   };
