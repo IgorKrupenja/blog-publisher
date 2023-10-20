@@ -1,11 +1,11 @@
-import { getCoverImageUrl } from './supabase';
+import { getImageUrl } from './supabase';
 
 export const insertCoverImage = (
   title: string,
   markdown: string,
   coverImagePath: string
 ): string => {
-  const string = `\n![${title}](${getCoverImageUrl(coverImagePath)})\n`;
+  const string = `\n![${title}](${getImageUrl(coverImagePath)})\n`;
   return `${string}${markdown}`;
 };
 
