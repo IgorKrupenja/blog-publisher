@@ -1,7 +1,12 @@
 import 'dotenv/config';
 
-import { createDevToArticle, createMediumArticle, uploadImage } from './fetchers';
-import { getArticle, getCanonicalUrl, getImagePaths } from './utils';
+import {
+  createDevToArticle,
+  createDevToArticle,
+  createMediumArticle,
+  uploadImage,
+} from './fetchers';
+import { getArticle, getCanonicalUrl, getImagePaths, getUrl, replaceImagePaths } from './utils';
 
 const publish = async (): Promise<void> => {
   // E.g. articles/2023/01-nextjs-expo-monorepo
@@ -11,14 +16,19 @@ const publish = async (): Promise<void> => {
 
   await Promise.all([article.coverImagePath, ...imagePaths].map(uploadImage));
 
-  // const slug = await createHashnodeArticle(article);
+  const articleWithUploadedImages = {
+    ...article,
+    content: replaceImagePaths(getUrl(path), article.content),
+  };
+
+  // const slug = await createHashnodeArticle(articleWithUploadedImages);
   // // TODO: temporary for testing
   const slug = 'nextjs-expo-monorepo-with-pnpm';
   const canonicalUrl = getCanonicalUrl(slug);
 
   await Promise.all([
-    await createDevToArticle({ ...article, canonicalUrl }),
-    await createMediumArticle({ ...article, canonicalUrl }),
+    await createDevToArticle({ ...articleWithUploadedImages, canonicalUrl }),
+    await createMediumArticle({ ...articleWithUploadedImages, canonicalUrl }),
   ]);
 };
 

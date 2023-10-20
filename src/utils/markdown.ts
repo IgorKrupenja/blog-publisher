@@ -28,3 +28,21 @@ export const getImagePaths = (path: string, markdown: string): string[] => {
 export const replaceImagePaths = (path: string, markdown: string): string => {
   return markdown.replace(imageRegex, `${path}/$1`);
 };
+
+// export const replaceImagePathsNew = (path: string, markdown: string): string => {
+//   return markdown.replace(/(?<=\[[^\]]+\]\()([^)]+)\)/g, `${path}/$1)`);
+// };
+
+export function replaceImagePathsNew(path: string, markdown: string): string {
+  const regex = /!\[(.*?)\]\((.*?)\)/g;
+  const replacedMarkdown = markdown.replace(regex, (match, p1: string, p2: string) => {
+    if (p2.startsWith('http') || p2.startsWith('data:')) {
+      return match;
+    } else if (p2.startsWith('/')) {
+      return `![${p1}](${path}${p2})`;
+    } else {
+      return `![${p1}](${path}/${p2})`;
+    }
+  });
+  return replacedMarkdown;
+}
