@@ -105,6 +105,13 @@ describe('replaceImagePathsNew', () => {
     expect(replaceImagePathsNew(path, markdown)).toEqual(expected);
   });
 
+  it('should replace image paths that start with /', () => {
+    const path = 'www.example.com/path/to/images';
+    const markdown = 'This is an image: ![alt text](/image.jpg)';
+    const expected = 'This is an image: ![alt text](www.example.com/path/to/images/image.jpg)';
+    expect(replaceImagePathsNew(path, markdown)).toEqual(expected);
+  });
+
   it('should not replace image paths if it is an URL already', () => {
     const path = 'www.example.com/path/to/images';
     const markdown =
