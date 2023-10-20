@@ -44,7 +44,7 @@ describe('insertCoverImage', () => {
   });
 });
 
-describe('getImagePaths', () => {
+describe('getMarkdownImagePaths', () => {
   it('should return an empty array when there are no images', () => {
     const markdown = 'This is some text without images.';
     expect(getMarkdownImagePaths('/path/to', markdown)).toEqual([]);
@@ -52,6 +52,12 @@ describe('getImagePaths', () => {
 
   it('should return an array with one image when there is one image', () => {
     const markdown = 'This is some text with an image: ![alt text](image.jpg)';
+    expect(getMarkdownImagePaths('/path/to', markdown)).toEqual(['/path/to/image.jpg']);
+  });
+
+  it('should return only one path for multiple occurrences of the same image name', () => {
+    const markdown =
+      'This is an image: ![alt text](image.jpg) This is another image: ![alt text](image.jpg) This is yet another image: ![alt text](image.jpg)';
     expect(getMarkdownImagePaths('/path/to', markdown)).toEqual(['/path/to/image.jpg']);
   });
 
@@ -86,7 +92,7 @@ describe('getImagePaths', () => {
   });
 });
 
-describe('replaceImagePaths', () => {
+describe('replaceMarkdownImagePaths', () => {
   it('should replace image paths in markdown', () => {
     const path = 'www.example.com/path/to/images';
     const markdown = 'This is an image: ![alt text](image.jpg)';
