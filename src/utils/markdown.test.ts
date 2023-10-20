@@ -2,10 +2,10 @@ import { describe, expect, it, vi } from 'vitest';
 
 import {
   getCanonicalUrl,
-  getImagePaths,
+  getMarkdownImagePaths,
   insertCanonicalUrl,
   insertCoverImage,
-  replaceImagePaths,
+  replaceMarkdownImagePaths,
 } from './markdown';
 import * as supabase from './supabase';
 
@@ -32,7 +32,7 @@ describe('insertCoverImage', () => {
     const coverImagePath = 'path/to/image.jpg';
 
     const spy = vi
-      .spyOn(supabase, 'getUrl')
+      .spyOn(supabase, 'getSupabaseUrl')
       .mockReturnValueOnce(
         'https://supabase.IgorKrpenja.com/storage/v1/object/public/images/path/to/image.jpg'
       );
@@ -47,18 +47,18 @@ describe('insertCoverImage', () => {
 describe('getImagePaths', () => {
   it('should return an empty array when there are no images', () => {
     const markdown = 'This is some text without images.';
-    expect(getImagePaths('/path/to', markdown)).toEqual([]);
+    expect(getMarkdownImagePaths('/path/to', markdown)).toEqual([]);
   });
 
   it('should return an array with one image when there is one image', () => {
     const markdown = 'This is some text with an image: ![alt text](image.jpg)';
-    expect(getImagePaths('/path/to', markdown)).toEqual(['/path/to/image.jpg']);
+    expect(getMarkdownImagePaths('/path/to', markdown)).toEqual(['/path/to/image.jpg']);
   });
 
   it('should return an array with multiple images when there are multiple images', () => {
     const markdown =
       'This is some text with two images:\n![alt text 1](image1.jpg)\n![alt text 2](image2.jpg)';
-    expect(getImagePaths('/path/to', markdown)).toEqual([
+    expect(getMarkdownImagePaths('/path/to', markdown)).toEqual([
       '/path/to/image1.jpg',
       '/path/to/image2.jpg',
     ]);
@@ -67,7 +67,7 @@ describe('getImagePaths', () => {
   it('should return an array with images when there are images with different formats', () => {
     const markdown =
       'This is some text with images: ![alt text 1](image1.jpg)\nSome more text.\n![alt text 2](image2.png)\n## Title\n![alt text 3](image3.gif)';
-    expect(getImagePaths('/path/to', markdown)).toEqual([
+    expect(getMarkdownImagePaths('/path/to', markdown)).toEqual([
       '/path/to/image1.jpg',
       '/path/to/image2.png',
       '/path/to/image3.gif',
@@ -82,7 +82,7 @@ describe('getImagePaths', () => {
       'coverImage: cover.jpg\n' +
       '---\n\n' +
       '## Test';
-    expect(getImagePaths('/path/to/', markdown)).toEqual([]);
+    expect(getMarkdownImagePaths('/path/to/', markdown)).toEqual([]);
   });
 });
 
@@ -91,21 +91,21 @@ describe('replaceImagePaths', () => {
     const path = 'www.example.com/path/to/images';
     const markdown = 'This is an image: ![alt text](image.jpg)';
     const expected = 'This is an image: ![alt text](www.example.com/path/to/images/image.jpg)';
-    expect(replaceImagePaths(path, markdown)).toEqual(expected);
+    expect(replaceMarkdownImagePaths(path, markdown)).toEqual(expected);
   });
 
   it('should replace image paths that start with /', () => {
     const path = 'www.example.com/path/to/images';
     const markdown = 'This is an image: ![alt text](/image.jpg)';
     const expected = 'This is an image: ![alt text](www.example.com/path/to/images/image.jpg)';
-    expect(replaceImagePaths(path, markdown)).toEqual(expected);
+    expect(replaceMarkdownImagePaths(path, markdown)).toEqual(expected);
   });
 
   it('should not replace image paths if it is an URL already', () => {
     const path = 'www.example.com/path/to/images';
     const markdown =
       'This is an image: ![alt text](http://www.example.com/path/to/images/image.jpg)';
-    expect(replaceImagePaths(path, markdown)).toEqual(markdown);
+    expect(replaceMarkdownImagePaths(path, markdown)).toEqual(markdown);
   });
 
   it('should replace multiple image paths in markdown', () => {
@@ -114,7 +114,7 @@ describe('replaceImagePaths', () => {
       'This is an image: ![alt text](image1.jpg)\nAnd this is another image: ![alt text](image2.jpg)';
     const expected =
       'This is an image: ![alt text](www.example.com/path/to/images/image1.jpg)\nAnd this is another image: ![alt text](www.example.com/path/to/images/image2.jpg)';
-    expect(replaceImagePaths(path, markdown)).toEqual(expected);
+    expect(replaceMarkdownImagePaths(path, markdown)).toEqual(expected);
   });
 
   it('should not replace image paths in code blocks', () => {
@@ -123,7 +123,7 @@ describe('replaceImagePaths', () => {
       'This is a code block:\n\n```\n![alt text](image.jpg)\n\n```\n\nThis is not a code block: ![alt text](image.jpg)';
     const expected =
       'This is a code block:\n\n```\n![alt text](image.jpg)\n\n```\n\nThis is not a code block: ![alt text](www.example.com/path/to/images/image.jpg)';
-    expect(replaceImagePaths(path, markdown)).toEqual(expected);
+    expect(replaceMarkdownImagePaths(path, markdown)).toEqual(expected);
   });
 
   it('should not replace image paths in inline code', () => {
@@ -132,7 +132,7 @@ describe('replaceImagePaths', () => {
       'This is inline code: `![alt text](image.jpg)`\nThis is not inline code: ![alt text](image.jpg)';
     const expected =
       'This is inline code: `![alt text](image.jpg)`\nThis is not inline code: ![alt text](www.example.com/path/to/images/image.jpg)';
-    expect(replaceImagePaths(path, markdown)).toEqual(expected);
+    expect(replaceMarkdownImagePaths(path, markdown)).toEqual(expected);
   });
 
   it('should replace image paths in links', () => {
@@ -140,7 +140,7 @@ describe('replaceImagePaths', () => {
     const markdown = 'This is a link: [![alt text](image.jpg)](https://example.com)';
     const expected =
       'This is a link: [![alt text](www.example.com/path/to/images/image.jpg)](https://example.com)';
-    expect(replaceImagePaths(path, markdown)).toEqual(expected);
+    expect(replaceMarkdownImagePaths(path, markdown)).toEqual(expected);
   });
 
   it('should not replace image paths in YAML front matter', () => {
@@ -148,7 +148,7 @@ describe('replaceImagePaths', () => {
     const markdown = '---\nimage: image.jpg\n---\n\nThis is not an image: ![alt text](image.jpg)';
     const expected =
       '---\nimage: image.jpg\n---\n\nThis is not an image: ![alt text](www.example.com/path/to/images/image.jpg)';
-    expect(replaceImagePaths(path, markdown)).toEqual(expected);
+    expect(replaceMarkdownImagePaths(path, markdown)).toEqual(expected);
   });
 
   it('should not replace image paths in TOML front matter', () => {
@@ -157,7 +157,7 @@ describe('replaceImagePaths', () => {
       '+++\nimage = "image.jpg"\n+++\n\nThis is not an image: ![alt text](image.jpg)';
     const expected =
       '+++\nimage = "image.jpg"\n+++\n\nThis is not an image: ![alt text](www.example.com/path/to/images/image.jpg)';
-    expect(replaceImagePaths(path, markdown)).toEqual(expected);
+    expect(replaceMarkdownImagePaths(path, markdown)).toEqual(expected);
   });
 
   it('should not replace image paths in JSON front matter', () => {
@@ -165,7 +165,7 @@ describe('replaceImagePaths', () => {
     const markdown = '{"image": "image.jpg"}\n\nThis is not an image: ![alt text](image.jpg)';
     const expected =
       '{"image": "image.jpg"}\n\nThis is not an image: ![alt text](www.example.com/path/to/images/image.jpg)';
-    expect(replaceImagePaths(path, markdown)).toEqual(expected);
+    expect(replaceMarkdownImagePaths(path, markdown)).toEqual(expected);
   });
 
   it('should not replace image paths in comments', () => {
@@ -174,6 +174,6 @@ describe('replaceImagePaths', () => {
       'This is a comment: <!-- ![alt text](image.jpg) -->\nThis is not a comment: ![alt text](image.jpg)';
     const expected =
       'This is a comment: <!-- ![alt text](image.jpg) -->\nThis is not a comment: ![alt text](www.example.com/path/to/images/image.jpg)';
-    expect(replaceImagePaths(path, markdown)).toEqual(expected);
+    expect(replaceMarkdownImagePaths(path, markdown)).toEqual(expected);
   });
 });

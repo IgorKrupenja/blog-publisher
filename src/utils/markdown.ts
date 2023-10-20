@@ -4,14 +4,14 @@ import remarkStringify from 'remark-stringify';
 import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
 
-import { getUrl } from './supabase';
+import { getSupabaseUrl } from './supabase';
 
 export const insertCoverImage = (
   title: string,
   markdown: string,
   coverImagePath: string
 ): string => {
-  const string = `\n![${title}](${getUrl(coverImagePath)})\n`;
+  const string = `\n![${title}](${getSupabaseUrl(coverImagePath)})\n`;
   return `${string}${markdown}`;
 };
 
@@ -24,7 +24,7 @@ export const getCanonicalUrl = (slug: string): string => {
   return `${process.env.HASHNODE_URL}/${slug}`;
 };
 
-export const getImagePaths = (path: string, markdown: string): string[] => {
+export const getMarkdownImagePaths = (path: string, markdown: string): string[] => {
   const ast = unified().use(remarkParse).parse(markdown);
 
   const imagePaths: string[] = [];
@@ -33,7 +33,7 @@ export const getImagePaths = (path: string, markdown: string): string[] => {
   return [...new Set(imagePaths)];
 };
 
-export function replaceImagePaths(path: string, markdown: string): string {
+export function replaceMarkdownImagePaths(path: string, markdown: string): string {
   const ast = unified().use(remarkParse).use(remarkFrontmatter, ['yaml', 'toml']).parse(markdown);
 
   visit(ast, 'image', (node) => {

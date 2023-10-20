@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 
 import { Article, CreateDevToArticleRequest, CreateDevToArticleResponse } from '../interfaces';
-import { getUrl, insertCanonicalUrl } from '../utils';
+import { getSupabaseUrl, insertCanonicalUrl } from '../utils';
 
 export const createDevToArticle = async (article: Required<Article>): Promise<void> => {
   const response = await fetch('https://dev.to/api/articles', {
@@ -35,7 +35,7 @@ const getCreateDevToArticleRequest = ({
       title,
       body_markdown: insertCanonicalUrl(content, canonicalUrl),
       published: false,
-      main_image: getUrl(coverImagePath),
+      main_image: getSupabaseUrl(coverImagePath),
       canonical_url: canonicalUrl,
       tags: tags.map((tag) => tag.replace(/-/g, '')).slice(0, 4),
     },
