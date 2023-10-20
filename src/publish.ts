@@ -1,12 +1,7 @@
 import 'dotenv/config';
 
-import {
-  createDevToArticle,
-  createDevToArticle,
-  createMediumArticle,
-  uploadImage,
-} from './fetchers';
-import { getArticle, getCanonicalUrl, getImagePaths, getUrl, replaceImagePaths } from './utils';
+import { createDevToArticle, createMediumArticle, uploadImage } from './fetchers';
+import { getArticle, getCanonicalUrl, getImagePaths, getUrl, replaceImagePathsNew } from './utils';
 
 const publish = async (): Promise<void> => {
   // E.g. articles/2023/01-nextjs-expo-monorepo
@@ -18,7 +13,7 @@ const publish = async (): Promise<void> => {
 
   const articleWithUploadedImages = {
     ...article,
-    content: replaceImagePaths(getUrl(path), article.content),
+    content: replaceImagePathsNew(getUrl(path), article.content),
   };
 
   // const slug = await createHashnodeArticle(articleWithUploadedImages);

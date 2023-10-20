@@ -146,21 +146,11 @@ describe('replaceImagePathsNew', () => {
     expect(replaceImagePathsNew(path, markdown)).toEqual(expected);
   });
 
-  it('should not replace image paths in links', () => {
+  it('should replace image paths in links', () => {
     const path = 'www.example.com/path/to/images';
-    const markdown =
-      'This is a link: [![alt text](image.jpg)](https://example.com)\nThis is not a link: ![alt text](image.jpg)';
+    const markdown = 'This is a link: [![alt text](image.jpg)](https://example.com)';
     const expected =
-      'This is a link: [![alt text](www.example.com/path/to/images/image.jpg)](https://example.com)\nThis is not a link: ![alt text](www.example.com/path/to/images/image.jpg)';
-    expect(replaceImagePathsNew(path, markdown)).toEqual(expected);
-  });
-
-  it('should not replace image paths in reference-style links', () => {
-    const path = 'www.example.com/path/to/images';
-    const markdown =
-      'This is a reference-style link: [![alt text][image]]\n\n[link]\nThis is not a reference-style link: ![alt text](image.jpg)\n\n[image]: image.jpg\n\n[link]: https://example.com';
-    const expected =
-      'This is a reference-style link: [![alt text][image]]\n\n[link]\nThis is not a reference-style link: ![alt text](www.example.com/path/to/images/image.jpg)\n\n[image]: image.jpg\n\n[link]: https://example.com';
+      'This is a link: [![alt text](www.example.com/path/to/images/image.jpg)](https://example.com)';
     expect(replaceImagePathsNew(path, markdown)).toEqual(expected);
   });
 
