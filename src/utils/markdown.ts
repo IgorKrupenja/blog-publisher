@@ -37,20 +37,13 @@ export function replaceMarkdownImagePaths(path: string, markdown: string): strin
   const ast = unified().use(remarkParse).use(remarkFrontmatter, ['yaml', 'toml']).parse(markdown);
 
   visit(ast, 'image', (node) => {
-    if (node.url.startsWith('http') || node.url.startsWith('data:')) {
-      return;
-    } else if (node.url.startsWith('/')) {
-      node.url = `${path}${node.url}`;
-    } else {
-      node.url = `${path}/${node.url}`;
-    }
+    if (node.url.startsWith('http') || node.url.startsWith('data:')) return;
+    node.url = `${path}${node.url.startsWith('/') ? '' : '/'}${node.url}`;
   });
 
-  const processedMarkdown = unified()
+  return unified()
     .use(remarkStringify)
     .use(remarkFrontmatter, ['yaml', 'toml'])
     .stringify(ast)
     .trim();
-
-  return processedMarkdown;
 }
