@@ -28,8 +28,8 @@ const publish = async (): Promise<void> => {
   const canonicalUrl = getCanonicalUrl(slug);
 
   await Promise.all([
-    await createDevToArticle({ ...articleWithUploadedImages, canonicalUrl }),
-    await createMediumArticle({ ...articleWithUploadedImages, canonicalUrl }),
+    createDevToArticle({ ...articleWithUploadedImages, canonicalUrl }),
+    createMediumArticle({ ...articleWithUploadedImages, canonicalUrl }),
   ]);
 };
 
