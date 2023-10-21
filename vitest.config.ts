@@ -12,7 +12,7 @@ export default defineConfig({
       reporter: [['lcov', { projectRoot: './src' }], ['text']],
       all: true,
       include: ['**/src/**/*.ts'],
-      exclude: ['**/interfaces/*', '**/data/*', '**/test/*', '**/src/*.d.ts', '**/src/*.index.ts'],
+      exclude: ['**/data/*', '**/test/*'],
     },
   },
 });
