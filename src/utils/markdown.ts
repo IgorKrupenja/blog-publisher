@@ -20,9 +20,7 @@ export const insertCanonicalUrl = (markdown: string, url: string): string => {
   return `${string}${markdown}`;
 };
 
-export const getCanonicalUrl = (slug: string): string => {
-  return `${process.env.HASHNODE_URL}/${slug}`;
-};
+export const getCanonicalUrl = (slug: string): string => `${process.env.HASHNODE_URL}/${slug}`;
 
 export const getMarkdownImagePaths = (path: string, markdown: string): string[] => {
   const ast = unified().use(remarkParse).parse(markdown);
