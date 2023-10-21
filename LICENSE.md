@@ -2,24 +2,24 @@
 
 ## Articles
 
-All the files inside `articles` directory are licensed under
+All the files inside `src/articles` directory are licensed under
 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). The attribution requirement is only met when:
 
 1. The canonical link is directed towards the original article, e.g.
 
-```html
-<link rel="canonical" href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm" />
-```
+    ```html
+    <link rel="canonical" href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm" />
+    ```
 
 2. The following message is displayed above and below the article:
 
-```html
-This article has been originally published on <a href="https://blog.IgorKrupenja.com/">Igor Krupenja's blog</a> at this <a href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm">link</a>.
-```
+    ```html
+    This article has been originally published on <a href="https://blog.IgorKrupenja.com/">Igor Krupenja's blog</a> at this <a href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm">link</a>.
+    ```
   
 ## Other files
 
-Files not mentioned in previous paragraphs are licensed under MIT License.
+Files not mentioned in the previous paragraphs are licensed under MIT License.
 
 ### MIT License
 
