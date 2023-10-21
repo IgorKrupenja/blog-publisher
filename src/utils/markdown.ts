@@ -37,6 +37,13 @@ export const getArticleContent = (markdown: string): string => {
   return markdown.replace(/---(.|\n)*---/, '').trim();
 };
 
+export const getCanonicalUrl = (slug: string): string => `${process.env.HASHNODE_URL}/${slug}`;
+
+export const insertCanonicalUrl = (markdown: string, url: string): string => {
+  const string = `\n*This article was originally published on [my blog](${url}).*\n`;
+  return `${string}${markdown}`;
+};
+
 export const insertCoverImage = (
   title: string,
   markdown: string,
@@ -45,13 +52,6 @@ export const insertCoverImage = (
   const string = `\n![${title}](${getSupabaseUrl(coverImagePath)})\n`;
   return `${string}${markdown}`;
 };
-
-export const insertCanonicalUrl = (markdown: string, url: string): string => {
-  const string = `\n*This article was originally published on [my blog](${url}).*\n`;
-  return `${string}${markdown}`;
-};
-
-export const getCanonicalUrl = (slug: string): string => `${process.env.HASHNODE_URL}/${slug}`;
 
 export const getMarkdownImagePaths = (path: string, markdown: string): string[] => {
   const ast = unified().use(remarkParse).parse(markdown);
