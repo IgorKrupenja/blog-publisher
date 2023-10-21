@@ -250,4 +250,12 @@ describe('getArticleFrontMatter', () => {
       'getArticle: No cover image found in article.'
     );
   });
+
+  it('should throw an error when front matter is missing', () => {
+    const markdown = '# My Article\n\nThis is the body of my article.';
+
+    expect(() => getArticleFrontMatter(markdown)).toThrow(
+      'getArticle: No front matter found in article.'
+    );
+  });
 });

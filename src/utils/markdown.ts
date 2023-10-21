@@ -17,8 +17,9 @@ export const getArticleFrontMatter = (markdown: string): ArticleFrontMatter => {
     .use(remarkParseFrontmatter)
     .processSync(markdown);
 
-  const frontMatter = parsedMarkdown.data.frontmatter as Partial<ArticleFrontMatter>;
+  const frontMatter = parsedMarkdown.data.frontmatter as Partial<ArticleFrontMatter> | undefined;
 
+  if (!frontMatter) throw new Error('getArticle: No front matter found in article.');
   if (!frontMatter.title) throw new Error('getArticle: No title found in article.');
   if (!frontMatter.tags) throw new Error('getArticle: No tags found in article.');
   if (!frontMatter.coverImage) throw new Error('getArticle: No cover image found in article.');
