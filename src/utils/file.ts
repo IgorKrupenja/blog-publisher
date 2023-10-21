@@ -4,14 +4,15 @@ import matter from 'gray-matter';
 
 import { Article, ArticleFrontMatter } from '../interfaces';
 
-export const getArticle = (path: string): Article => {
+export const getArticle = async (path: string): Promise<Article> => {
   if (!path) throw new Error('No article path provided.');
 
-  const file = fs.readdirSync(path).find((file) => file.endsWith('.md'));
+  const fileName = fs.readdirSync(path).find((file) => file.endsWith('.md'));
 
-  if (!file) throw new Error('getArticle: No markdown file found in article path.');
+  if (!fileName) throw new Error('getArticle: No markdown file found in article path.');
 
-  const markdown = matter(fs.readFileSync(`${path}/${file}`, 'utf-8'));
+  const file = Bun.file(`${path}/${fileName}`);
+  const markdown = matter(await file.text());
   const frontMatter = markdown.data as ArticleFrontMatter;
 
   if (!frontMatter.title) throw new Error('getArticle: No title found in article.');
