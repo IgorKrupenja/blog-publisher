@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 import { Article, CreateMediumArticleRequest } from '../interfaces';
 import { insertCanonicalUrl, insertCoverImage } from '../utils';
 

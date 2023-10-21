@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 import { HASHNODE_TAGS } from '../data';
 import {
   Article,

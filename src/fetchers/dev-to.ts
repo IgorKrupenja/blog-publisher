@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 import { Article, CreateDevToArticleRequest, CreateDevToArticleResponse } from '../interfaces';
 import { getSupabaseUrl, insertCanonicalUrl } from '../utils';
 
