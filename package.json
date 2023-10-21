@@ -13,8 +13,8 @@
     "publish:test": "bun run src/publish.ts src/articles/2023/01-nextjs-expo-monorepo"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.31.0",
-    "@types/mime": "^3.0.1",
+    "@supabase/supabase-js": "^2.38.2",
+    "@types/mime": "^3.0.3",
     "gray-matter": "^4.0.3",
     "mime": "^3.0.0",
     "node-fetch": "^3.3.2",
@@ -26,15 +26,15 @@
   },
   "devDependencies": {
     "bun-types": "latest",
-    "@types/node": "^20.4.5",
-    "@typescript-eslint/eslint-plugin": "^6.2.0",
-    "@typescript-eslint/parser": "^6.2.0",
-    "eslint": "^8.46.0",
-    "eslint-config-prettier": "^8.9.0",
+    "@types/node": "^20.8.7",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
+    "@typescript-eslint/parser": "^6.8.0",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-sort-export-all": "^1.4.1",
     "eslint-plugin-unicorn": "^48.0.1",
     "eslint-plugin-unused-imports": "^3.0.0",
-    "prettier": "^3.0.0"
+    "prettier": "^3.0.3"
   }
 }
