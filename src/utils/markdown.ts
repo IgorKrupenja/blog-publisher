@@ -9,13 +9,13 @@ import { ArticleFrontMatter } from '../interfaces';
 
 import { getSupabaseUrl } from './supabase';
 
-export const getArticleFrontMatter = async (markdown: string): Promise<ArticleFrontMatter> => {
-  const parsedMarkdown = await unified()
+export const getArticleFrontMatter = (markdown: string): ArticleFrontMatter => {
+  const parsedMarkdown = unified()
     .use(remarkParse)
     .use(remarkStringify)
     .use(remarkFrontmatter, 'yaml')
     .use(remarkParseFrontmatter)
-    .process(markdown);
+    .processSync(markdown);
 
   const frontMatter = parsedMarkdown.data.frontmatter as Partial<ArticleFrontMatter>;
 
