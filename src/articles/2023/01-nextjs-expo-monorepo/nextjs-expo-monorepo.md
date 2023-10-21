@@ -11,7 +11,7 @@ coverImage: cover.jpg
 
 ![Alt text 1](image-1.jpg)
 
-Some text
+Some text 🚀
 
 ![Alt text 2](image-2.jpg)
 

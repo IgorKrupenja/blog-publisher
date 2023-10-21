@@ -25,6 +25,7 @@ module.exports = {
         allowExpressions: true,
       },
     ],
+    '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/require-await': 'error',
     'import/order': [
       'warn',

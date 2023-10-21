@@ -1,10 +1,49 @@
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkParse from 'remark-parse';
+import remarkParseFrontmatter from 'remark-parse-frontmatter';
 import remarkStringify from 'remark-stringify';
 import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
 
+import { ArticleFrontMatter } from '../interfaces';
+
 import { getSupabaseUrl } from './supabase';
+
+export const getArticleFrontMatter = (markdown: string): ArticleFrontMatter => {
+  const parsedMarkdown = unified()
+    .use(remarkParse)
+    .use(remarkStringify)
+    .use(remarkFrontmatter, 'yaml')
+    .use(remarkParseFrontmatter)
+    .processSync(markdown);
+
+  const frontMatter = parsedMarkdown.data.frontmatter as Partial<ArticleFrontMatter>;
+
+  if (!frontMatter.title) throw new Error('getArticle: No title found in article.');
+  if (!frontMatter.tags) throw new Error('getArticle: No tags found in article.');
+  if (!frontMatter.coverImage) throw new Error('getArticle: No cover image found in article.');
+
+  return frontMatter as ArticleFrontMatter;
+};
+
+// todo do I even need this or can just push unparsed files?
+// export const getArticleContent = async (markdown: string): Promise<string> => {
+//   const ast = unified().use(remarkParse).parse(markdown);
+// };
+
+// todo based on this
+// const ast = unified().use(remarkParse).use(remarkFrontmatter, ['yaml', 'toml']).parse(markdown);
+
+// visit(ast, 'image', (node) => {
+//   if (node.url.startsWith('http') || node.url.startsWith('data:')) return;
+//   node.url = `${path}${node.url.startsWith('/') ? '' : '/'}${node.url}`;
+// });
+
+// return unified()
+//   .use(remarkStringify)
+//   .use(remarkFrontmatter, ['yaml', 'toml'])
+//   .stringify(ast)
+//   .trim();
 
 export const insertCoverImage = (
   title: string,
