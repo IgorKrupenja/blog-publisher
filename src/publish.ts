@@ -22,8 +22,8 @@ const publish = async (): Promise<void> => {
     content: replaceMarkdownImagePaths(getSupabaseUrl(path), article.content),
   };
 
-  // const slug = await createHashnodeArticle(articleWithUploadedImages);
   // TODO: temporary for testing
+  // const slug = await createHashnodeArticle(articleWithUploadedImages);
   const slug = 'nextjs-expo-monorepo-with-pnpm';
   const canonicalUrl = getCanonicalUrl(slug);
 

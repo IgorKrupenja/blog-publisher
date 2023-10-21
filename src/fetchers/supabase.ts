@@ -19,7 +19,7 @@ export const uploadImage = async (imagePath: string): Promise<void> => {
     );
 
   if (error) throw new Error(`uploadCoverImage: ${JSON.stringify(error)}`);
-  console.log(`uploadCoverImage: uploaded image '${imagePath}'`);
+  console.debug(`uploadCoverImage: uploaded image '${imagePath}'`);
 };
 
 const getImageOptions = (coverImagePath: string): { cacheControl: string; contentType: string } => {
