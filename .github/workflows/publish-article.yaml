@@ -12,4 +12,4 @@ jobs:
   publish-test:
     uses: ./.github/workflows/run-check.yaml
     with:
-      command: pnpm publish:test
+      command: bun publish:test
