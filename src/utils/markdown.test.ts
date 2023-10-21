@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 
 import {
+  getArticleFrontMatter,
   getCanonicalUrl,
   getMarkdownImagePaths,
   insertCanonicalUrl,
@@ -181,5 +182,68 @@ describe('replaceMarkdownImagePaths', () => {
     const expected =
       'This is a comment: <!-- ![alt text](image.jpg) -->\nThis is not a comment: ![alt text](www.example.com/path/to/images/image.jpg)';
     expect(replaceMarkdownImagePaths(path, markdown)).toEqual(expected);
+  });
+});
+
+describe('getArticleFrontMatter', () => {
+  it('should return front matter when given valid markdown', () => {
+    const markdown = `---
+title: My Article
+tags: [tag1, tag2]
+coverImage: /path/to/image.jpg
+---
+
+# My Article
+
+This is the body of my article.`;
+
+    const expectedFrontMatter = {
+      title: 'My Article',
+      tags: ['tag1', 'tag2'],
+      coverImage: '/path/to/image.jpg',
+    };
+
+    expect(getArticleFrontMatter(markdown)).toEqual(expectedFrontMatter);
+  });
+
+  it('should throw an error when title is missing', () => {
+    const markdown = `---
+tags: [tag1, tag2]
+coverImage: /path/to/image.jpg
+---
+
+# My Article
+
+This is the body of my article.`;
+
+    expect(() => getArticleFrontMatter(markdown)).toThrow('getArticle: No title found in article.');
+  });
+
+  it('should throw an error when tags are missing', () => {
+    const markdown = `---
+title: My Article
+coverImage: /path/to/image.jpg
+---
+
+# My Article
+
+This is the body of my article.`;
+
+    expect(() => getArticleFrontMatter(markdown)).toThrow('getArticle: No tags found in article.');
+  });
+
+  it('should throw an error when coverImage is missing', () => {
+    const markdown = `---
+title: My Article
+tags: [tag1, tag2]
+---
+
+# My Article
+
+This is the body of my article.`;
+
+    expect(() => getArticleFrontMatter(markdown)).toThrow(
+      'getArticle: No cover image found in article.'
+    );
   });
 });
