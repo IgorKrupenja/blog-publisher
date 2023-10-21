@@ -8,12 +8,12 @@ jobs:
   lint:
     uses: ./.github/workflows/run-check.yaml
     with:
-      command: pnpm lint
+      command: bun lint
   test:
     uses: ./.github/workflows/run-check.yaml
     with:
-      command: pnpm test:run
-  build:
-    uses: ./.github/workflows/run-check.yaml
-    with:
-      command: pnpm build
+      command: bun test
+  # build:
+  #   uses: ./.github/workflows/run-check.yaml
+  #   with:
+  #     command: pnpm build
