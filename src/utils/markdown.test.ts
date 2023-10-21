@@ -187,15 +187,16 @@ describe('replaceMarkdownImagePaths', () => {
 
 describe('getArticleFrontMatter', () => {
   it('should return front matter when given valid markdown', () => {
-    const markdown = `---
-title: My Article
-tags: [tag1, tag2]
-coverImage: /path/to/image.jpg
----
-
-# My Article
-
-This is the body of my article.`;
+    const markdown =
+      '---\n' +
+      'title: My Article\n' +
+      'tags: [tag1, tag2]\n' +
+      'coverImage: /path/to/image.jpg\n' +
+      '---\n' +
+      '\n' +
+      '# My Article\n' +
+      '\n' +
+      'This is the body of my article.';
 
     const expectedFrontMatter = {
       title: 'My Article',
@@ -207,40 +208,43 @@ This is the body of my article.`;
   });
 
   it('should throw an error when title is missing', () => {
-    const markdown = `---
-tags: [tag1, tag2]
-coverImage: /path/to/image.jpg
----
-
-# My Article
-
-This is the body of my article.`;
+    const markdown =
+      '---\n' +
+      'tags: [tag1, tag2]\n' +
+      'coverImage: /path/to/image.jpg\n' +
+      '---\n' +
+      '\n' +
+      '# My Article\n' +
+      '\n' +
+      'This is the body of my article.';
 
     expect(() => getArticleFrontMatter(markdown)).toThrow('getArticle: No title found in article.');
   });
 
   it('should throw an error when tags are missing', () => {
-    const markdown = `---
-title: My Article
-coverImage: /path/to/image.jpg
----
-
-# My Article
-
-This is the body of my article.`;
+    const markdown =
+      '---\n' +
+      'title: My Article\n' +
+      'coverImage: /path/to/image.jpg\n' +
+      '---\n' +
+      '\n' +
+      '# My Article\n' +
+      '\n' +
+      'This is the body of my article.';
 
     expect(() => getArticleFrontMatter(markdown)).toThrow('getArticle: No tags found in article.');
   });
 
   it('should throw an error when coverImage is missing', () => {
-    const markdown = `---
-title: My Article
-tags: [tag1, tag2]
----
-
-# My Article
-
-This is the body of my article.`;
+    const markdown =
+      '---\n' +
+      'title: My Article\n' +
+      'tags: [tag1, tag2]\n' +
+      '---\n' +
+      '\n' +
+      '# My Article\n' +
+      '\n' +
+      'This is the body of my article.';
 
     expect(() => getArticleFrontMatter(markdown)).toThrow(
       'getArticle: No cover image found in article.'
