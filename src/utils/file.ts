@@ -16,7 +16,6 @@ export const getArticle = (path: string): Article => {
   const markdown = fs.readFileSync(`${path}/${file}`).toString();
   const frontMatter = getArticleFrontMatter(markdown);
   const content = getArticleContent(markdown);
-  console.log(content);
 
   return {
     ...frontMatter,
