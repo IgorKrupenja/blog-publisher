@@ -263,27 +263,29 @@ describe('getArticleFrontMatter', () => {
 
 describe('getArticleContent', () => {
   it('should remove front matter from markdown', () => {
-    const markdown = `---
-title: My Article
-date: 2022-01-01
----
-
-This is the content of my article.
-
-It has multiple lines.`;
+    const markdown =
+      '---\n' +
+      'title: My Article\n' +
+      'date: 2022-01-01\n' +
+      '---\n' +
+      '\n' +
+      'This is the content of my article.\n' +
+      '\n' +
+      'It has multiple lines.';
     const expected = 'This is the content of my article.\n\nIt has multiple lines.';
     expect(getArticleContent(markdown)).toEqual(expected);
   });
 
   it('should remove front matter from markdown with dashes in front matter and content', () => {
-    const markdown = `---
-title: My Article - With a Dash
-date: 2022-01-01
----
-
-This is the content of my article.
-
-It has a dash - in it.`;
+    const markdown =
+      '---\n' +
+      'title: My Article - With a Dash\n' +
+      'date: 2022-01-01\n' +
+      '---\n' +
+      '\n' +
+      'This is the content of my article.\n' +
+      '\n' +
+      'It has a dash - in it.';
     const expected = 'This is the content of my article.\n\nIt has a dash - in it.';
     expect(getArticleContent(markdown)).toEqual(expected);
   });
@@ -295,10 +297,7 @@ It has a dash - in it.`;
   });
 
   it('should remove front matter from markdown with only front matter', () => {
-    const markdown = `---
-title: My Article
-date: 2022-01-01
----`;
+    const markdown = '---\n' + 'title: My Article\n' + 'date: 2022-01-01\n' + '---';
     const expected = '';
     expect(getArticleContent(markdown)).toEqual(expected);
   });
