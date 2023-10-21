@@ -3,7 +3,6 @@ import { describe, expect, it, vi } from 'vitest';
 import {
   getArticleContent,
   getArticleFrontMatter,
-  getCanonicalUrl,
   getMarkdownImagePaths,
   insertCanonicalUrl,
   insertCoverImage,
@@ -125,12 +124,6 @@ describe('getArticleContent', () => {
     const markdown = '---\n' + 'title: My Article\n' + 'date: 2022-01-01\n' + '---';
     const expected = '';
     expect(getArticleContent(markdown)).toEqual(expected);
-  });
-});
-
-describe('getCanonicalUrl', () => {
-  it('should return correct URL', () => {
-    expect(getCanonicalUrl('foo')).eq('https://blog.IgorKrpenja.com/foo');
   });
 });
 

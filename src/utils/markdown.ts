@@ -37,8 +37,6 @@ export const getArticleContent = (markdown: string): string => {
   return markdown.replace(/---(.|\n)*---/, '').trim();
 };
 
-export const getCanonicalUrl = (slug: string): string => `${process.env.HASHNODE_URL}/${slug}`;
-
 export const insertCanonicalUrl = (markdown: string, url: string): string => {
   const string = `\n*This article was originally published on [my blog](${url}).*\n`;
   return `${string}${markdown}`;
