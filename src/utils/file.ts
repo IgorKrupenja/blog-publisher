@@ -9,11 +9,11 @@ import { getArticleContent, getArticleFrontMatter } from '.';
 export const getArticle = (path: string): Article => {
   if (!path) throw new Error('No article path provided.');
 
-  const file = fs.readdirSync(path).find((file) => file.endsWith('.md'));
+  const fileName = fs.readdirSync(path).find((file) => file.endsWith('.md'));
 
-  if (!file) throw new Error('getArticle: No markdown file found in article path.');
+  if (!fileName) throw new Error('getArticle: No markdown file found in article path.');
 
-  const markdown = fs.readFileSync(`${path}/${file}`).toString();
+  const markdown = fs.readFileSync(`${path}/${fileName}`).toString();
   const frontMatter = getArticleFrontMatter(markdown);
   const content = getArticleContent(markdown);
 
