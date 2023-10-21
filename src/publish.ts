@@ -12,7 +12,7 @@ import {
 const publish = async (): Promise<void> => {
   // E.g. articles/2023/01-nextjs-expo-monorepo
   const path = process.argv[2];
-  const article = getArticle(path);
+  const article = await getArticle(path);
   // todo restore this
   const imagePaths = getMarkdownImagePaths(path, article.content);
 

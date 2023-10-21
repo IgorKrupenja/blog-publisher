@@ -9,13 +9,13 @@ import { ArticleFrontMatter } from '../interfaces';
 
 import { getSupabaseUrl } from './supabase';
 
-export const getArticleFrontMatter = (markdown: string): ArticleFrontMatter => {
-  const parsedMarkdown = unified()
+export const getArticleFrontMatter = async (markdown: string): Promise<ArticleFrontMatter> => {
+  const parsedMarkdown = await unified()
     .use(remarkParse)
     .use(remarkStringify)
     .use(remarkFrontmatter, 'yaml')
     .use(remarkParseFrontmatter)
-    .processSync(markdown);
+    .process(markdown);
 
   const frontMatter = parsedMarkdown.data.frontmatter as Partial<ArticleFrontMatter>;
 
@@ -26,7 +26,6 @@ export const getArticleFrontMatter = (markdown: string): ArticleFrontMatter => {
   return frontMatter as ArticleFrontMatter;
 };
 
-// todo do I even need this or can just push unparsed files?
 // export const getArticleContent = async (markdown: string): Promise<string> => {
 //   const ast = unified().use(remarkParse).parse(markdown);
 // };

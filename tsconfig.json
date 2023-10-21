@@ -10,7 +10,7 @@
     "moduleResolution": "Bundler",
     "outDir": "dist"
   },
-  "include": ["src/**/*", "vitest.config.ts"],
+  "include": ["src/**/*", "vitest.config.ts", ".eslintrc.cjs"],
   "ts-node": {
     "files": true
   },
