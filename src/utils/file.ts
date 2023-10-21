@@ -2,7 +2,7 @@ import fs from 'fs';
 
 import { Article } from '../interfaces';
 
-import { getArticleFrontMatter } from '.';
+import { getArticleContent, getArticleFrontMatter } from '.';
 
 // TODO: Needs refactor, see #7. Consider calling getArticleFrontMatter() outside of this.
 export const getArticle = async (path: string): Promise<Article> => {
@@ -14,13 +14,15 @@ export const getArticle = async (path: string): Promise<Article> => {
 
   const markdown = fs.readFileSync(`${path}/${file}`).toString();
   const frontMatter = await getArticleFrontMatter(markdown);
+  const content = getArticleContent(markdown);
+  console.log(content);
 
   // const markdown = matter(fs.readFileSync(`${path}/${file}`));
   // const frontMatter = markdown.data as ArticleFrontMatter;
 
   return {
     ...frontMatter,
-    content: markdown,
+    content,
     coverImagePath: `${path}/${frontMatter.coverImage}`,
   };
 };

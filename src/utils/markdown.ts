@@ -26,23 +26,15 @@ export const getArticleFrontMatter = async (markdown: string): Promise<ArticleFr
   return frontMatter as ArticleFrontMatter;
 };
 
-// export const getArticleContent = async (markdown: string): Promise<string> => {
-//   const ast = unified().use(remarkParse).parse(markdown);
-// };
-
-// todo based on this
-// const ast = unified().use(remarkParse).use(remarkFrontmatter, ['yaml', 'toml']).parse(markdown);
-
-// visit(ast, 'image', (node) => {
-//   if (node.url.startsWith('http') || node.url.startsWith('data:')) return;
-//   node.url = `${path}${node.url.startsWith('/') ? '' : '/'}${node.url}`;
-// });
-
-// return unified()
-//   .use(remarkStringify)
-//   .use(remarkFrontmatter, ['yaml', 'toml'])
-//   .stringify(ast)
-//   .trim();
+/**
+ * Return markdown content without front matter.
+ *
+ * @param markdown Markdown content with front matter.
+ * @returns Markdown with front matter removed.
+ */
+export const getArticleContent = (markdown: string): string => {
+  return markdown.replace(/---(.|\n)*---/, '').trim();
+};
 
 export const insertCoverImage = (
   title: string,
