@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 import { createDevToArticle, createMediumArticle, uploadImage } from './fetchers';
 import {
   getArticle,

@@ -6,7 +6,7 @@ import mime from 'mime';
 import { getSupabaseUploadPath } from '../utils';
 
 export const uploadImage = async (imagePath: string): Promise<void> => {
-  const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_STORAGE_BUCKET } = process.env;
+  const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_STORAGE_BUCKET } = Bun.env;
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } });
 

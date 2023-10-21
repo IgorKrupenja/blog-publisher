@@ -1,5 +1,5 @@
-declare namespace NodeJS {
-  interface ProcessEnv {
+declare module 'bun' {
+  interface Env {
     HASHNODE_URL: string;
     HASHNODE_PUBLICATION_ID: string;
     HASHNODE_TOKEN: string;

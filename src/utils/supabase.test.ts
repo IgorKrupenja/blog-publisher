@@ -1,16 +1,16 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'bun:test';
 
 import { getSupabaseUploadPath, getSupabaseUrl } from './supabase';
 
 describe('getUrl', () => {
   it('should return correct URL for file', () => {
-    expect(getSupabaseUrl('src/articles/foo/bar.jpg')).eq(
+    expect(getSupabaseUrl('src/articles/foo/bar.jpg')).toEqual(
       'https://supabase.IgorKrpenja.com/storage/v1/object/public/images/articles/foo/bar.jpg'
     );
   });
 
   it('should return correct URL for directory', () => {
-    expect(getSupabaseUrl('src/articles/foo')).eq(
+    expect(getSupabaseUrl('src/articles/foo')).toEqual(
       'https://supabase.IgorKrpenja.com/storage/v1/object/public/images/articles/foo'
     );
   });

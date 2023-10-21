@@ -5,11 +5,11 @@ import { insertCanonicalUrl, insertCoverImage } from '../utils';
 
 export const createMediumArticle = async (article: Required<Article>): Promise<void> => {
   const response = await fetch(
-    `https://api.medium.com/v1/users/${process.env.MEDIUM_AUTHOR_ID}/posts`,
+    `https://api.medium.com/v1/users/${Bun.env.MEDIUM_AUTHOR_ID}/posts`,
     {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${process.env.MEDIUM_INTEGRATION_TOKEN}`,
+        Authorization: `Bearer ${Bun.env.MEDIUM_INTEGRATION_TOKEN}`,
         'Content-Type': 'application/json',
         Accept: 'application/json',
         'Accept-Charset': 'utf-8',
