@@ -2,10 +2,10 @@
   "name": "blog",
   "version": "0.0.1",
   "description": "",
-  "main": "src/publish-article.ts",
+  "main": "src/index.ts",
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
-    "publish:test": "ts-node --experimental-specifier-resolution=node --esm src/publish.ts src/articles/2023/01-nextjs-expo-monorepo",
+    "publish": "ts-node --experimental-specifier-resolution=node --esm src/index.ts",
     "test": "vitest --coverage",
     "test:run:coverage": "vitest run --coverage",
     "test:run": "vitest run",

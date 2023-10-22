@@ -1,0 +1,12 @@
+name: Publish
+
+on:
+  push:
+    branches: main
+    paths: src/articles/**/*.md
+
+jobs:
+  publish-test:
+    uses: ./.github/workflows/prepare.yaml
+    with:
+      command: pnpm publish

@@ -1,25 +1,20 @@
+import { execSync } from 'child_process';
 import fs from 'fs';
 
-import { Article } from '../interfaces';
+export const getNewArticlePaths = (): string[] => {
+  const command = 'git diff main HEAD --name-only -- "src/articles/**/*.md"';
+  const diffOutput = execSync(command).toString();
+  return diffOutput.toString().split('\n').filter(Boolean);
+};
 
-import { getArticleContent, getArticleFrontMatter } from '.';
+export const getArticleFileString = (path: string): string => {
+  try {
+    return fs.readFileSync(path).toString();
+  } catch (error) {
+    throw new Error('getArticleFileString: file not found');
+  }
+};
 
-// TODO: Needs refactor, see #7.
-// TODO: Consider calling getArticleFrontMatter() and getArticleContent() outside of this.
-export const getArticle = (path: string): Article => {
-  if (!path) throw new Error('No article path provided.');
-
-  const fileName = fs.readdirSync(path).find((file) => file.endsWith('.md'));
-
-  if (!fileName) throw new Error('getArticle: No markdown file found in article path.');
-
-  const markdown = fs.readFileSync(`${path}/${fileName}`).toString();
-  const frontMatter = getArticleFrontMatter(markdown);
-  const content = getArticleContent(markdown);
-
-  return {
-    ...frontMatter,
-    content,
-    coverImagePath: `${path}/${frontMatter.coverImage}`,
-  };
+export const getImagePath = (path: string, image: string): string => {
+  return `${path}/${image}`;
 };
