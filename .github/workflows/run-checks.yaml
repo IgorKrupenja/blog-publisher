@@ -6,14 +6,17 @@ on:
 
 jobs:
   lint:
-    uses: ./.github/workflows/run-check.yaml
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    uses: ./.github/workflows/prepare.yaml
     with:
       command: pnpm lint
   test:
-    uses: ./.github/workflows/run-check.yaml
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    uses: ./.github/workflows/prepare.yaml
     with:
       command: pnpm test:run
   build:
-    uses: ./.github/workflows/run-check.yaml
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    uses: ./.github/workflows/prepare.yaml
     with:
       command: pnpm build
