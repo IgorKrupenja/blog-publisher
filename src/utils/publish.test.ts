@@ -8,7 +8,7 @@ import { publishArticle } from './publish';
 
 vi.mock('./file', () => {
   return {
-    getArticleFileString: () => '---\ntitle: Test Article\n---\n\nThis is a test article.',
+    getArticleFileString: vi.fn(),
     getImagePath: () => '/path/to/image.jpg',
   };
 });
@@ -35,7 +35,7 @@ vi.mock('../fetchers/supabase', () => {
 
 vi.mock('../fetchers/hashnode', () => {
   return {
-    createHashnodeArticle: () => 'test-article',
+    createHashnodeArticle: vi.fn(),
   };
 });
 
