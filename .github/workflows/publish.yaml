@@ -6,7 +6,7 @@ on:
     paths: src/articles/**/*.md
 
 jobs:
-  publish-test:
+  publish:
     uses: ./.github/workflows/prepare.yaml
     with:
-      command: pnpm publish
+      command: pnpm run publish
