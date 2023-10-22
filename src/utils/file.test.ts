@@ -11,14 +11,6 @@ vi.mock('child_process', () => {
   };
 });
 
-vi.mock('fs', async () => {
-  const actual = await vi.importActual('fs');
-  return {
-    ...actual,
-    readFileSync: () => 'This is the file contents.',
-  };
-});
-
 describe('getNewArticlePaths', () => {
   it('should return an array of new article paths', () => {
     const execSyncSpy = vi.spyOn(child_process, 'execSync');
@@ -50,6 +42,16 @@ describe('getArticleFileString', () => {
     const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockReturnValueOnce(fileContents);
 
     expect(getArticleFileString(path)).toEqual(fileContents);
+    expect(readFileSyncSpy).toHaveBeenCalledWith(path);
+  });
+
+  it('should throw an error when the file is not found', () => {
+    const path = '/path/to/nonexistent/file.txt';
+    const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockImplementationOnce(() => {
+      throw new Error('getArticleFileString: file not found');
+    });
+
+    expect(() => getArticleFileString(path)).toThrow('getArticleFileString: file not found');
     expect(readFileSyncSpy).toHaveBeenCalledWith(path);
   });
 });

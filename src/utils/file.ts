@@ -8,7 +8,11 @@ export const getNewArticlePaths = (): string[] => {
 };
 
 export const getArticleFileString = (path: string): string => {
-  return fs.readFileSync(path).toString();
+  try {
+    return fs.readFileSync(path).toString();
+  } catch (error) {
+    throw new Error('getArticleFileString: file not found');
+  }
 };
 
 export const getImagePath = (path: string, image: string): string => {
