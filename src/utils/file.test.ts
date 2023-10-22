@@ -11,7 +11,7 @@ vi.mock('child_process', () => {
 describe('getNewArticlePaths', () => {
   it('should return an array of new article paths', () => {
     // Mock the output of the `git diff` command
-    // const diffOutput = 'src/articles/article1.md\nsrc/articles/article2.md\n';
+    // const diffOutput = 'src/articles/2023/01/01-article.md\nsrc/articles/2023/02/02-article.md\n';
     // const execSyncSpy = vi.spyOn(child_process, 'execSync').mockReturnValueOnce(diffOutput);
 
     // Call the function and expect the output
