@@ -13,13 +13,16 @@ import {
   getCanonicalUrl,
   getImagePath,
   getMarkdownImagePaths,
+  getNewArticlePaths,
   getSupabaseUrl,
   replaceMarkdownImagePaths,
 } from './utils';
 
-const publishArticle = async (): Promise<void> => {
-  // E.g. articles/2023/01-nextjs-expo-monorepo
-  const path = process.argv[2];
+const publishArticles = async (): Promise<void> => {
+  await Promise.all(getNewArticlePaths().map(publishArticle));
+};
+
+const publishArticle = async (path: string): Promise<void> => {
   const articleFile = getArticleFileString(path);
 
   const frontMatter = getArticleFrontMatter(articleFile);
@@ -42,4 +45,7 @@ const publishArticle = async (): Promise<void> => {
   ]);
 };
 
-await publishArticle();
+await publishArticles();
+
+// TODO: temporary for testing
+// await publishArticle('articles/2023/00-nextjs-expo-monorepo.md');
