@@ -10,10 +10,23 @@ vi.mock('child_process', () => {
   };
 });
 
+// vi.mock('fs', () => {
+//   return {
+//     readFileSync: () => 'This is the file contents.',
+//   };
+// });
+
+vi.mock('fs', async () => {
+  const actual = await vi.importActual('fs');
+  return {
+    ...actual,
+    readFileSync: () => 'This is the file contents.',
+  };
+});
+
 describe('getNewArticlePaths', () => {
   it('should return an array of new article paths', () => {
-    const diffOutput = 'src/articles/2023/01/01-article.md\nsrc/articles/2023/02/02-article.md\n';
-    const execSyncSpy = vi.spyOn(child_process, 'execSync').mockReturnValueOnce(diffOutput);
+    const execSyncSpy = vi.spyOn(child_process, 'execSync');
 
     expect(getNewArticlePaths()).toEqual([
       'src/articles/2023/01/01-article.md',
@@ -34,3 +47,14 @@ describe('getNewArticlePaths', () => {
     );
   });
 });
+
+// describe('getArticleFileString', () => {
+//   it('should return the contents of the file as a string', () => {
+//     const fileContents = 'This is the file contents.';
+//     const path = '/path/to/file.txt';
+//     const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockReturnValueOnce(fileContents);
+
+//     expect(getArticleFileString(path)).toEqual(fileContents);
+//     expect(readFileSyncSpy).toHaveBeenCalledWith(path);
+//   });
+// });
