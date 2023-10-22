@@ -10,6 +10,6 @@ export const getArticleFileString = (path: string): string => {
   return fs.readFileSync(`${path}/${fileName}`).toString();
 };
 
-export const getArticleCoverImagePath = (path: string, coverImage: string): string => {
-  return `${path}/${coverImage}`;
+export const getImagePath = (path: string, image: string): string => {
+  return `${path}/${image}`;
 };

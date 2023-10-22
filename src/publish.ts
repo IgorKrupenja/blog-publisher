@@ -8,11 +8,10 @@ import {
 } from './fetchers';
 import { Article } from './interfaces';
 import {
-  getArticleContent,
-  getArticleCoverImagePath,
   getArticleFileString,
   getArticleFrontMatter,
   getCanonicalUrl,
+  getImagePath,
   getMarkdownImagePaths,
   getSupabaseUrl,
   replaceMarkdownImagePaths,
@@ -21,22 +20,16 @@ import {
 const publishArticle = async (): Promise<void> => {
   // E.g. articles/2023/01-nextjs-expo-monorepo
   const path = process.argv[2];
-
-  //  todo name?
   const articleFile = getArticleFileString(path);
 
   const frontMatter = getArticleFrontMatter(articleFile);
+  const coverImagePath = getImagePath(path, frontMatter.coverImage);
   const imagePaths = getMarkdownImagePaths(path, articleFile);
-  const coverImagePath = getArticleCoverImagePath(path, frontMatter.coverImage);
-  const content = getArticleContent(articleFile);
+  const content = replaceMarkdownImagePaths(getSupabaseUrl(path), articleFile);
 
   await Promise.all([coverImagePath, ...imagePaths].map(uploadImage));
 
-  const article: Article = {
-    ...frontMatter,
-    content: replaceMarkdownImagePaths(getSupabaseUrl(path), content),
-    coverImagePath: `${path}/${frontMatter.coverImage}`,
-  };
+  const article: Article = { ...frontMatter, content, coverImagePath };
 
   // TODO: temporary for testing
   const slug = await createHashnodeArticle(article);
