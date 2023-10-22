@@ -7,17 +7,14 @@ on:
 
 jobs:
   lint:
-    if: '! github.event.pull_request.draft'
-    uses: ./.github/workflows/prepare.yaml
+    uses: ./.github/workflows/run-check.yaml
     with:
       command: pnpm lint
   test:
-    if: '! github.event.pull_request.draft'
-    uses: ./.github/workflows/prepare.yaml
+    uses: ./.github/workflows/run-check.yaml
     with:
       command: pnpm test:run
   build:
-    if: '! github.event.pull_request.draft'
-    uses: ./.github/workflows/prepare.yaml
+    uses: ./.github/workflows/run-check.yaml
     with:
       command: pnpm build

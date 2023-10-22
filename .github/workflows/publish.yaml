@@ -9,6 +9,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    # Cannot use run-check as getting secrets fails that way
     steps:
       - uses: actions/checkout@v4
         with:
