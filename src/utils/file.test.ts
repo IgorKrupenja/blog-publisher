@@ -3,7 +3,7 @@ import fs from 'fs';
 
 import { describe, expect, it, vi } from 'vitest';
 
-import { getArticleFileString, getImagePath, getNewArticlePaths } from './file';
+import { getArticleFileString, getDirectoryPath, getImagePath, getNewArticlePaths } from './file';
 
 vi.mock('child_process', () => {
   return {
@@ -62,5 +62,25 @@ describe('getImagePath', () => {
     const image = 'my-image.jpg';
     const expected = '/path/to/images/my-image.jpg';
     expect(getImagePath(path, image)).toEqual(expected);
+  });
+});
+
+describe('getDirectoryPath', () => {
+  it('should return the correct directory path for a file path', () => {
+    const path = '/etc/blog/src/utils/file.ts';
+    const expected = '/etc/blog/src/utils';
+    expect(getDirectoryPath(path)).toEqual(expected);
+  });
+
+  it('should return the correct directory path for a relative file path', () => {
+    const path = './blog/src/utils';
+    const expected = './blog/src';
+    expect(getDirectoryPath(path)).toEqual(expected);
+  });
+
+  it('should return an empty string for an empty path', () => {
+    const path = '';
+    const expected = '';
+    expect(getDirectoryPath(path)).toEqual(expected);
   });
 });
