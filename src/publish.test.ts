@@ -23,8 +23,6 @@ describe('publishArticles', () => {
     await publishArticles();
 
     expect(publishArticleMock).toHaveBeenCalledTimes(newArticlePaths.length);
-    newArticlePaths.forEach((path) => {
-      expect(publishArticleMock).toHaveBeenCalledWith(path);
-    });
+    newArticlePaths.forEach((path) => expect(publishArticleMock).toHaveBeenCalledWith(path));
   });
 });
