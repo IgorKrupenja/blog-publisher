@@ -1,4 +1,13 @@
+import { execSync } from 'child_process';
 import fs from 'fs';
+
+export const getNewArticlePaths = (): string[] => {
+  // const extensionFilter = extension ? `-- '***.${extension}'` : '';
+  const command = `git diff HEAD^ HEAD --name-only ${extensionFilter}`;
+  const diffOutput = execSync(command).toString();
+
+  return diffOutput.toString().split('\n').filter(Boolean);
+};
 
 // TODO: Needs refactor, see #7.
 export const getArticleFileString = (path: string): string => {
