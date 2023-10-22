@@ -14,5 +14,5 @@
   "ts-node": {
     "files": true
   },
-  "files": ["src/env.d.ts"]
+  "files": ["src/types/env.d.ts"]
 }
