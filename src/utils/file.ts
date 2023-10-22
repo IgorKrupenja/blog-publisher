@@ -2,6 +2,7 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 
 export const getNewArticlePaths = (): string[] => {
+  console.log('getNewArticlePaths!!!!!!!!');
   const command = 'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"';
   const diffOutput = execSync(command).toString();
   return diffOutput.toString().split('\n').filter(Boolean);
