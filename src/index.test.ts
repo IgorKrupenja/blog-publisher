@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { publishArticles } from './publish';
 import * as publish from './utils/publish';
+
+import { publishArticles } from '.';
 
 vi.mock('./utils/publish', () => {
   return {
