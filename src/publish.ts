@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 import { createDevToArticle, createMediumArticle, uploadImage } from './fetchers';
 import {
-  getArticle,
+  getArticleFile,
   getCanonicalUrl,
   getMarkdownImagePaths,
   getSupabaseUrl,
@@ -12,14 +12,14 @@ import {
 const publishArticle = async (): Promise<void> => {
   // E.g. articles/2023/01-nextjs-expo-monorepo
   const path = process.argv[2];
-  const article = getArticle(path);
-  const imagePaths = getMarkdownImagePaths(path, article.content);
+  const articleFile = getArticleFile(path);
+  const imagePaths = getMarkdownImagePaths(path, articleFile.content);
 
-  await Promise.all([article.coverImagePath, ...imagePaths].map(uploadImage));
+  await Promise.all([articleFile.coverImagePath, ...imagePaths].map(uploadImage));
 
   const articleWithUploadedImages = {
-    ...article,
-    content: replaceMarkdownImagePaths(getSupabaseUrl(path), article.content),
+    ...articleFile,
+    content: replaceMarkdownImagePaths(getSupabaseUrl(path), articleFile.content),
   };
 
   // TODO: temporary for testing
