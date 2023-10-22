@@ -20,7 +20,7 @@ describe('getNewArticlePaths', () => {
       'src/articles/2023/02/02-article.md',
     ]);
     expect(execSyncSpy).toHaveBeenCalledWith(
-      'git diff HEAD^ HEAD --name-only -- "src/articles/**/*.md"'
+      'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
     );
   });
 
@@ -30,7 +30,7 @@ describe('getNewArticlePaths', () => {
 
     expect(getNewArticlePaths()).toEqual([]);
     expect(execSyncSpy).toHaveBeenCalledWith(
-      'git diff HEAD^ HEAD --name-only -- "src/articles/**/*.md"'
+      'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
     );
   });
 });
