@@ -19,7 +19,16 @@ describe('getNewArticlePaths', () => {
       'src/articles/2023/01/01-article.md',
       'src/articles/2023/02/02-article.md',
     ]);
+    expect(execSyncSpy).toHaveBeenCalledWith(
+      'git diff main HEAD --name-only -- "src/articles/**/*.md"'
+    );
+  });
 
+  it('should return an empty array when there is no diff', () => {
+    const diffOutput = '';
+    const execSyncSpy = vi.spyOn(child_process, 'execSync').mockReturnValueOnce(diffOutput);
+
+    expect(getNewArticlePaths()).toEqual([]);
     expect(execSyncSpy).toHaveBeenCalledWith(
       'git diff main HEAD --name-only -- "src/articles/**/*.md"'
     );
