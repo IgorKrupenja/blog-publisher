@@ -28,7 +28,7 @@ export const createHashnodeArticle = async (article: Article): Promise<string> =
   return responseJson.data.createPublicationStory.post.slug;
 };
 
-const getCreateHashnodeArticleRequest = ({
+export const getCreateHashnodeArticleRequest = ({
   title,
   content,
   coverImagePath,

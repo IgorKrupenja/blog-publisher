@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+import 'vitest-fetch-mock';
 
 interface ImportMetaEnv {
   HASHNODE_URL?: string;

@@ -5,7 +5,8 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    globalSetup: './src/test/setup-tests.ts',
+    // globalSetup: './src/test/setup-tests.ts',
+    setupFiles: ['./src/test/setup-tests.ts'],
     reporters: ['verbose'],
     coverage: {
       provider: 'istanbul',
