@@ -3,7 +3,7 @@ import fs from 'fs';
 
 import { describe, expect, it, vi } from 'vitest';
 
-import { getArticleFileString, getNewArticlePaths } from './file';
+import { getArticleFileString, getImagePath, getNewArticlePaths } from './file';
 
 vi.mock('child_process', () => {
   return {
@@ -53,5 +53,14 @@ describe('getArticleFileString', () => {
 
     expect(() => getArticleFileString(path)).toThrow('getArticleFileString: file not found');
     expect(readFileSyncSpy).toHaveBeenCalledWith(path);
+  });
+});
+
+describe('getImagePath', () => {
+  it('should return the correct image path', () => {
+    const path = '/path/to/images';
+    const image = 'my-image.jpg';
+    const expected = '/path/to/images/my-image.jpg';
+    expect(getImagePath(path, image)).toEqual(expected);
   });
 });
