@@ -41,13 +41,13 @@ vi.mock('../fetchers/hashnode', () => {
 
 vi.mock('../fetchers/dev-to', () => {
   return {
-    createDevToArticle: () => Promise.resolve(),
+    createDevToArticle: vi.fn(),
   };
 });
 
 vi.mock('../fetchers/medium', () => {
   return {
-    createMediumArticle: () => Promise.resolve(),
+    createMediumArticle: vi.fn(),
   };
 });
 
