@@ -1,4 +1,4 @@
-name: Run check
+name: Prepare
 
 on:
   workflow_call:
@@ -8,7 +8,7 @@ on:
         type: string
 
 jobs:
-  check:
+  prepare:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
