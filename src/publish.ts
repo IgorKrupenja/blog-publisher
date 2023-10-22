@@ -1,8 +1,17 @@
 import 'dotenv/config';
 
-import { createDevToArticle, createMediumArticle, uploadImage } from './fetchers';
 import {
-  getArticleFile,
+  createDevToArticle,
+  createHashnodeArticle,
+  createMediumArticle,
+  uploadImage,
+} from './fetchers';
+import { Article } from './interfaces';
+import {
+  getArticleContent,
+  getArticleCoverImagePath,
+  getArticleFileString,
+  getArticleFrontMatter,
   getCanonicalUrl,
   getMarkdownImagePaths,
   getSupabaseUrl,
@@ -12,24 +21,31 @@ import {
 const publishArticle = async (): Promise<void> => {
   // E.g. articles/2023/01-nextjs-expo-monorepo
   const path = process.argv[2];
-  const articleFile = getArticleFile(path);
-  const imagePaths = getMarkdownImagePaths(path, articleFile.content);
 
-  await Promise.all([articleFile.coverImagePath, ...imagePaths].map(uploadImage));
+  //  todo name?
+  const articleFile = getArticleFileString(path);
 
-  const articleWithUploadedImages = {
-    ...articleFile,
-    content: replaceMarkdownImagePaths(getSupabaseUrl(path), articleFile.content),
+  const frontMatter = getArticleFrontMatter(articleFile);
+  const imagePaths = getMarkdownImagePaths(path, articleFile);
+  const coverImagePath = getArticleCoverImagePath(path, frontMatter.coverImage);
+  const content = getArticleContent(articleFile);
+
+  await Promise.all([coverImagePath, ...imagePaths].map(uploadImage));
+
+  const article: Article = {
+    ...frontMatter,
+    content: replaceMarkdownImagePaths(getSupabaseUrl(path), content),
+    coverImagePath: `${path}/${frontMatter.coverImage}`,
   };
 
   // TODO: temporary for testing
-  // const slug = await createHashnodeArticle(articleWithUploadedImages);
-  const slug = 'nextjs-expo-monorepo-with-pnpm';
+  const slug = await createHashnodeArticle(article);
+  // const slug = 'nextjs-expo-monorepo-with-pnpm';
   const canonicalUrl = getCanonicalUrl(slug);
 
   await Promise.all([
-    createDevToArticle({ ...articleWithUploadedImages, canonicalUrl }),
-    createMediumArticle({ ...articleWithUploadedImages, canonicalUrl }),
+    createDevToArticle({ ...article, canonicalUrl }),
+    createMediumArticle({ ...article, canonicalUrl }),
   ]);
 };
 
