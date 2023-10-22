@@ -1,20 +1,15 @@
 import * as child_process from 'child_process';
+import fs from 'fs';
 
 import { describe, expect, it, vi } from 'vitest';
 
-import { getNewArticlePaths } from './file';
+import { getArticleFileString, getNewArticlePaths } from './file';
 
 vi.mock('child_process', () => {
   return {
     execSync: () => 'src/articles/2023/01/01-article.md\nsrc/articles/2023/02/02-article.md\n',
   };
 });
-
-// vi.mock('fs', () => {
-//   return {
-//     readFileSync: () => 'This is the file contents.',
-//   };
-// });
 
 vi.mock('fs', async () => {
   const actual = await vi.importActual('fs');
@@ -48,13 +43,13 @@ describe('getNewArticlePaths', () => {
   });
 });
 
-// describe('getArticleFileString', () => {
-//   it('should return the contents of the file as a string', () => {
-//     const fileContents = 'This is the file contents.';
-//     const path = '/path/to/file.txt';
-//     const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockReturnValueOnce(fileContents);
+describe('getArticleFileString', () => {
+  it('should return the contents of the file as a string', () => {
+    const fileContents = 'This is the file contents.';
+    const path = '/path/to/file.txt';
+    const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockReturnValueOnce(fileContents);
 
-//     expect(getArticleFileString(path)).toEqual(fileContents);
-//     expect(readFileSyncSpy).toHaveBeenCalledWith(path);
-//   });
-// });
+    expect(getArticleFileString(path)).toEqual(fileContents);
+    expect(readFileSyncSpy).toHaveBeenCalledWith(path);
+  });
+});
