@@ -3,7 +3,7 @@ name: Publish
 on:
   push:
     branches: main
-# todo check .md diff
+    paths: src/articles/**/*.md
 
 jobs:
   publish-test:
