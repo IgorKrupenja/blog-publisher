@@ -10,19 +10,21 @@ import {
   getArticleFileString,
   getArticleFrontMatter,
   getCanonicalUrl,
+  getDirectoryPath,
   getImagePath,
   getMarkdownImagePaths,
   getSupabaseUrl,
   replaceMarkdownImagePaths,
 } from '.';
 
-export const publishArticle = async (path: string): Promise<void> => {
-  const articleFile = getArticleFileString(path);
+export const publishArticle = async (filePath: string): Promise<void> => {
+  const articleFile = getArticleFileString(filePath);
+  const directoryPath = getDirectoryPath(filePath);
 
   const frontMatter = getArticleFrontMatter(articleFile);
-  const coverImagePath = getImagePath(path, frontMatter.coverImage);
-  const imagePaths = getMarkdownImagePaths(path, articleFile);
-  const content = replaceMarkdownImagePaths(getSupabaseUrl(path), articleFile);
+  const coverImagePath = getImagePath(directoryPath, frontMatter.coverImage);
+  const imagePaths = getMarkdownImagePaths(directoryPath, articleFile);
+  const content = replaceMarkdownImagePaths(getSupabaseUrl(directoryPath), articleFile);
 
   await Promise.all([coverImagePath, ...imagePaths].map(uploadImage));
 

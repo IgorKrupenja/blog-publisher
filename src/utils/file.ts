@@ -15,6 +15,10 @@ export const getArticleFileString = (path: string): string => {
   }
 };
 
+export const getDirectoryPath = (path: string): string => {
+  return path.split('/').slice(0, -1).join('/');
+};
+
 export const getImagePath = (path: string, image: string): string => {
   return `${path}/${image}`;
 };
