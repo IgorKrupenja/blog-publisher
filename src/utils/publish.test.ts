@@ -4,18 +4,26 @@ import * as devTo from '../fetchers/dev-to';
 import * as hashnode from '../fetchers/hashnode';
 import * as medium from '../fetchers/medium';
 
+import * as file from './file';
+import * as markdown from './markdown';
 import { publishArticle } from './publish';
+import * as supabase from './supabase';
 
 vi.mock('./file', () => {
   return {
-    getArticleFileString: vi.fn(),
-    getImagePath: () => '/path/to/image.jpg',
+    getArticleFileString: () => '---\ntitle: Test Article\n---\n\nThis is a test article.',
+    getImagePath: () => '/path/to/cover.jpg',
+    getDirectoryPath: () => '/path/to/',
   };
 });
 
 vi.mock('./markdown', () => {
   return {
-    getArticleFrontMatter: () => ({ title: 'Test Article', tags: ['first', 'second'] }),
+    getArticleFrontMatter: () => ({
+      title: 'Test Article',
+      tags: ['first', 'second'],
+      coverImage: 'cover.jpg',
+    }),
     getMarkdownImagePaths: () => [],
     replaceMarkdownImagePaths: () => '---\ntitle: Test Article\n---\n\nThis is a test article.',
   };
@@ -24,6 +32,12 @@ vi.mock('./markdown', () => {
 vi.mock('./hashnode', () => {
   return {
     getCanonicalUrl: () => 'https://blog.IgorKrpenja.com/test-article',
+  };
+});
+
+vi.mock('./supabase', () => {
+  return {
+    getSupabaseUrl: vi.fn(),
   };
 });
 
@@ -56,31 +70,47 @@ describe('publishArticle', () => {
     const createHashnodeArticleSpy = vi.spyOn(hashnode, 'createHashnodeArticle');
     const createDevToArticleSpy = vi.spyOn(devTo, 'createDevToArticle');
     const createMediumArticleSpy = vi.spyOn(medium, 'createMediumArticle');
+    const getImagePathSpy = vi.spyOn(file, 'getImagePath');
+    const getMarkdownImagePathsSpy = vi.spyOn(markdown, 'getMarkdownImagePaths');
+    const getSupabaseUrlSpy = vi.spyOn(supabase, 'getSupabaseUrl');
 
     await publishArticle('/path/to/article.md');
 
-    expect(createHashnodeArticleSpy).toHaveBeenCalledWith({
-      title: 'Test Article',
-      content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
-      coverImagePath: '/path/to/image.jpg',
-      tags: ['first', 'second'],
-    });
+    expect(getImagePathSpy).toHaveBeenCalledWith('/path/to/', 'cover.jpg');
+    expect(getMarkdownImagePathsSpy).toHaveBeenCalledWith(
+      '/path/to/',
+      '---\ntitle: Test Article\n---\n\nThis is a test article.'
+    );
+    expect(getSupabaseUrlSpy).toHaveBeenCalledWith('/path/to/');
 
-    expect(createDevToArticleSpy).toHaveBeenCalledWith({
-      title: 'Test Article',
-      content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
-      coverImagePath: '/path/to/image.jpg',
-      tags: ['first', 'second'],
-      canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
-    });
+    expect(createHashnodeArticleSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'Test Article',
+        content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
+        coverImagePath: '/path/to/cover.jpg',
+        tags: ['first', 'second'],
+      })
+    );
 
-    expect(createMediumArticleSpy).toHaveBeenCalledWith({
-      title: 'Test Article',
-      content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
-      coverImagePath: '/path/to/image.jpg',
-      tags: ['first', 'second'],
-      canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
-    });
+    expect(createDevToArticleSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'Test Article',
+        content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
+        coverImagePath: '/path/to/cover.jpg',
+        tags: ['first', 'second'],
+        canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
+      })
+    );
+
+    expect(createMediumArticleSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'Test Article',
+        content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
+        coverImagePath: '/path/to/cover.jpg',
+        tags: ['first', 'second'],
+        canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
+      })
+    );
 
     expect(createHashnodeArticleSpy).toHaveBeenCalled();
     expect(createDevToArticleSpy).toHaveBeenCalled();
