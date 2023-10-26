@@ -30,8 +30,8 @@ export const publishArticle = async (filePath: string): Promise<void> => {
 
   const article: Article = { ...frontMatter, content, coverImagePath };
 
-  // TODO: temporary for testing
   const slug = await createHashnodeArticle(article);
+  // TODO: temporary for testing
   // const slug = 'nextjs-expo-monorepo-with-pnpm';
   const canonicalUrl = getCanonicalUrl(slug);
 
