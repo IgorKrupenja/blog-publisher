@@ -25,6 +25,12 @@ module.exports = {
       },
     ],
     '@typescript-eslint/require-await': 'error',
+    'import/no-unresolved': [
+      'error',
+      {
+        ignore: ['bun:test'],
+      },
+    ],
     'import/order': [
       'warn',
       {
