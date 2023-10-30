@@ -5,6 +5,10 @@ on:
     types: ['opened', 'edited', 'reopened', 'synchronize', 'ready_for_review']
 
 jobs:
+  type-check:
+    uses: ./.github/workflows/run-check.yaml
+    with:
+      command: bun tsc
   lint:
     uses: ./.github/workflows/run-check.yaml
     with:
@@ -13,7 +17,3 @@ jobs:
     uses: ./.github/workflows/run-check.yaml
     with:
       command: bun test
-  # build:
-  #   uses: ./.github/workflows/run-check.yaml
-  #   with:
-  #     command: pnpm build
