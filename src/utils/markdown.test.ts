@@ -1,7 +1,8 @@
 import { describe, expect, it, spyOn } from 'bun:test';
 
 import {
-  getCanonicalUrl,
+  getArticleContent,
+  getArticleFrontMatter,
   getMarkdownImagePaths,
   insertCanonicalUrl,
   insertCoverImage,
@@ -9,9 +10,120 @@ import {
 } from './markdown';
 import * as supabase from './supabase';
 
-describe('getCanonicalUrl', () => {
-  it('should return correct URL', () => {
-    expect(getCanonicalUrl('foo')).toEqual('https://blog.IgorKrpenja.com/foo');
+describe('getArticleFrontMatter', () => {
+  it('should return front matter when given valid markdown', () => {
+    const markdown =
+      '---\n' +
+      'title: My Article\n' +
+      'tags: [tag1, tag2]\n' +
+      'coverImage: /path/to/image.jpg\n' +
+      '---\n' +
+      '\n' +
+      '# My Article\n' +
+      '\n' +
+      'This is the body of my article.';
+
+    const expectedFrontMatter = {
+      title: 'My Article',
+      tags: ['tag1', 'tag2'],
+      coverImage: '/path/to/image.jpg',
+    };
+
+    expect(getArticleFrontMatter(markdown)).toEqual(expectedFrontMatter);
+  });
+
+  it('should throw an error when title is missing', () => {
+    const markdown =
+      '---\n' +
+      'tags: [tag1, tag2]\n' +
+      'coverImage: /path/to/image.jpg\n' +
+      '---\n' +
+      '\n' +
+      '# My Article\n' +
+      '\n' +
+      'This is the body of my article.';
+
+    expect(() => getArticleFrontMatter(markdown)).toThrow('getArticle: No title found in article.');
+  });
+
+  it('should throw an error when tags are missing', () => {
+    const markdown =
+      '---\n' +
+      'title: My Article\n' +
+      'coverImage: /path/to/image.jpg\n' +
+      '---\n' +
+      '\n' +
+      '# My Article\n' +
+      '\n' +
+      'This is the body of my article.';
+
+    expect(() => getArticleFrontMatter(markdown)).toThrow('getArticle: No tags found in article.');
+  });
+
+  it('should throw an error when coverImage is missing', () => {
+    const markdown =
+      '---\n' +
+      'title: My Article\n' +
+      'tags: [tag1, tag2]\n' +
+      '---\n' +
+      '\n' +
+      '# My Article\n' +
+      '\n' +
+      'This is the body of my article.';
+
+    expect(() => getArticleFrontMatter(markdown)).toThrow(
+      'getArticle: No cover image found in article.'
+    );
+  });
+
+  it('should throw an error when front matter is missing', () => {
+    const markdown = '# My Article\n\nThis is the body of my article.';
+
+    expect(() => getArticleFrontMatter(markdown)).toThrow(
+      'getArticle: No front matter found in article.'
+    );
+  });
+});
+
+describe('getArticleContent', () => {
+  it('should remove front matter from markdown', () => {
+    const markdown =
+      '---\n' +
+      'title: My Article\n' +
+      'date: 2022-01-01\n' +
+      '---\n' +
+      '\n' +
+      'This is the content of my article.\n' +
+      '\n' +
+      'It has multiple lines.';
+    const expected = 'This is the content of my article.\n\nIt has multiple lines.';
+    expect(getArticleContent(markdown)).toEqual(expected);
+  });
+
+  it('should remove front matter from markdown with dashes in front matter and content', () => {
+    const markdown =
+      '---\n' +
+      'title: My Article - With a Dash\n' +
+      'date: 2022-01-01\n' +
+      '---\n' +
+      '\n' +
+      'This is the content of my article.\n' +
+      '\n' +
+      'It has a dash - in it.';
+    const expected = 'This is the content of my article.\n\nIt has a dash - in it.';
+    expect(getArticleContent(markdown)).toEqual(expected);
+  });
+
+  it('should remove front matter from markdown with no front matter', () => {
+    const markdown = 'This is the content of my article.';
+    const expected = 'This is the content of my article.';
+    expect(getArticleContent(markdown)).toEqual(expected);
+  });
+
+  it('should remove front matter from markdown with only front matter', () => {
+    const markdown = '---\n' + 'title: My Article\n' + 'date: 2022-01-01\n' + '---';
+    const expected = '';
+    expect(getArticleContent(markdown)).toEqual(expected);
   });
 });
 

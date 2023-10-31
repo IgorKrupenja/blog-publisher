@@ -18,7 +18,7 @@ export const createMediumArticle = async (article: Required<Article>): Promise<v
 
   if (response.status !== 201) throw Error(`Medium: ${response.status} ${response.statusText}`);
 
-  console.log(`Medium: published draft article '${article.title}'`);
+  console.debug(`Medium: published draft article '${article.title}'`);
 };
 
 const getCreateMediumArticleRequest = ({

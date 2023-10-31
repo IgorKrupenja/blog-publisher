@@ -21,7 +21,7 @@ export const createHashnodeArticle = async (article: Article): Promise<string> =
   if (responseJson.errors && responseJson.errors.length > 0)
     throw Error(`Hashnode: ${responseJson.errors.map((error) => error.message).join(', ')}`);
 
-  console.log(`Hashnode: published article '${article.title}'`);
+  console.debug(`Hashnode: published article '${article.title}'`);
 
   return responseJson.data.createPublicationStory.post.slug;
 };

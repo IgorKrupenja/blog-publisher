@@ -10,6 +10,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
   ],
   plugins: ['sort-export-all', 'unused-imports', 'unicorn'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json',
   },
@@ -24,6 +25,8 @@ module.exports = {
         allowExpressions: true,
       },
     ],
+    '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/no-floating-promises': 'error',
     '@typescript-eslint/require-await': 'error',
     'import/no-unresolved': [
       'error',

@@ -15,7 +15,7 @@ export const createDevToArticle = async (article: Required<Article>): Promise<vo
 
   if (responseJson.error) throw new Error(`Dev.to: ${responseJson.status} ${responseJson.error}`);
 
-  console.log(`Dev.to: published draft article '${article.title}'`);
+  console.debug(`Dev.to: published draft article '${article.title}'`);
 };
 
 const getCreateDevToArticleRequest = ({

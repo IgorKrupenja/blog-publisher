@@ -1,10 +1,8 @@
 {
-  "name": "quickstart",
-  "module": "src/publish.ts",
+  "name": "blog",
+  "version": "0.0.1",
+  "module": "src/index.ts",
   "type": "module",
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
   "scripts": {
     "typecheck": "bun tsc --noEmit",
     "lint": "bun --bun eslint .",
@@ -14,10 +12,10 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.38.4",
     "@types/mime": "^3.0.3",
-    "gray-matter": "^4.0.3",
     "mime": "^3.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-parse": "^11.0.0",
+    "remark-parse-frontmatter": "^1.0.3",
     "remark-stringify": "^11.0.0",
     "typescript": "^5.2.2",
     "unified": "^11.0.3",
