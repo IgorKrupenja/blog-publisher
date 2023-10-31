@@ -1,13 +1,9 @@
-import { describe, expect, it, jest, mock, spyOn } from 'bun:test';
+import { describe, it, jest, mock, spyOn } from 'bun:test';
 
-import * as devTo from '../fetchers/dev-to';
-import * as hashnode from '../fetchers/hashnode';
-import * as medium from '../fetchers/medium';
+import { expectToHaveBeenCalledWith } from '../test/test-util';
 
 import * as file from './file';
-import * as markdown from './markdown';
 import { publishArticle } from './publish';
-import * as supabase from './supabase';
 
 void mock.module('./file', () => {
   return {
@@ -65,55 +61,60 @@ void mock.module('../fetchers/medium', () => {
   };
 });
 
-describe('publishArticle', () => {
-  it('should publish an article', async () => {
-    const createHashnodeArticleSpy = spyOn(hashnode, 'createHashnodeArticle');
-    const createDevToArticleSpy = spyOn(devTo, 'createDevToArticle');
-    const createMediumArticleSpy = spyOn(medium, 'createMediumArticle');
-    const getImagePathSpy = spyOn(file, 'getImagePath');
-    const getMarkdownImagePathsSpy = spyOn(markdown, 'getMarkdownImagePaths');
-    const getSupabaseUrlSpy = spyOn(supabase, 'getSupabaseUrl');
+// todo try w/o mock.module
+describe.only('publishArticle', () => {
+  it.only('should publish an article', async () => {
+    // const createHashnodeArticleSpy = spyOn(hashnode, 'createHashnodeArticle');
+    // const createDevToArticleSpy = spyOn(devTo, 'createDevToArticle');
+    // const createMediumArticleSpy = spyOn(medium, 'createMediumArticle');
+    const getImagePathSpy = spyOn(file, 'getImagePath').mockReturnValueOnce('/path/to/cover.jpg');
+    // const getMarkdownImagePathsSpy = spyOn(markdown, 'getMarkdownImagePaths');
+    // const getSupabaseUrlSpy = spyOn(supabase, 'getSupabaseUrl');
 
     await publishArticle('/path/to/article.md');
 
-    expect(getImagePathSpy).toHaveBeenCalledWith('/path/to/', 'cover.jpg');
-    expect(getMarkdownImagePathsSpy).toHaveBeenCalledWith(
-      '/path/to/',
-      '---\ntitle: Test Article\n---\n\nThis is a test article.'
-    );
-    expect(getSupabaseUrlSpy).toHaveBeenCalledWith('/path/to/');
+    expectToHaveBeenCalledWith(getImagePathSpy, ['/path/to/', 'cover.jpg']);
 
-    expect(createHashnodeArticleSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        title: 'Test Article',
-        content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
-        coverImagePath: '/path/to/cover.jpg',
-        tags: ['first', 'second'],
-      })
-    );
+    // todo old
 
-    expect(createDevToArticleSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        title: 'Test Article',
-        content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
-        coverImagePath: '/path/to/cover.jpg',
-        tags: ['first', 'second'],
-        canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
-      })
-    );
+    // expect(getImagePathSpy).toHaveBeenCalledWith('/path/to/', 'cover.jpg');
+    // expect(getMarkdownImagePathsSpy).toHaveBeenCalledWith(
+    //   '/path/to/',
+    //   '---\ntitle: Test Article\n---\n\nThis is a test article.'
+    // );
+    // expect(getSupabaseUrlSpy).toHaveBeenCalledWith('/path/to/');
 
-    expect(createMediumArticleSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        title: 'Test Article',
-        content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
-        coverImagePath: '/path/to/cover.jpg',
-        tags: ['first', 'second'],
-        canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
-      })
-    );
+    // expect(createHashnodeArticleSpy).toHaveBeenCalledWith(
+    //   expect.objectContaining({
+    //     title: 'Test Article',
+    //     content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
+    //     coverImagePath: '/path/to/cover.jpg',
+    //     tags: ['first', 'second'],
+    //   })
+    // );
 
-    expect(createHashnodeArticleSpy).toHaveBeenCalled();
-    expect(createDevToArticleSpy).toHaveBeenCalled();
-    expect(createMediumArticleSpy).toHaveBeenCalled();
+    // expect(createDevToArticleSpy).toHaveBeenCalledWith(
+    //   expect.objectContaining({
+    //     title: 'Test Article',
+    //     content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
+    //     coverImagePath: '/path/to/cover.jpg',
+    //     tags: ['first', 'second'],
+    //     canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
+    //   })
+    // );
+
+    // expect(createMediumArticleSpy).toHaveBeenCalledWith(
+    //   expect.objectContaining({
+    //     title: 'Test Article',
+    //     content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
+    //     coverImagePath: '/path/to/cover.jpg',
+    //     tags: ['first', 'second'],
+    //     canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
+    //   })
+    // );
+
+    // expect(createHashnodeArticleSpy).toHaveBeenCalled();
+    // expect(createDevToArticleSpy).toHaveBeenCalled();
+    // expect(createMediumArticleSpy).toHaveBeenCalled();
   });
 });

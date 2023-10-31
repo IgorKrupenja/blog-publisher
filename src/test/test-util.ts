@@ -7,6 +7,7 @@ export const expectToHaveBeenCalledWith = (
   expectedArgs: unknown[]
 ): void => {
   const calls = mock.mock.calls;
+  console.log(calls);
   const matchingCall = calls.find((call) => call.some((arg) => expectedArgs.includes(arg)));
   expect(matchingCall).toBeDefined();
 };
