@@ -5,10 +5,10 @@ on:
     types: ['opened', 'edited', 'reopened', 'synchronize', 'ready_for_review']
 
 jobs:
-  type-check:
+  typecheck:
     uses: ./.github/workflows/run-check.yaml
     with:
-      command: bun tsc
+      command: bun tsc --noEmit
   lint:
     uses: ./.github/workflows/run-check.yaml
     with:

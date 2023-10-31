@@ -4,9 +4,9 @@
   "module": "src/publish.ts",
   "type": "module",
   "scripts": {
+    "typecheck": "bun tsc --noEmit",
     "lint": "bun --bun eslint .",
-    "test:watch": "bun test --watch",
-    "publish:test": "bun run src/publish.ts src/articles/2023/01-nextjs-expo-monorepo"
+    "test:watch": "bun test --watch"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.38.4",
