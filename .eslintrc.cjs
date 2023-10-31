@@ -31,7 +31,7 @@ module.exports = {
     'import/no-unresolved': [
       'error',
       {
-        ignore: ['bun:test'],
+        ignore: ['bun:test', 'bun'],
       },
     ],
     'import/order': [
@@ -60,6 +60,22 @@ module.exports = {
       },
     ],
     'unused-imports/no-unused-imports': 'warn',
-    'unused-imports/no-unused-vars': 'warn',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      },
+    ],
   },
 };

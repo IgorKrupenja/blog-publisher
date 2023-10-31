@@ -1,7 +1,7 @@
 import * as child_process from 'child_process';
-import fs from 'fs';
 
-import { describe, expect, it, mock, spyOn } from 'bun:test';
+import { AnyFunction } from 'bun';
+import { Mock, describe, expect, it, mock, spyOn } from 'bun:test';
 
 import { expectToHaveBeenCalledWith } from '../test/test-util';
 
@@ -41,24 +41,37 @@ describe('getArticleFileString', () => {
   it('should return the contents of the file as a string', async () => {
     const fileContents = 'This is the file contents.';
     const path = '/path/to/file.txt';
-    // todo spy on Bun.file instead
-    const readFileSyncSpy = spyOn(Bun, 'file').mockImplementationOnce({
-      text: () => fileContents,
-    });
+    const bunFileSpy = spyOn(Bun, 'file').mockImplementationOnce(
+      mock((_: string) => {
+        return {
+          text: () => Promise.resolve(fileContents),
+        };
+      }) as Mock<AnyFunction>
+    );
 
     expect(await getArticleFileString(path)).toEqual(fileContents);
-    expectToHaveBeenCalledWith(readFileSyncSpy, [path]);
+    expectToHaveBeenCalledWith(bunFileSpy, [path]);
   });
 
   it('should throw an error when the file is not found', async () => {
     const path = '/path/to/nonexistent/file.txt';
-    // todo spy on Bun.file instead
-    const readFileSyncSpy = spyOn(fs, 'readFileSync').mockImplementationOnce(() => {
-      throw new Error('getArticleFileString: file not found');
-    });
+    //   throw new Error('getArticleFileString: file not found');
+    // const readFileSyncSpy = spyOn(fs, 'readFileSync').mockImplementationOnce(() => {
+    // });
+
+    // todo why broken?
+    const bunFileSpy = spyOn(Bun, 'file').mockImplementationOnce(
+      mock((_: string) => {
+        return {
+          text: () => {
+            throw new Error('getArticleFileString: file not found');
+          },
+        };
+      }) as Mock<AnyFunction>
+    );
 
     expect(await getArticleFileString(path)).toThrow('getArticleFileString: file not found');
-    expectToHaveBeenCalledWith(readFileSyncSpy, [path]);
+    expectToHaveBeenCalledWith(bunFileSpy, [path]);
   });
 });
 
