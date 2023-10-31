@@ -1,4 +1,4 @@
-import { describe, expect, it, jest, mock, spyOn } from 'bun:test';
+import { describe, expect, it, mock, spyOn } from 'bun:test';
 
 import { expectToHaveBeenCalledWith } from './test/test-util';
 import * as file from './utils/file';
@@ -8,7 +8,7 @@ import { publishArticles } from '.';
 
 void mock.module('./utils/publish', () => {
   return {
-    publishArticle: jest.fn(),
+    publishArticle: () => {},
   };
 });
 
@@ -19,17 +19,23 @@ void mock.module('./utils/file', () => {
 });
 
 describe('publishArticles', () => {
-  it('should call publishArticle for each new article path', async () => {
-    const publishArticleMock = spyOn(publish, 'publishArticle');
+  it.only('should call publishArticle for each new article path', async () => {
     const newArticlePaths = ['path/to/article1', 'path/to/article2'];
-    const getNewArticlePathsSpy = spyOn(file, 'getNewArticlePaths');
+    const getNewArticlePathsSpy = spyOn(file, 'getNewArticlePaths').mockReturnValue(
+      newArticlePaths
+    );
+    const publishArticleMock = spyOn(publish, 'publishArticle').mockResolvedValue(undefined);
 
     await publishArticles();
 
     expect(getNewArticlePathsSpy).toHaveBeenCalled();
 
+    // console.log('HUI HUI', publishArticleMock.mock);
+
     expect(publishArticleMock).toHaveBeenCalledTimes(newArticlePaths.length);
-    newArticlePaths.forEach((path) => expectToHaveBeenCalledWith(publishArticleMock, [path]));
+    newArticlePaths.forEach((path, index) =>
+      expectToHaveBeenCalledWith(publishArticleMock, [path], index)
+    );
   });
 
   it('should log a message when there are no new articles to publish', async () => {
