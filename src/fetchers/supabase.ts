@@ -22,7 +22,9 @@ export const uploadImage = async (imagePath: string): Promise<void> => {
   console.debug(`uploadCoverImage: uploaded image '${imagePath}'`);
 };
 
-const getImageOptions = (coverImagePath: string): { cacheControl: string; contentType: string } => {
+export const getImageOptions = (
+  coverImagePath: string
+): { cacheControl: string; contentType: string } => {
   return {
     cacheControl: '604800',
     contentType: mime.getType(coverImagePath) ?? 'image/jpg',
