@@ -8,6 +8,7 @@
   "scripts": {
     "typecheck": "bun tsc --noEmit",
     "lint": "bun --bun eslint .",
+    "test:coverage": "bun test --coverage",
     "test:watch": "bun test --watch"
   },
   "dependencies": {
