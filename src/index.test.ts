@@ -11,13 +11,17 @@ vi.mock('./utils/publish', () => {
   };
 });
 
+vi.mock('./utils/file', () => {
+  return {
+    getNewArticlePaths: () => ['path/to/article1', 'path/to/article2'],
+  };
+});
+
 describe('publishArticles', () => {
   it('should call publishArticle for each new article path', async () => {
     const publishArticleMock = vi.spyOn(publish, 'publishArticle');
     const newArticlePaths = ['path/to/article1', 'path/to/article2'];
-    const getNewArticlePathsSpy = vi
-      .spyOn(file, 'getNewArticlePaths')
-      .mockReturnValueOnce(newArticlePaths);
+    const getNewArticlePathsSpy = vi.spyOn(file, 'getNewArticlePaths');
 
     await publishArticles();
 
