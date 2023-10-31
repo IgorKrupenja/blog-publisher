@@ -11,26 +11,26 @@
     "test:watch": "bun test --watch"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.38.2",
+    "@supabase/supabase-js": "^2.38.4",
     "@types/mime": "^3.0.3",
     "gray-matter": "^4.0.3",
     "mime": "^3.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-parse": "^11.0.0",
     "remark-stringify": "^11.0.0",
-    "typescript": "^5.0.0",
+    "typescript": "^5.2.2",
     "unified": "^11.0.3",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "bun-types": "latest",
-    "@typescript-eslint/eslint-plugin": "^6.8.0",
-    "@typescript-eslint/parser": "^6.8.0",
+    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "@typescript-eslint/parser": "^6.9.1",
     "eslint": "^8.52.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-sort-export-all": "^1.4.1",
-    "eslint-plugin-unicorn": "^48.0.1",
+    "eslint-plugin-unicorn": "^49.0.0",
     "eslint-plugin-unused-imports": "^3.0.0",
     "prettier": "^3.0.3"
   }
