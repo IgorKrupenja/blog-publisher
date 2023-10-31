@@ -4,7 +4,6 @@ import { Mock, expect } from 'bun:test';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const expectToHaveBeenCalledWith = (mock: Mock<any>, expectedArgs: unknown[]): void => {
   const calls = mock.mock.calls;
-  console.log('HUI HUI', mock.mock);
-  const call = calls.find((c) => c.some((arg) => expectedArgs.includes(arg)));
-  expect(call).toBeDefined();
+  const matchingCall = calls.find((call) => call.some((arg) => expectedArgs.includes(arg)));
+  expect(matchingCall).toBeDefined();
 };
