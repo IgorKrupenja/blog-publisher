@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 import { getNewArticlePaths } from './utils';
 import { publishArticle } from './utils/publish';
 
