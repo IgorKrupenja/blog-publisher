@@ -16,6 +16,7 @@
     "remark-frontmatter": "^5.0.0",
     "remark-parse": "^11.0.0",
     "remark-stringify": "^11.0.0",
+    "typescript": "^5.0.0",
     "unified": "^11.0.4",
     "unist-util-visit": "^5.0.0"
   },
@@ -30,8 +31,5 @@
     "eslint-plugin-unicorn": "^49.0.0",
     "eslint-plugin-unused-imports": "^3.0.0",
     "prettier": "^3.0.3"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
   }
 }

@@ -8,7 +8,7 @@ jobs:
   typecheck:
     uses: ./.github/workflows/run-check.yaml
     with:
-      command: bun tsc --noEmit
+      command: bun typecheck
   lint:
     uses: ./.github/workflows/run-check.yaml
     with:
