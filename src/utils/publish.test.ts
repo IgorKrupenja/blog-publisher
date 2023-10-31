@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, jest, mock, spyOn } from 'bun:test';
 
 import * as devTo from '../fetchers/dev-to';
 import * as hashnode from '../fetchers/hashnode';
@@ -9,7 +9,7 @@ import * as markdown from './markdown';
 import { publishArticle } from './publish';
 import * as supabase from './supabase';
 
-vi.mock('./file', () => {
+mock.module('./file', () => {
   return {
     getArticleFileString: () => '---\ntitle: Test Article\n---\n\nThis is a test article.',
     getImagePath: () => '/path/to/cover.jpg',
@@ -17,7 +17,7 @@ vi.mock('./file', () => {
   };
 });
 
-vi.mock('./markdown', () => {
+mock.module('./markdown', () => {
   return {
     getArticleFrontMatter: () => ({
       title: 'Test Article',
@@ -29,50 +29,50 @@ vi.mock('./markdown', () => {
   };
 });
 
-vi.mock('./hashnode', () => {
+mock.module('./hashnode', () => {
   return {
     getCanonicalUrl: () => 'https://blog.IgorKrpenja.com/test-article',
   };
 });
 
-vi.mock('./supabase', () => {
+mock.module('./supabase', () => {
   return {
-    getSupabaseUrl: vi.fn(),
+    getSupabaseUrl: jest.fn(),
   };
 });
 
-vi.mock('../fetchers/supabase', () => {
+mock.module('../fetchers/supabase', () => {
   return {
-    uploadImage: vi.fn(),
+    uploadImage: jest.fn(),
   };
 });
 
-vi.mock('../fetchers/hashnode', () => {
+mock.module('../fetchers/hashnode', () => {
   return {
-    createHashnodeArticle: vi.fn(),
+    createHashnodeArticle: jest.fn(),
   };
 });
 
-vi.mock('../fetchers/dev-to', () => {
+mock.module('../fetchers/dev-to', () => {
   return {
-    createDevToArticle: vi.fn(),
+    createDevToArticle: jest.fn(),
   };
 });
 
-vi.mock('../fetchers/medium', () => {
+mock.module('../fetchers/medium', () => {
   return {
-    createMediumArticle: vi.fn(),
+    createMediumArticle: jest.fn(),
   };
 });
 
 describe('publishArticle', () => {
   it('should publish an article', async () => {
-    const createHashnodeArticleSpy = vi.spyOn(hashnode, 'createHashnodeArticle');
-    const createDevToArticleSpy = vi.spyOn(devTo, 'createDevToArticle');
-    const createMediumArticleSpy = vi.spyOn(medium, 'createMediumArticle');
-    const getImagePathSpy = vi.spyOn(file, 'getImagePath');
-    const getMarkdownImagePathsSpy = vi.spyOn(markdown, 'getMarkdownImagePaths');
-    const getSupabaseUrlSpy = vi.spyOn(supabase, 'getSupabaseUrl');
+    const createHashnodeArticleSpy = spyOn(hashnode, 'createHashnodeArticle');
+    const createDevToArticleSpy = spyOn(devTo, 'createDevToArticle');
+    const createMediumArticleSpy = spyOn(medium, 'createMediumArticle');
+    const getImagePathSpy = spyOn(file, 'getImagePath');
+    const getMarkdownImagePathsSpy = spyOn(markdown, 'getMarkdownImagePaths');
+    const getSupabaseUrlSpy = spyOn(supabase, 'getSupabaseUrl');
 
     await publishArticle('/path/to/article.md');
 

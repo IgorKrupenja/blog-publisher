@@ -1,11 +1,11 @@
 import * as child_process from 'child_process';
 import fs from 'fs';
 
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, mock, spyOn } from 'bun:test';
 
 import { getArticleFileString, getDirectoryPath, getImagePath, getNewArticlePaths } from './file';
 
-vi.mock('child_process', () => {
+mock.module('child_process', () => {
   return {
     execSync: () => 'src/articles/2023/01/01-article.md\nsrc/articles/2023/02/02-article.md\n',
   };
@@ -13,7 +13,7 @@ vi.mock('child_process', () => {
 
 describe('getNewArticlePaths', () => {
   it('should return an array of new article paths', () => {
-    const execSyncSpy = vi.spyOn(child_process, 'execSync');
+    const execSyncSpy = spyOn(child_process, 'execSync');
 
     expect(getNewArticlePaths()).toEqual([
       'src/articles/2023/01/01-article.md',
@@ -26,7 +26,7 @@ describe('getNewArticlePaths', () => {
 
   it('should return an empty array when there is no diff', () => {
     const diffOutput = '';
-    const execSyncSpy = vi.spyOn(child_process, 'execSync').mockReturnValueOnce(diffOutput);
+    const execSyncSpy = spyOn(child_process, 'execSync').mockReturnValueOnce(diffOutput);
 
     expect(getNewArticlePaths()).toEqual([]);
     expect(execSyncSpy).toHaveBeenCalledWith(
@@ -36,18 +36,18 @@ describe('getNewArticlePaths', () => {
 });
 
 describe('getArticleFileString', () => {
-  it('should return the contents of the file as a string', () => {
+  it('should return the contents of the file as a string', async () => {
     const fileContents = 'This is the file contents.';
     const path = '/path/to/file.txt';
-    const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockReturnValueOnce(fileContents);
+    const readFileSyncSpy = spyOn(fs, 'readFileSync').mockReturnValueOnce(fileContents);
 
-    expect(getArticleFileString(path)).toEqual(fileContents);
+    expect(await getArticleFileString(path)).toEqual(fileContents);
     expect(readFileSyncSpy).toHaveBeenCalledWith(path);
   });
 
   it('should throw an error when the file is not found', () => {
     const path = '/path/to/nonexistent/file.txt';
-    const readFileSyncSpy = vi.spyOn(fs, 'readFileSync').mockImplementationOnce(() => {
+    const readFileSyncSpy = spyOn(fs, 'readFileSync').mockImplementationOnce(() => {
       throw new Error('getArticleFileString: file not found');
     });
 

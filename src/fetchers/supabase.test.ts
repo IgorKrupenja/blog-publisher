@@ -1,5 +1,7 @@
+import { describe, expect, it, spyOn } from 'bun:test';
 import mime from 'mime';
-import { describe, expect, it, vi } from 'vitest';
+
+import { expectToHaveBeenCalledWith } from '../test/test-util';
 
 import { getImageOptions } from '.';
 
@@ -10,10 +12,11 @@ describe('getImageOptions', () => {
       cacheControl: '604800',
       contentType: 'image/jpeg',
     };
-    const getTypeSpy = vi.spyOn(mime, 'getType').mockReturnValueOnce('image/jpeg');
+    const getTypeSpy = spyOn(mime, 'getType').mockReturnValueOnce('image/jpeg');
 
     expect(getImageOptions(imagePath)).toEqual(expectedOptions);
-    expect(getTypeSpy).toHaveBeenCalledWith(imagePath);
+
+    expectToHaveBeenCalledWith(getTypeSpy, [imagePath]);
   });
 
   it('should return default content type if mime type is not found', () => {
@@ -22,9 +25,9 @@ describe('getImageOptions', () => {
       cacheControl: '604800',
       contentType: 'image/jpg',
     };
-    const getTypeSpy = vi.spyOn(mime, 'getType').mockReturnValueOnce(null);
+    const getTypeSpy = spyOn(mime, 'getType').mockReturnValueOnce(null);
 
     expect(getImageOptions(imagePath)).toEqual(expectedOptions);
-    expect(getTypeSpy).toHaveBeenCalledWith(imagePath);
+    expectToHaveBeenCalledWith(getTypeSpy, [imagePath]);
   });
 });
