@@ -9,7 +9,7 @@ import * as markdown from './markdown';
 import { publishArticle } from './publish';
 import * as supabase from './supabase';
 
-mock.module('./file', () => {
+void mock.module('./file', () => {
   return {
     getArticleFileString: () => '---\ntitle: Test Article\n---\n\nThis is a test article.',
     getImagePath: () => '/path/to/cover.jpg',
@@ -17,7 +17,7 @@ mock.module('./file', () => {
   };
 });
 
-mock.module('./markdown', () => {
+void mock.module('./markdown', () => {
   return {
     getArticleFrontMatter: () => ({
       title: 'Test Article',
@@ -29,37 +29,37 @@ mock.module('./markdown', () => {
   };
 });
 
-mock.module('./hashnode', () => {
+void mock.module('./hashnode', () => {
   return {
     getCanonicalUrl: () => 'https://blog.IgorKrpenja.com/test-article',
   };
 });
 
-mock.module('./supabase', () => {
+void mock.module('./supabase', () => {
   return {
     getSupabaseUrl: jest.fn(),
   };
 });
 
-mock.module('../fetchers/supabase', () => {
+void mock.module('../fetchers/supabase', () => {
   return {
     uploadImage: jest.fn(),
   };
 });
 
-mock.module('../fetchers/hashnode', () => {
+void mock.module('../fetchers/hashnode', () => {
   return {
     createHashnodeArticle: jest.fn(),
   };
 });
 
-mock.module('../fetchers/dev-to', () => {
+void mock.module('../fetchers/dev-to', () => {
   return {
     createDevToArticle: jest.fn(),
   };
 });
 
-mock.module('../fetchers/medium', () => {
+void mock.module('../fetchers/medium', () => {
   return {
     createMediumArticle: jest.fn(),
   };

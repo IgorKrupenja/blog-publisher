@@ -6,13 +6,13 @@ import * as publish from './utils/publish';
 
 import { publishArticles } from '.';
 
-mock.module('./utils/publish', () => {
+void mock.module('./utils/publish', () => {
   return {
     publishArticle: jest.fn(),
   };
 });
 
-mock.module('./utils/file', () => {
+void mock.module('./utils/file', () => {
   return {
     getNewArticlePaths: () => ['path/to/article1', 'path/to/article2'],
   };
