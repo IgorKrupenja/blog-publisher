@@ -6,6 +6,10 @@ on:
     types: ['opened', 'reopened', 'synchronize', 'ready_for_review']
 
 jobs:
+  typecheck:
+    uses: ./.github/workflows/run-check.yaml
+    with:
+      command: pnpm typecheck
   lint:
     uses: ./.github/workflows/run-check.yaml
     with:
@@ -14,7 +18,3 @@ jobs:
     uses: ./.github/workflows/run-check.yaml
     with:
       command: pnpm test:run
-  build:
-    uses: ./.github/workflows/run-check.yaml
-    with:
-      command: pnpm build
