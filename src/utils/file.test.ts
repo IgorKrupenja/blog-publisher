@@ -3,6 +3,8 @@ import fs from 'fs';
 
 import { describe, expect, it, mock, spyOn } from 'bun:test';
 
+import { expectToHaveBeenCalledWith } from '../test/test-util';
+
 import { getArticleFileString, getDirectoryPath, getImagePath, getNewArticlePaths } from './file';
 
 mock.module('child_process', () => {
@@ -19,9 +21,9 @@ describe('getNewArticlePaths', () => {
       'src/articles/2023/01/01-article.md',
       'src/articles/2023/02/02-article.md',
     ]);
-    expect(execSyncSpy).toHaveBeenCalledWith(
-      'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
-    );
+    expectToHaveBeenCalledWith(execSyncSpy, [
+      'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"',
+    ]);
   });
 
   it('should return an empty array when there is no diff', () => {
@@ -29,9 +31,9 @@ describe('getNewArticlePaths', () => {
     const execSyncSpy = spyOn(child_process, 'execSync').mockReturnValueOnce(diffOutput);
 
     expect(getNewArticlePaths()).toEqual([]);
-    expect(execSyncSpy).toHaveBeenCalledWith(
-      'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
-    );
+    expectToHaveBeenCalledWith(execSyncSpy, [
+      'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"',
+    ]);
   });
 });
 
@@ -39,20 +41,24 @@ describe('getArticleFileString', () => {
   it('should return the contents of the file as a string', async () => {
     const fileContents = 'This is the file contents.';
     const path = '/path/to/file.txt';
-    const readFileSyncSpy = spyOn(fs, 'readFileSync').mockReturnValueOnce(fileContents);
+    // todo spy on Bun.file instead
+    const readFileSyncSpy = spyOn(Bun, 'file').mockImplementationOnce({
+      text: () => fileContents,
+    });
 
     expect(await getArticleFileString(path)).toEqual(fileContents);
-    expect(readFileSyncSpy).toHaveBeenCalledWith(path);
+    expectToHaveBeenCalledWith(readFileSyncSpy, [path]);
   });
 
-  it('should throw an error when the file is not found', () => {
+  it('should throw an error when the file is not found', async () => {
     const path = '/path/to/nonexistent/file.txt';
+    // todo spy on Bun.file instead
     const readFileSyncSpy = spyOn(fs, 'readFileSync').mockImplementationOnce(() => {
       throw new Error('getArticleFileString: file not found');
     });
 
-    expect(() => getArticleFileString(path)).toThrow('getArticleFileString: file not found');
-    expect(readFileSyncSpy).toHaveBeenCalledWith(path);
+    expect(await getArticleFileString(path)).toThrow('getArticleFileString: file not found');
+    expectToHaveBeenCalledWith(readFileSyncSpy, [path]);
   });
 });
 

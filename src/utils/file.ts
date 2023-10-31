@@ -6,7 +6,6 @@ export const getNewArticlePaths = (): string[] => {
   return diffOutput.toString().split('\n').filter(Boolean);
 };
 
-// todo await in tests?
 export const getArticleFileString = (path: string): Promise<string> => {
   try {
     return Bun.file(path).text();

@@ -1,5 +1,6 @@
 import { describe, expect, it, jest, mock, spyOn } from 'bun:test';
 
+import { expectToHaveBeenCalledWith } from './test/test-util';
 import * as file from './utils/file';
 import * as publish from './utils/publish';
 
@@ -28,7 +29,7 @@ describe('publishArticles', () => {
     expect(getNewArticlePathsSpy).toHaveBeenCalled();
 
     expect(publishArticleMock).toHaveBeenCalledTimes(newArticlePaths.length);
-    newArticlePaths.forEach((path) => expect(publishArticleMock.mock.calls[0]).toEqual([path]));
+    newArticlePaths.forEach((path) => expectToHaveBeenCalledWith(publishArticleMock, [path]));
   });
 
   it('should log a message when there are no new articles to publish', async () => {
@@ -38,6 +39,6 @@ describe('publishArticles', () => {
     await publishArticles();
 
     expect(getNewArticlePathsSpy).toHaveBeenCalled();
-    expect(consoleDebugSpy).toHaveBeenCalledWith('publishArticles: No new articles to publish.');
+    expectToHaveBeenCalledWith(consoleDebugSpy, ['publishArticles: No new articles to publish.']);
   });
 });
