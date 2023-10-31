@@ -19,7 +19,7 @@ void mock.module('./utils/file', () => {
 });
 
 describe('publishArticles', () => {
-  it.only('should call publishArticle for each new article path', async () => {
+  it('should call publishArticle for each new article path', async () => {
     const newArticlePaths = ['path/to/article1', 'path/to/article2'];
     const getNewArticlePathsSpy = spyOn(file, 'getNewArticlePaths').mockReturnValue(
       newArticlePaths
@@ -34,7 +34,7 @@ describe('publishArticles', () => {
 
     expect(publishArticleMock).toHaveBeenCalledTimes(newArticlePaths.length);
     newArticlePaths.forEach((path, index) =>
-      expectToHaveBeenCalledWith(publishArticleMock, [path], index)
+      expectToHaveBeenCalledWith(publishArticleMock, [path])
     );
   });
 
