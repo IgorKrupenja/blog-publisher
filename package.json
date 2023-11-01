@@ -6,9 +6,7 @@
   "scripts": {
     "typecheck": "bun tsc --noEmit",
     "lint": "bun --bun eslint .",
-    "test:coverage": "bun test --coverage",
-    "test:watch": "NODE_ENV=test bun test --watch",
-    "publish": "bun src/index.ts"
+    "publish": "bun src/main.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.38.4",
