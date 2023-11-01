@@ -21,7 +21,6 @@ describe('publishArticles', () => {
     expect(publishArticleMock).toHaveBeenCalledTimes(newArticlePaths.length);
     newArticlePaths.forEach((path) => expectToHaveBeenCalledWith(publishArticleMock, [path]));
 
-    // todo, call once?
     getNewArticlePathsSpy.mockRestore();
   });
 
