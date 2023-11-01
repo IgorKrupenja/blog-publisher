@@ -14,13 +14,10 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
         with:
-          version: 8
-      - uses: actions/setup-node@v3
+          fetch-depth: 2
+      - uses: oven-sh/setup-bun@v1
         with:
-          node-version-file: .nvmrc
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
-      - run: pnpm install
+          bun-version: canary
+      - run: bun install
       - run: ${{ inputs.command }}

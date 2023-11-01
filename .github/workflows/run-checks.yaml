@@ -9,12 +9,12 @@ jobs:
   typecheck:
     uses: ./.github/workflows/run-check.yaml
     with:
-      command: pnpm typecheck
+      command: bun typecheck
   lint:
     uses: ./.github/workflows/run-check.yaml
     with:
-      command: pnpm lint
+      command: bun lint
   test:
     uses: ./.github/workflows/run-check.yaml
     with:
-      command: pnpm test:run
+      command: bun test

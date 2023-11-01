@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 import { Article, CreateDevToArticleRequest, CreateDevToArticleResponse } from '../interfaces';
 import { getSupabaseUrl, insertCanonicalUrl } from '../utils';
 
@@ -7,7 +5,7 @@ export const createDevToArticle = async (article: Required<Article>): Promise<vo
   const response = await fetch('https://dev.to/api/articles', {
     method: 'POST',
     headers: {
-      'api-key': process.env.DEV_TO_KEY,
+      'api-key': Bun.env.DEV_TO_KEY,
       accept: 'application/vnd.forem.api-v1+json',
       'content-type': 'application/json',
     },

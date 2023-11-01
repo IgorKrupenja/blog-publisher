@@ -28,6 +28,12 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/no-floating-promises': 'error',
     '@typescript-eslint/require-await': 'error',
+    'import/no-unresolved': [
+      'error',
+      {
+        ignore: ['bun:test', 'bun'],
+      },
+    ],
     'import/order': [
       'warn',
       {
@@ -54,6 +60,22 @@ module.exports = {
       },
     ],
     'unused-imports/no-unused-imports': 'warn',
-    'unused-imports/no-unused-vars': 'warn',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      },
+    ],
   },
 };

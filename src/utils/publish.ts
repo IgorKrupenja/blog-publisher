@@ -18,7 +18,7 @@ import {
 } from '.';
 
 export const publishArticle = async (filePath: string): Promise<void> => {
-  const articleFile = getArticleFileString(filePath);
+  const articleFile = await getArticleFileString(filePath);
   const directoryPath = getDirectoryPath(filePath);
 
   const frontMatter = getArticleFrontMatter(articleFile);
@@ -31,8 +31,6 @@ export const publishArticle = async (filePath: string): Promise<void> => {
   const article: Article = { ...frontMatter, content, coverImagePath };
 
   const slug = await createHashnodeArticle(article);
-  // TODO: temporary for testing
-  // const slug = 'nextjs-expo-monorepo-with-pnpm';
   const canonicalUrl = getCanonicalUrl(slug);
 
   await Promise.all([

@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 import { HASHNODE_TAGS } from '../data';
 import {
   Article,
@@ -14,7 +12,7 @@ export const createHashnodeArticle = async (article: Article): Promise<string> =
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: process.env.HASHNODE_TOKEN,
+      Authorization: Bun.env.HASHNODE_TOKEN,
     },
     body: JSON.stringify(getCreateHashnodeArticleRequest(article)),
   });
@@ -34,7 +32,7 @@ const getCreateHashnodeArticleRequest = ({
   coverImagePath,
   tags,
 }: Article): CreateHashnodeArticleRequest => {
-  const { HASHNODE_PUBLICATION_ID } = process.env;
+  const { HASHNODE_PUBLICATION_ID } = Bun.env;
 
   const hashnodeTags = getHashnodeTags(tags);
 
@@ -48,8 +46,7 @@ const getCreateHashnodeArticleRequest = ({
       `,
     variables: {
       publicationId: HASHNODE_PUBLICATION_ID,
-      // TODO: disable this
-      hideFromHashnodeFeed: true,
+      hideFromHashnodeFeed: false,
       input: {
         title,
         contentMarkdown: content,

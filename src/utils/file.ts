@@ -1,5 +1,4 @@
 import { execSync } from 'child_process';
-import fs from 'fs';
 
 export const getNewArticlePaths = (): string[] => {
   const command = 'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"';
@@ -7,9 +6,9 @@ export const getNewArticlePaths = (): string[] => {
   return diffOutput.toString().split('\n').filter(Boolean);
 };
 
-export const getArticleFileString = (path: string): string => {
+export const getArticleFileString = (path: string): Promise<string> => {
   try {
-    return fs.readFileSync(path).toString();
+    return Bun.file(path).text();
   } catch (error) {
     throw new Error('getArticleFileString: file not found');
   }

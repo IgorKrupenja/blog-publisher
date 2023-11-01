@@ -1,46 +1,37 @@
 {
   "name": "blog",
   "version": "0.0.1",
-  "description": "",
-  "main": "src/index.ts",
-  "scripts": {
-    "typecheck": "tsc --noEmit",
-    "publish": "ts-node --experimental-specifier-resolution=node --esm src/index.ts",
-    "test": "vitest --coverage",
-    "test:run": "vitest run",
-    "lint": "eslint"
-  },
-  "author": "Igor Krupenja",
-  "license": "CC BY-NC 4.0 & MIT",
+  "module": "src/index.ts",
   "type": "module",
-  "packageManager": "pnpm@8.6.3",
+  "scripts": {
+    "typecheck": "bun tsc --noEmit",
+    "lint": "bun --bun eslint .",
+    "test:coverage": "bun test --coverage",
+    "test:watch": "NODE_ENV=test bun test --watch",
+    "publish": "bun src/index.ts"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.38.4",
     "@types/mime": "^3.0.3",
-    "dotenv": "^16.3.1",
     "mime": "^3.0.0",
-    "node-fetch": "^3.3.2",
     "remark-frontmatter": "^5.0.0",
     "remark-parse": "^11.0.0",
     "remark-parse-frontmatter": "^1.0.3",
     "remark-stringify": "^11.0.0",
-    "ts-node": "^10.9.1",
-    "unified": "^11.0.3",
+    "typescript": "^5.2.2",
+    "unified": "^11.0.4",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.8.10",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
-    "@vitest/coverage-istanbul": "^0.34.6",
+    "bun-types": "latest",
     "eslint": "^8.52.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-sort-export-all": "^1.4.1",
     "eslint-plugin-unicorn": "^49.0.0",
     "eslint-plugin-unused-imports": "^3.0.0",
-    "prettier": "^3.0.3",
-    "typescript": "^5.2.2",
-    "vitest": "^0.34.6"
+    "prettier": "^3.0.3"
   }
 }

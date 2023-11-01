@@ -1,18 +1,22 @@
 {
   "compilerOptions": {
-    "lib": ["es2023"],
-    "module": "ESNext",
-    "target": "es2022",
+    "lib": ["ESNext"],
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "composite": true,
     "strict": true,
-    "esModuleInterop": true,
+    "downlevelIteration": true,
     "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "Bundler",
-    "outDir": "dist"
-  },
-  "include": ["src/**/*", "vitest.config.ts", ".eslintrc.cjs"],
-  "ts-node": {
-    "files": true
-  },
-  "files": ["src/types/env.d.ts"]
+    "allowJs": true,
+    "types": [
+      "bun-types" // add Bun global
+    ]
+  }
 }

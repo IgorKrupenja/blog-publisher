@@ -1,1 +1,1 @@
-export const getCanonicalUrl = (slug: string): string => `${process.env.HASHNODE_URL}/${slug}`;
+export const getCanonicalUrl = (slug: string): string => `${Bun.env.HASHNODE_URL}/${slug}`;
