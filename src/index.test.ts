@@ -12,17 +12,17 @@ describe('publishArticles', () => {
     const getNewArticlePathsSpy = spyOn(file, 'getNewArticlePaths').mockReturnValue(
       newArticlePaths
     );
-    const publishArticleMock = spyOn(publish, 'publishArticle').mockResolvedValue(undefined);
+    const publishArticleSpy = spyOn(publish, 'publishArticle').mockResolvedValue(undefined);
 
     await publishArticles();
 
     expect(getNewArticlePathsSpy).toHaveBeenCalled();
 
-    expect(publishArticleMock).toHaveBeenCalledTimes(newArticlePaths.length);
-    newArticlePaths.forEach((path) => expectToHaveBeenCalledWith(publishArticleMock, [path]));
+    expect(publishArticleSpy).toHaveBeenCalledTimes(newArticlePaths.length);
+    newArticlePaths.forEach((path) => expectToHaveBeenCalledWith(publishArticleSpy, [path]));
 
     getNewArticlePathsSpy.mockRestore();
-    publishArticleMock.mockRestore();
+    publishArticleSpy.mockRestore();
   });
 
   it('should log a message when there are no new articles to publish', async () => {
