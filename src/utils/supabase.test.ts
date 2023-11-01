@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 
 import { getSupabaseUploadPath, getSupabaseUrl } from './supabase';
 
-describe.skip('getUrl', () => {
+describe('getUrl', () => {
   it('should return correct URL for file', () => {
     expect(getSupabaseUrl('src/articles/foo/bar.jpg')).toEqual(
       'https://supabase.IgorKrpenja.com/storage/v1/object/public/images/articles/foo/bar.jpg'
@@ -16,7 +16,7 @@ describe.skip('getUrl', () => {
   });
 });
 
-describe.skip('getUploadPath', () => {
+describe('getUploadPath', () => {
   it('should return correct path', () => {
     expect(getSupabaseUploadPath('public/images/articles/foo/bar.jpg')).toEqual(
       'images/articles/foo/bar.jpg'

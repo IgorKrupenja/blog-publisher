@@ -5,7 +5,7 @@ import { expectToHaveBeenCalledWith } from '../test/test-util';
 
 import { getImageOptions } from '.';
 
-describe.skip('getImageOptions', () => {
+describe('getImageOptions', () => {
   it('should return correct cache control and content type', () => {
     const imagePath = 'path/to/image.jpg';
     const expectedOptions = {

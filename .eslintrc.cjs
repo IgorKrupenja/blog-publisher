@@ -17,7 +17,7 @@ module.exports = {
   env: {
     node: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.cjs'],
   rules: {
     '@typescript-eslint/explicit-function-return-type': [
       'error',
