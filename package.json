@@ -7,7 +7,8 @@
     "typecheck": "bun tsc --noEmit",
     "lint": "bun --bun eslint .",
     "test:coverage": "bun test --coverage",
-    "test:watch": "bun test --watch"
+    "test:watch": "NODE_ENV=test bun test --watch",
+    "publish": "bun src/index.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.38.4",
