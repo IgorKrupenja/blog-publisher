@@ -62,8 +62,8 @@ void mock.module('../fetchers/medium', () => {
 });
 
 // todo try w/o mock.module
-describe.only('publishArticle', () => {
-  it.only('should publish an article', async () => {
+describe('publishArticle', () => {
+  it('should publish an article', async () => {
     // const createHashnodeArticleSpy = spyOn(hashnode, 'createHashnodeArticle');
     // const createDevToArticleSpy = spyOn(devTo, 'createDevToArticle');
     // const createMediumArticleSpy = spyOn(medium, 'createMediumArticle');
