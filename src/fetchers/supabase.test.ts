@@ -15,7 +15,6 @@ describe('getImageOptions', () => {
     const getTypeSpy = spyOn(mime, 'getType').mockReturnValueOnce('image/jpeg');
 
     expect(getImageOptions(imagePath)).toEqual(expectedOptions);
-
     expectToHaveBeenCalledWith(getTypeSpy, imagePath);
   });
 
