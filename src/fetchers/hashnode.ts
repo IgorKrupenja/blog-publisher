@@ -1,11 +1,11 @@
-import { HASHNODE_TAGS } from '../data';
+import { HASHNODE_TAGS } from '../data/hashnode-tags';
 import {
   Article,
   CreateHashnodeArticleRequest,
   CreateHashnodeArticleResponse,
   HashnodeTag,
 } from '../interfaces';
-import { getSupabaseUrl } from '../utils';
+import { getSupabaseUrl } from '../utils/supabase';
 
 export const createHashnodeArticle = async (article: Article): Promise<string> => {
   const response = await fetch('https://api.hashnode.com', {

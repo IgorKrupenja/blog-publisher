@@ -1,4 +1,4 @@
-import { getNewArticlePaths } from './utils';
+import { getNewArticlePaths } from './utils/file';
 import { publishArticle } from './utils/publish';
 
 export const publishArticles = async (): Promise<void> => {

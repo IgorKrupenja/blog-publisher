@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import mime from 'mime';
 
-import { getSupabaseUploadPath } from '../utils';
+import { getSupabaseUploadPath } from '../utils/supabase';
 
 export const uploadImage = async (imagePath: string): Promise<void> => {
   const { SUPABASE_URL, SUPABASE_KEY, SUPABASE_STORAGE_BUCKET } = Bun.env;

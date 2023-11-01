@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 
-import { getCanonicalUrl } from '.';
+import { getCanonicalUrl } from './hashnode';
 
 describe('getCanonicalUrl', () => {
   it('should return correct URL', () => {
