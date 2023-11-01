@@ -1,4 +1,4 @@
-import { getNewArticlePaths } from './utils';
+import { getNewArticlePaths } from './utils/file';
 import { publishArticle } from './utils/publish';
 
 export const publishArticles = async (): Promise<void> => {
@@ -8,7 +8,7 @@ export const publishArticles = async (): Promise<void> => {
     return;
   }
 
-  await Promise.all(paths.map((path) => publishArticle(path)));
+  await Promise.all(paths.map(publishArticle));
 };
 
 await publishArticles();

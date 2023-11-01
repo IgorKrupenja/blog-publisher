@@ -3,7 +3,7 @@ import mime from 'mime';
 
 import { expectToHaveBeenCalledWith } from '../test/test-util';
 
-import { getImageOptions } from '.';
+import { getImageOptions } from './supabase';
 
 describe('getImageOptions', () => {
   it('should return correct cache control and content type', () => {

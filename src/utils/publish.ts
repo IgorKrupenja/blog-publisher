@@ -1,21 +1,17 @@
-import {
-  createDevToArticle,
-  createHashnodeArticle,
-  createMediumArticle,
-  uploadImage,
-} from '../fetchers';
+import { createDevToArticle } from '../fetchers/dev-to';
+import { createHashnodeArticle } from '../fetchers/hashnode';
+import { createMediumArticle } from '../fetchers/medium';
+import { uploadImage } from '../fetchers/supabase';
 import { Article } from '../interfaces';
 
+import { getArticleFileString, getDirectoryPath, getImagePath } from './file';
+import { getCanonicalUrl } from './hashnode';
 import {
-  getArticleFileString,
   getArticleFrontMatter,
-  getCanonicalUrl,
-  getDirectoryPath,
-  getImagePath,
   getMarkdownImagePaths,
-  getSupabaseUrl,
   replaceMarkdownImagePaths,
-} from '.';
+} from './markdown';
+import { getSupabaseUrl } from './supabase';
 
 export const publishArticle = async (filePath: string): Promise<void> => {
   const articleFile = await getArticleFileString(filePath);
