@@ -22,6 +22,7 @@ describe('publishArticles', () => {
     newArticlePaths.forEach((path) => expectToHaveBeenCalledWith(publishArticleMock, [path]));
 
     getNewArticlePathsSpy.mockRestore();
+    publishArticleMock.mockRestore();
   });
 
   it('should log a message when there are no new articles to publish', async () => {
