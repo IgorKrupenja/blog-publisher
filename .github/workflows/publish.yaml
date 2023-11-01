@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 2
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: github
+          bun-version: latest
       - run: bun install
       - run: |
           touch .env
