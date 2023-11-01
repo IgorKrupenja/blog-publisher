@@ -46,8 +46,7 @@ const getCreateHashnodeArticleRequest = ({
       `,
     variables: {
       publicationId: HASHNODE_PUBLICATION_ID,
-      // TODO: disable this
-      hideFromHashnodeFeed: true,
+      hideFromHashnodeFeed: false,
       input: {
         title,
         contentMarkdown: content,

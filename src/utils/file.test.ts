@@ -59,7 +59,7 @@ describe('getArticleFileString', () => {
     expectToHaveBeenCalledWith(bunFileSpy, path);
   });
 
-  // TODO: broken, maybe bun:test promise rejection resolves instead of rejects when throw after await with done callback oven-sh/bun#1546
+  // TODO: broken, maybe https://github.com/oven-sh/bun/issues/1546
   // it('should throw an error when the file is not found', async () => {
   //   const path = '/path/to/nonexistent/file.txt';
   //   //   throw new Error('getArticleFileString: file not found');
