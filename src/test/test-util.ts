@@ -10,13 +10,7 @@ export const expectToHaveBeenCalledWith = (
   expect(calls.length).toBeGreaterThan(0);
 
   const matchingCall = calls.find((call) =>
-    call.some((arg) =>
-      expectedArgs.some((expectedArg) =>
-        typeof expectedArg !== 'object' && typeof expectedArg !== 'function'
-          ? expectedArg === arg
-          : Bun.deepEquals(expectedArg, arg)
-      )
-    )
+    call.some((arg) => expectedArgs.some((expectedArg) => Bun.deepEquals(expectedArg, arg)))
   );
 
   expect(matchingCall).toBeDefined();
