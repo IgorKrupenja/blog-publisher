@@ -55,42 +55,37 @@ describe('publishArticle', () => {
 
     await publishArticle('/path/to/article.md');
 
-    expectToHaveBeenCalledWith(getImagePathSpy, ['/path/to/', 'cover.jpg']);
-    expectToHaveBeenCalledWith(getMarkdownImagePathsSpy, [
+    expectToHaveBeenCalledWith(getImagePathSpy, '/path/to/', 'cover.jpg');
+    expectToHaveBeenCalledWith(
+      getMarkdownImagePathsSpy,
       '/path/to/',
-      '---\ntitle: Test Article\n---\n\nThis is a test article.',
-    ]);
-    expectToHaveBeenCalledWith(getSupabaseUrlSpy, ['/path/to/']);
+      '---\ntitle: Test Article\n---\n\nThis is a test article.'
+    );
+    expectToHaveBeenCalledWith(getSupabaseUrlSpy, '/path/to/');
 
-    expectToHaveBeenCalledWith(createHashnodeArticleSpy, [
-      {
-        title: 'Test Article',
-        tags: ['first', 'second'],
-        coverImage: 'cover.jpg',
-        content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
-        coverImagePath: '/path/to/cover.jpg',
-      },
-    ]);
-    expectToHaveBeenCalledWith(createDevToArticleSpy, [
-      {
-        title: 'Test Article',
-        tags: ['first', 'second'],
-        coverImage: 'cover.jpg',
-        content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
-        coverImagePath: '/path/to/cover.jpg',
-        canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
-      },
-    ]);
-    expectToHaveBeenCalledWith(createMediumArticleSpy, [
-      {
-        title: 'Test Article',
-        tags: ['first', 'second'],
-        coverImage: 'cover.jpg',
-        content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
-        coverImagePath: '/path/to/cover.jpg',
-        canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
-      },
-    ]);
+    expectToHaveBeenCalledWith(createHashnodeArticleSpy, {
+      title: 'Test Article',
+      tags: ['first', 'second'],
+      coverImage: 'cover.jpg',
+      content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
+      coverImagePath: '/path/to/cover.jpg',
+    });
+    expectToHaveBeenCalledWith(createDevToArticleSpy, {
+      title: 'Test Article',
+      tags: ['first', 'second'],
+      coverImage: 'cover.jpg',
+      content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
+      coverImagePath: '/path/to/cover.jpg',
+      canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
+    });
+    expectToHaveBeenCalledWith(createMediumArticleSpy, {
+      title: 'Test Article',
+      tags: ['first', 'second'],
+      coverImage: 'cover.jpg',
+      content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
+      coverImagePath: '/path/to/cover.jpg',
+      canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
+    });
 
     getSupabaseUrlSpy.mockRestore();
   });

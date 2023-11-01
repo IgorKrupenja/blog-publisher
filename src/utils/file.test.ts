@@ -25,9 +25,10 @@ describe('getNewArticlePaths', () => {
       'src/articles/2023/01/01-article.md',
       'src/articles/2023/02/02-article.md',
     ]);
-    expectToHaveBeenCalledWith(execSyncSpy, [
-      'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"',
-    ]);
+    expectToHaveBeenCalledWith(
+      execSyncSpy,
+      'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
+    );
   });
 
   it('should return an empty array when there is no diff', () => {
@@ -35,9 +36,10 @@ describe('getNewArticlePaths', () => {
     const execSyncSpy = spyOn(child_process, 'execSync').mockReturnValueOnce(diffOutput);
 
     expect(getNewArticlePaths()).toEqual([]);
-    expectToHaveBeenCalledWith(execSyncSpy, [
-      'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"',
-    ]);
+    expectToHaveBeenCalledWith(
+      execSyncSpy,
+      'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
+    );
   });
 });
 
@@ -54,7 +56,7 @@ describe('getArticleFileString', () => {
     );
 
     expect(await getArticleFileString(path)).toEqual(fileContents);
-    expectToHaveBeenCalledWith(bunFileSpy, [path]);
+    expectToHaveBeenCalledWith(bunFileSpy, path);
   });
 
   // TODO: broken, maybe bun:test promise rejection resolves instead of rejects when throw after await with done callback oven-sh/bun#1546

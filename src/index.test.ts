@@ -19,7 +19,7 @@ describe('publishArticles', () => {
     expect(getNewArticlePathsSpy).toHaveBeenCalled();
 
     expect(publishArticleSpy).toHaveBeenCalledTimes(newArticlePaths.length);
-    newArticlePaths.forEach((path) => expectToHaveBeenCalledWith(publishArticleSpy, [path]));
+    newArticlePaths.forEach((path) => expectToHaveBeenCalledWith(publishArticleSpy, path));
 
     getNewArticlePathsSpy.mockRestore();
     publishArticleSpy.mockRestore();
@@ -32,6 +32,6 @@ describe('publishArticles', () => {
     await publishArticles();
 
     expect(getNewArticlePathsSpy).toHaveBeenCalled();
-    expectToHaveBeenCalledWith(consoleDebugSpy, ['publishArticles: No new articles to publish.']);
+    expectToHaveBeenCalledWith(consoleDebugSpy, 'publishArticles: No new articles to publish.');
   });
 });

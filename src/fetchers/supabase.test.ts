@@ -16,7 +16,7 @@ describe('getImageOptions', () => {
 
     expect(getImageOptions(imagePath)).toEqual(expectedOptions);
 
-    expectToHaveBeenCalledWith(getTypeSpy, [imagePath]);
+    expectToHaveBeenCalledWith(getTypeSpy, imagePath);
   });
 
   it('should return default content type if mime type is not found', () => {
@@ -28,6 +28,6 @@ describe('getImageOptions', () => {
     const getTypeSpy = spyOn(mime, 'getType').mockReturnValueOnce(null);
 
     expect(getImageOptions(imagePath)).toEqual(expectedOptions);
-    expectToHaveBeenCalledWith(getTypeSpy, [imagePath]);
+    expectToHaveBeenCalledWith(getTypeSpy, imagePath);
   });
 });
