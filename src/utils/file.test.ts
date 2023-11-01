@@ -7,6 +7,8 @@ import { expectToHaveBeenCalledWith } from '../test/test-util';
 
 import { getArticleFileString, getDirectoryPath, getImagePath, getNewArticlePaths } from './file';
 
+// TODO: no types yet
+// @ts-ignore
 void mock.module('child_process', () => {
   return {
     execSync: () => 'src/articles/2023/01/01-article.md\nsrc/articles/2023/02/02-article.md\n',
