@@ -44,7 +44,7 @@ describe('getArticleFileString', () => {
     const fileContents = 'This is the file contents.';
     const path = '/path/to/file.txt';
     const bunFileSpy = spyOn(Bun, 'file').mockImplementationOnce(
-      mock((_: string) => {
+      mock(() => {
         return {
           text: () => Promise.resolve(fileContents),
         };
@@ -55,26 +55,16 @@ describe('getArticleFileString', () => {
     expectToHaveBeenCalledWith(bunFileSpy, path);
   });
 
-  // TODO: broken, maybe https://github.com/oven-sh/bun/issues/1546
-  // it('should throw an error when the file is not found', async () => {
-  //   const path = '/path/to/nonexistent/file.txt';
-  //   //   throw new Error('getArticleFileString: file not found');
-  //   // const readFileSyncSpy = spyOn(fs, 'readFileSync').mockImplementationOnce(() => {
-  //   // });
+  it('should throw an error when the file is not found', () => {
+    const path = '/path/to/nonexistent/file.txt';
 
-  //   const bunFileSpy = spyOn(Bun, 'file').mockImplementationOnce(
-  //     mock((_: string) => {
-  //       return {
-  //         text: () => {
-  //           throw new Error('getArticleFileString: file not found');
-  //         },
-  //       };
-  //     }) as Mock<AnyFunction>
-  //   );
+    const bunFileSpy = spyOn(Bun, 'file').mockImplementationOnce(() => {
+      throw new Error('Bun.file error');
+    });
 
-  //   expect(await getArticleFileString(path)).toThrow('getArticleFileString: file not found');
-  //   expectToHaveBeenCalledWith(bunFileSpy, [path]);
-  // });
+    expect(() => getArticleFileString(path)).toThrow('getArticleFileString: file not found');
+    expectToHaveBeenCalledWith(bunFileSpy, path);
+  });
 });
 
 describe('getImagePath', () => {
