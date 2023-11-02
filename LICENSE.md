@@ -12,7 +12,7 @@ The attribution requirement is only met when:
     <link rel="canonical" href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm" />
     ```
 
-2. The following message is displayed above and below the article:
+2. The attribution message is displayed above and below the article, e.g.:
 
     ```html
     This article has been originally published on <a href="https://blog.IgorKrupenja.com/">Igor Krupenja's blog</a> at this <a href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm">link</a>.
