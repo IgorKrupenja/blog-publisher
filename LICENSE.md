@@ -8,15 +8,15 @@ The attribution requirement is only met when:
 
 1. The canonical link in the `head` section of HTML is directed towards the original article, e.g.:
 
-    ```html
-    <link rel="canonical" href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm" />
-    ```
+   ```html
+   <link rel="canonical" href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm" />
+   ```
 
 2. The attribution message is displayed above and below the article, e.g.:
 
-    ```html
-    This article has been originally published on <a href="https://blog.IgorKrupenja.com/">Igor Krupenja's blog</a> at this <a href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm">link</a>.
-    ```
+   ```html
+   This article has been originally published on <a href="https://blog.IgorKrupenja.com/">Igor Krupenja's blog</a> at this <a href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm">link</a>.
+   ```
   
 ## Other files
 
