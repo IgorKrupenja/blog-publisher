@@ -44,7 +44,7 @@ describe('getArticleFileString', () => {
     const fileContents = 'This is the file contents.';
     const path = '/path/to/file.txt';
     const bunFileSpy = spyOn(Bun, 'file').mockImplementationOnce(
-      mock((_: string) => {
+      mock(() => {
         return {
           text: () => Promise.resolve(fileContents),
         };
@@ -58,11 +58,9 @@ describe('getArticleFileString', () => {
   it('should throw an error when the file is not found', () => {
     const path = '/path/to/nonexistent/file.txt';
 
-    const bunFileSpy = spyOn(Bun, 'file').mockImplementationOnce(
-      mock((_: string) => {
-        throw new Error('Bun.file error');
-      }) as Mock<AnyFunction>
-    );
+    const bunFileSpy = spyOn(Bun, 'file').mockImplementationOnce(() => {
+      throw new Error('Bun.file error');
+    });
 
     expect(() => getArticleFileString(path)).toThrow('getArticleFileString: file not found');
     expectToHaveBeenCalledWith(bunFileSpy, path);
