@@ -11,10 +11,6 @@ import * as markdown from './markdown';
 import { publishArticle } from './publish';
 import * as supabase from './supabase';
 
-// TODO: no types yet
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 void mock.module('../fetchers/supabase.ts', () => {
   return {
     uploadImage: jest.fn(),
