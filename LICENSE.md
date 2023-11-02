@@ -3,7 +3,8 @@
 ## Articles
 
 All the files inside `src/articles` directory are licensed under
-[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). The attribution requirement is only met when:
+[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/).
+The attribution requirement is only met when:
 
 1. The canonical link in the `head` section of HTML is directed towards the original article, e.g.:
 
