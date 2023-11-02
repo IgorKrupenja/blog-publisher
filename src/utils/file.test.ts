@@ -56,25 +56,27 @@ describe('getArticleFileString', () => {
   });
 
   // TODO: broken, maybe https://github.com/oven-sh/bun/issues/1546
-  // it('should throw an error when the file is not found', async () => {
-  //   const path = '/path/to/nonexistent/file.txt';
-  //   //   throw new Error('getArticleFileString: file not found');
-  //   // const readFileSyncSpy = spyOn(fs, 'readFileSync').mockImplementationOnce(() => {
-  //   // });
+  it('should throw an error when the file is not found', () => {
+    const path = '/path/to/nonexistent/file.txt';
+    //   throw new Error('getArticleFileString: file not found');
+    // const readFileSyncSpy = spyOn(fs, 'readFileSync').mockImplementationOnce(() => {
+    // });
 
-  //   const bunFileSpy = spyOn(Bun, 'file').mockImplementationOnce(
-  //     mock((_: string) => {
-  //       return {
-  //         text: () => {
-  //           throw new Error('getArticleFileString: file not found');
-  //         },
-  //       };
-  //     }) as Mock<AnyFunction>
-  //   );
+    const bunFileSpy = spyOn(Bun, 'file').mockImplementationOnce(
+      mock((_: string) => {
+        return {
+          text: () =>
+            // Promise.reject(new Error('Bun.file error')),
+            {
+              throw new Error('Bun.file error');
+            },
+        };
+      }) as Mock<AnyFunction>
+    );
 
-  //   expect(await getArticleFileString(path)).toThrow('getArticleFileString: file not found');
-  //   expectToHaveBeenCalledWith(bunFileSpy, [path]);
-  // });
+    expect(() => getArticleFileString(path)).toThrow('getArticleFileString: file not found');
+    expectToHaveBeenCalledWith(bunFileSpy, path);
+  });
 });
 
 describe('getImagePath', () => {
