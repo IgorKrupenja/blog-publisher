@@ -1,7 +1,7 @@
-export interface Article {
-  title: string;
+import { ArticleFrontMatter } from '.';
+
+export interface Article extends Omit<ArticleFrontMatter, 'coverImage'> {
   content: string;
   coverImagePath: string;
-  tags: string[];
   canonicalUrl?: string;
 }
