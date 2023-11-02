@@ -60,11 +60,7 @@ describe('getArticleFileString', () => {
 
     const bunFileSpy = spyOn(Bun, 'file').mockImplementationOnce(
       mock((_: string) => {
-        return {
-          text: () => {
-            throw new Error('Bun.file error');
-          },
-        };
+        throw new Error('Bun.file error');
       }) as Mock<AnyFunction>
     );
 
