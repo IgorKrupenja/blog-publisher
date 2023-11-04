@@ -21,7 +21,7 @@ export const createMediumArticle = async (article: Required<Article>): Promise<v
   console.debug(`Medium: published draft article '${article.title}'`);
 };
 
-const getCreateMediumArticleRequest = ({
+export const getCreateMediumArticleRequest = ({
   title,
   content,
   tags,
