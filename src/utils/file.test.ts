@@ -22,7 +22,7 @@ describe('getNewArticlePaths', () => {
     ]);
     expectToHaveBeenCalledWith(
       execSyncSpy,
-      'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
+      'git diff main HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
     );
   });
 
@@ -33,7 +33,7 @@ describe('getNewArticlePaths', () => {
     expect(getNewArticlePaths()).toEqual([]);
     expectToHaveBeenCalledWith(
       execSyncSpy,
-      'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
+      'git diff main HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
     );
   });
 });
