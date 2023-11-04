@@ -5,11 +5,11 @@ import remarkStringify from 'remark-stringify';
 import { unified } from 'unified';
 import { visit } from 'unist-util-visit';
 
-import { ArticleFrontMatter } from '../interfaces';
+import { ArticleFrontMatter, PartialArticleFrontMatter } from '../interfaces';
 
 import { getSupabaseUrl } from './supabase';
 
-export const getArticleFrontMatter = (markdown: string): ArticleFrontMatter => {
+export const getArticleFrontMatter = (markdown: string): PartialArticleFrontMatter => {
   const parsedMarkdown = unified()
     .use(remarkParse)
     .use(remarkStringify)
@@ -17,7 +17,11 @@ export const getArticleFrontMatter = (markdown: string): ArticleFrontMatter => {
     .use(remarkParseFrontmatter)
     .processSync(markdown);
 
-  const frontMatter = parsedMarkdown.data.frontmatter as Partial<ArticleFrontMatter> | undefined;
+  return parsedMarkdown.data.frontmatter as PartialArticleFrontMatter;
+};
+
+export const getArticleFrontMatterOrFail = (markdown: string): ArticleFrontMatter => {
+  const frontMatter = getArticleFrontMatter(markdown);
 
   if (!frontMatter) throw new Error('getArticle: No front matter found in article.');
   if (!frontMatter.title) throw new Error('getArticle: No title found in article.');

@@ -7,7 +7,7 @@ import { Article } from '../interfaces';
 import { getArticleFileString, getDirectoryPath, getImagePath } from './file';
 import { getCanonicalUrl } from './hashnode';
 import {
-  getArticleFrontMatter,
+  getArticleFrontMatterOrFail,
   getMarkdownImagePaths,
   replaceMarkdownImagePaths,
 } from './markdown';
@@ -17,7 +17,7 @@ export const publishArticle = async (filePath: string): Promise<void> => {
   const articleFile = await getArticleFileString(filePath);
   const directoryPath = getDirectoryPath(filePath);
 
-  const frontMatter = getArticleFrontMatter(articleFile);
+  const frontMatter = getArticleFrontMatterOrFail(articleFile);
   const coverImagePath = getImagePath(directoryPath, frontMatter.coverImage);
   const imagePaths = getMarkdownImagePaths(directoryPath, articleFile);
   const content = replaceMarkdownImagePaths(getSupabaseUrl(directoryPath), articleFile);

@@ -3,6 +3,7 @@ import { describe, expect, it, spyOn } from 'bun:test';
 import {
   getArticleContent,
   getArticleFrontMatter,
+  getArticleFrontMatterOrFail,
   getMarkdownImagePaths,
   insertCanonicalUrl,
   insertCoverImage,
@@ -31,7 +32,9 @@ describe('getArticleFrontMatter', () => {
 
     expect(getArticleFrontMatter(markdown)).toEqual(expectedFrontMatter);
   });
+});
 
+describe('getArticleFrontMatterOrFail', () => {
   it('should throw an error when title is missing', () => {
     const markdown =
       '---\n' +
@@ -43,7 +46,9 @@ describe('getArticleFrontMatter', () => {
       '\n' +
       'This is the body of my article.';
 
-    expect(() => getArticleFrontMatter(markdown)).toThrow('getArticle: No title found in article.');
+    expect(() => getArticleFrontMatterOrFail(markdown)).toThrow(
+      'getArticle: No title found in article.'
+    );
   });
 
   it('should throw an error when tags are missing', () => {
@@ -57,7 +62,9 @@ describe('getArticleFrontMatter', () => {
       '\n' +
       'This is the body of my article.';
 
-    expect(() => getArticleFrontMatter(markdown)).toThrow('getArticle: No tags found in article.');
+    expect(() => getArticleFrontMatterOrFail(markdown)).toThrow(
+      'getArticle: No tags found in article.'
+    );
   });
 
   it('should throw an error when coverImage is missing', () => {
@@ -71,7 +78,7 @@ describe('getArticleFrontMatter', () => {
       '\n' +
       'This is the body of my article.';
 
-    expect(() => getArticleFrontMatter(markdown)).toThrow(
+    expect(() => getArticleFrontMatterOrFail(markdown)).toThrow(
       'getArticle: No cover image found in article.'
     );
   });
@@ -79,7 +86,7 @@ describe('getArticleFrontMatter', () => {
   it('should throw an error when front matter is missing', () => {
     const markdown = '# My Article\n\nThis is the body of my article.';
 
-    expect(() => getArticleFrontMatter(markdown)).toThrow(
+    expect(() => getArticleFrontMatterOrFail(markdown)).toThrow(
       'getArticle: No front matter found in article.'
     );
   });

@@ -26,6 +26,19 @@ describe('getNewArticlePaths', () => {
     );
   });
 
+  it('should return an array of new article paths for test purposes', () => {
+    const execSyncSpy = spyOn(child_process, 'execSync');
+
+    expect(getNewArticlePaths('test')).toEqual([
+      'src/articles/2023/01/01-article.md',
+      'src/articles/2023/02/02-article.md',
+    ]);
+    expectToHaveBeenCalledWith(
+      execSyncSpy,
+      'git diff main HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
+    );
+  });
+
   it('should return an empty array when there is no diff', () => {
     const diffOutput = '';
     const execSyncSpy = spyOn(child_process, 'execSync').mockReturnValueOnce(diffOutput);

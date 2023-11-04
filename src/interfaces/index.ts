@@ -6,3 +6,4 @@ export * from './create-hashnode-article-request';
 export * from './create-hashnode-article-response';
 export * from './create-medium-article-request';
 export * from './hashnode-tag';
+export * from './partial-article-front-matter';
