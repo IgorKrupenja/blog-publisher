@@ -1,7 +1,11 @@
 import { AnyFunction } from 'bun';
 import { Mock, describe, expect, it, mock, spyOn } from 'bun:test';
 
-import { CreateHashnodeArticleRequest } from '../interfaces';
+import {
+  Article,
+  CreateHashnodeArticleRequest,
+  CreateHashnodeArticleResponse,
+} from '../interfaces';
 import * as supabase from '../utils/supabase';
 import { expectToHaveBeenCalledWith } from '../utils/test';
 
@@ -9,15 +13,14 @@ import * as hashnode from './hashnode';
 import { createHashnodeArticle, getCreateHashnodeArticleRequest } from './hashnode';
 
 describe('createHashnodeArticle', () => {
-  it.only('should send a create article request to Hashnode', async () => {
-    const mockArticle = {
+  it('should send a create article request to Hashnode and return slug', async () => {
+    const mockArticle: Article = {
       title: 'Test Article',
       content: 'This is a test article.',
-      coverImage: 'image.jpg',
       coverImagePath: 'path/to/image.jpg',
       tags: ['test'],
     };
-    const mockResponse = {
+    const mockResponse: CreateHashnodeArticleResponse = {
       data: {
         createPublicationStory: {
           post: {
@@ -51,6 +54,29 @@ describe('createHashnodeArticle', () => {
     expect(slug).toBe('test-article');
     expectToHaveBeenCalledWith(getCreateHashnodeArticleRequestSpy, mockArticle);
     expectToHaveBeenCalledWith(consoleDebugSpy, "Hashnode: published article 'Test Article'");
+  });
+
+  it('should throw an error if error response was received from HAshnode', async () => {
+    const mockArticle: Article = {
+      title: 'Test Article',
+      content: 'This is a test article.',
+      coverImagePath: 'path/to/image.jpg',
+      tags: ['test'],
+    };
+    const mockResponse: CreateHashnodeArticleResponse = {
+      errors: [{ message: 'test error' }],
+    };
+
+    spyOn(global, 'fetch').mockImplementationOnce(
+      mock(() => {
+        return { json: () => Promise.resolve(mockResponse) };
+      }) as Mock<AnyFunction>
+    );
+    spyOn(hashnode, 'getCreateHashnodeArticleRequest').mockReturnValueOnce(
+      {} as CreateHashnodeArticleRequest
+    );
+
+    expect(async () => createHashnodeArticle(mockArticle)).toThrow('Hashnode: test error');
   });
 });
 
