@@ -2,7 +2,7 @@ import { AnyFunction } from 'bun';
 import { Mock, describe, expect, it, mock, spyOn } from 'bun:test';
 
 import { Article, CreateMediumArticleRequest } from '../interfaces';
-import * as markdownUtils from '../utils/markdown';
+import * as markdownUtil from '../utils/markdown';
 import { expectToHaveBeenCalledWith } from '../utils/test';
 
 import * as medium from './medium';
@@ -81,10 +81,10 @@ describe('getCreateMediumArticleRequest', () => {
       notifyFollowers: true,
     };
 
-    const insertCoverImageSpy = spyOn(markdownUtils, 'insertCoverImage').mockReturnValueOnce(
+    const insertCoverImageSpy = spyOn(markdownUtil, 'insertCoverImage').mockReturnValueOnce(
       `![My Article Cover Image](https://blog.IgorKrpenja.com/path/to/cover/image.jpg)\n\nThis is my article content`
     );
-    const insertCanonicalUrlSpy = spyOn(markdownUtils, 'insertCanonicalUrl').mockReturnValueOnce(
+    const insertCanonicalUrlSpy = spyOn(markdownUtil, 'insertCanonicalUrl').mockReturnValueOnce(
       `Canonical dummy![My Article Cover Image](https://blog.IgorKrpenja.com/path/to/cover/image.jpg)\n\nThis is my article content`
     );
 
