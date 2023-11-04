@@ -56,7 +56,7 @@ describe('createHashnodeArticle', () => {
     expectToHaveBeenCalledWith(consoleDebugSpy, "Hashnode: published article 'Test Article'");
   });
 
-  it('should throw an error if error response was received from HAshnode', async () => {
+  it('should throw an error if error response was received from Hashnode', () => {
     const mockArticle: Article = {
       title: 'Test Article',
       content: 'This is a test article.',
@@ -77,6 +77,29 @@ describe('createHashnodeArticle', () => {
     );
 
     expect(async () => createHashnodeArticle(mockArticle)).toThrow('Hashnode: test error');
+  });
+
+  it('should throw an error if no data and no error was received from Hashnode', () => {
+    const mockArticle: Article = {
+      title: 'Test Article',
+      content: 'This is a test article.',
+      coverImagePath: 'path/to/image.jpg',
+      tags: ['test'],
+    };
+    const mockResponse: CreateHashnodeArticleResponse = {};
+
+    spyOn(global, 'fetch').mockImplementationOnce(
+      mock(() => {
+        return { json: () => Promise.resolve(mockResponse) };
+      }) as Mock<AnyFunction>
+    );
+    spyOn(hashnode, 'getCreateHashnodeArticleRequest').mockReturnValueOnce(
+      {} as CreateHashnodeArticleRequest
+    );
+
+    expect(async () => createHashnodeArticle(mockArticle)).toThrow(
+      'Hashnode: no response data or errors received. Check if the article was published.'
+    );
   });
 });
 
