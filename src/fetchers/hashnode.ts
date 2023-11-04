@@ -64,7 +64,6 @@ export const getCreateHashnodeArticleRequest = ({
 };
 
 export const getHashnodeTags = (tags: string[]): HashnodeTag[] => {
-  console.log('CALL IGOR ORIG');
   const hashnodeTags = tags.map((frontMatterTag) => {
     const hashnodeTag = HASHNODE_TAGS.find((tag) => tag.slug === frontMatterTag);
     if (hashnodeTag) return hashnodeTag;

@@ -10,7 +10,11 @@ import * as supabase from '../utils/supabase';
 import { expectToHaveBeenCalledWith } from '../utils/test';
 
 import * as hashnode from './hashnode';
-import { createHashnodeArticle, getCreateHashnodeArticleRequest } from './hashnode';
+import {
+  createHashnodeArticle,
+  getCreateHashnodeArticleRequest,
+  getHashnodeTags,
+} from './hashnode';
 
 describe('createHashnodeArticle', () => {
   it('should send a create article request to Hashnode and return slug', async () => {
@@ -152,5 +156,50 @@ describe('getCreateHashnodeArticleRequest', () => {
     const request = getCreateHashnodeArticleRequest(article);
 
     expect(request).toEqual(expectedRequest);
+  });
+});
+
+describe('getHashnodeTags', () => {
+  it('should return an array of Hashnode tags', () => {
+    const frontMatterTags = ['test', 'tensorflow'];
+    const expectedHashnodeTags = [
+      { name: 'test', slug: 'test', objectID: '56744722958ef13879b951d6' },
+      { name: 'tensorflow', slug: 'tensorflow', objectID: '56744722958ef13879b9518a' },
+    ];
+
+    const hashnodeTags = getHashnodeTags(frontMatterTags);
+
+    expect(hashnodeTags).toEqual(expectedHashnodeTags);
+  });
+
+  it('should throw an error if an invalid tag is provided', () => {
+    const frontMatterTags = ['test', 'invalid', 'hashnode'];
+
+    expect(() => getHashnodeTags(frontMatterTags)).toThrow(
+      'publishArticleOnHashnode: invalid tag: invalid'
+    );
+  });
+
+  it('should throw an error if less than 1 tag is provided', () => {
+    const frontMatterTags: string[] = [];
+
+    expect(() => getHashnodeTags(frontMatterTags)).toThrow(
+      'publishArticleOnHashnode: must have between 1 and 5 tags'
+    );
+  });
+
+  it('should throw an error if more than 5 tags are provided', () => {
+    const frontMatterTags = [
+      'test',
+      'hashnode',
+      'javascript',
+      'typescript',
+      'tensorflow',
+      'nodejs',
+    ];
+
+    expect(() => getHashnodeTags(frontMatterTags)).toThrow(
+      'publishArticleOnHashnode: must have between 1 and 5 tags'
+    );
   });
 });
