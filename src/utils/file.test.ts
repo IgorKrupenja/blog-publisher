@@ -22,6 +22,19 @@ describe('getNewArticlePaths', () => {
     ]);
     expectToHaveBeenCalledWith(
       execSyncSpy,
+      'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
+    );
+  });
+
+  it('should return an array of new article paths for test purposes', () => {
+    const execSyncSpy = spyOn(child_process, 'execSync');
+
+    expect(getNewArticlePaths('test')).toEqual([
+      'src/articles/2023/01/01-article.md',
+      'src/articles/2023/02/02-article.md',
+    ]);
+    expectToHaveBeenCalledWith(
+      execSyncSpy,
       'git diff main HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
     );
   });
@@ -33,7 +46,7 @@ describe('getNewArticlePaths', () => {
     expect(getNewArticlePaths()).toEqual([]);
     expectToHaveBeenCalledWith(
       execSyncSpy,
-      'git diff main HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
+      'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
     );
   });
 });

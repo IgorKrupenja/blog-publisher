@@ -1,9 +1,9 @@
 import { execSync } from 'child_process';
 
-export const getNewArticlePaths = (): string[] => {
-  // todo fix GH actions!
-  // const command = 'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"';
-  const command = 'git diff main HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"';
+export const getNewArticlePaths = (purpose: 'publish' | 'test' = 'publish'): string[] => {
+  const command = `git diff ${
+    purpose === 'publish' ? 'HEAD^' : 'main'
+  } HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"`;
   const diffOutput = execSync(command).toString();
   return diffOutput.toString().split('\n').filter(Boolean);
 };

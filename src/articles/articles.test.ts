@@ -1,19 +1,26 @@
 import { beforeAll, describe, expect, it } from 'bun:test';
 
 import { PartialArticleFrontMatter } from '../interfaces';
-import { getArticleFileString, getNewArticlePaths } from '../utils/file';
+import {
+  getArticleFileString,
+  getDirectoryPath,
+  getImagePath,
+  getNewArticlePaths,
+} from '../utils/file';
 import { getArticleFrontMatter } from '../utils/markdown';
 
 describe('articles', () => {
   let articles: { path: string; frontMatter: PartialArticleFrontMatter }[] = [];
 
   beforeAll(async () => {
-    const paths = getNewArticlePaths();
+    const paths = getNewArticlePaths('test');
+    const articleFileStrings = await Promise.all(paths.map(getArticleFileString));
+
     articles = await Promise.all(
-      paths.map(async (path) => {
+      paths.map((path, index) => {
         return {
           path,
-          frontMatter: getArticleFrontMatter(await getArticleFileString(path)),
+          frontMatter: getArticleFrontMatter(articleFileStrings[index]),
         };
       })
     );
@@ -22,18 +29,18 @@ describe('articles', () => {
   it('should should have frontmatter with title, tags and cover image', () => {
     articles.forEach(({ frontMatter }) => {
       expect(frontMatter).toBeDefined();
-      expect(frontMatter).toHaveProperty('title');
-      expect(frontMatter).toHaveProperty('tags');
-      expect(frontMatter).toHaveProperty('coverImage');
+      expect(frontMatter?.title).toBeDefined();
+      expect(frontMatter?.tags).toBeDefined();
+      expect(frontMatter?.coverImage).toBeDefined();
     });
   });
 
-  it('should have a valid cover image file', () => {
-    const articlePath = 'src/articles/2021/01/01-article.md';
-    articles.forEach((frontMatter) => {
-      // expect
-      // expect(frontMatter.coverImage).toBeDefined();
-      // expect(frontMatter.coverImage).toMatch(/\/images\/articles\/.*\.(jpg|png)/);
-    });
+  it('should have a valid cover image file', async () => {
+    for (const { path, frontMatter } of articles) {
+      if (!frontMatter?.coverImage) continue;
+
+      const imagePath = getImagePath(getDirectoryPath(path), frontMatter?.coverImage);
+      expect(await Bun.file(imagePath).exists()).toBeTrue();
+    }
   });
 });
