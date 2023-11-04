@@ -7,10 +7,11 @@ import {
   getImagePath,
   getNewArticlePaths,
 } from '../utils/file';
-import { getArticleFrontMatter } from '../utils/markdown';
+import { getArticleContent, getArticleFrontMatter, getMarkdownImagePaths } from '../utils/markdown';
 
 describe('articles', () => {
-  let articles: { path: string; frontMatter: PartialArticleFrontMatter }[] = [];
+  // todo can use article interfacd?
+  let articles: { path: string; frontMatter: PartialArticleFrontMatter; content: string }[] = [];
 
   beforeAll(async () => {
     const paths = getNewArticlePaths('test');
@@ -21,6 +22,7 @@ describe('articles', () => {
         return {
           path,
           frontMatter: getArticleFrontMatter(articleFileStrings[index]),
+          content: getArticleContent(articleFileStrings[index]),
         };
       })
     );
@@ -41,6 +43,16 @@ describe('articles', () => {
 
       const imagePath = getImagePath(getDirectoryPath(path), frontMatter?.coverImage);
       expect(await Bun.file(imagePath).exists()).toBeTrue();
+    }
+  });
+
+  it('should have a valid article content image file', async () => {
+    for (const { path, content } of articles) {
+      const articleImagePaths = getMarkdownImagePaths(getDirectoryPath(path), content);
+
+      for (const imagePath of articleImagePaths) {
+        expect(await Bun.file(imagePath).exists()).toBeTrue();
+      }
     }
   });
 });
