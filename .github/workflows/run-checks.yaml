@@ -26,4 +26,4 @@ jobs:
   test:
     uses: ./.github/workflows/run-check.yaml
     with:
-      command: bun test
+      command: git fetch origin main:main && bun test
