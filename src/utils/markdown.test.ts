@@ -3,6 +3,7 @@ import { describe, expect, it, spyOn } from 'bun:test';
 import {
   getArticleContent,
   getArticleFrontMatter,
+  getArticleFrontMatterOrFail,
   getMarkdownImagePaths,
   insertCanonicalUrl,
   insertCoverImage,
@@ -33,63 +34,63 @@ describe('getArticleFrontMatter', () => {
   });
 });
 
-// describe('getArticleFrontMatterOrFail', () => {
-//   it('should throw an error when title is missing', () => {
-//     const markdown =
-//       '---\n' +
-//       'tags: [tag1, tag2]\n' +
-//       'coverImage: /path/to/image.jpg\n' +
-//       '---\n' +
-//       '\n' +
-//       '# My Article\n' +
-//       '\n' +
-//       'This is the body of my article.';
+describe('getArticleFrontMatterOrFail', () => {
+  it('should throw an error when title is missing', () => {
+    const markdown =
+      '---\n' +
+      'tags: [tag1, tag2]\n' +
+      'coverImage: /path/to/image.jpg\n' +
+      '---\n' +
+      '\n' +
+      '# My Article\n' +
+      '\n' +
+      'This is the body of my article.';
 
-//     expect(() => getArticleFrontMatterOrFail(markdown)).toThrow(
-//       'getArticle: No title found in article.'
-//     );
-//   });
+    expect(() => getArticleFrontMatterOrFail(markdown)).toThrow(
+      'getArticle: No title found in article.'
+    );
+  });
 
-//   it('should throw an error when tags are missing', () => {
-//     const markdown =
-//       '---\n' +
-//       'title: My Article\n' +
-//       'coverImage: /path/to/image.jpg\n' +
-//       '---\n' +
-//       '\n' +
-//       '# My Article\n' +
-//       '\n' +
-//       'This is the body of my article.';
+  it('should throw an error when tags are missing', () => {
+    const markdown =
+      '---\n' +
+      'title: My Article\n' +
+      'coverImage: /path/to/image.jpg\n' +
+      '---\n' +
+      '\n' +
+      '# My Article\n' +
+      '\n' +
+      'This is the body of my article.';
 
-//     expect(() => getArticleFrontMatterOrFail(markdown)).toThrow(
-//       'getArticle: No tags found in article.'
-//     );
-//   });
+    expect(() => getArticleFrontMatterOrFail(markdown)).toThrow(
+      'getArticle: No tags found in article.'
+    );
+  });
 
-//   it('should throw an error when coverImage is missing', () => {
-//     const markdown =
-//       '---\n' +
-//       'title: My Article\n' +
-//       'tags: [tag1, tag2]\n' +
-//       '---\n' +
-//       '\n' +
-//       '# My Article\n' +
-//       '\n' +
-//       'This is the body of my article.';
+  it('should throw an error when coverImage is missing', () => {
+    const markdown =
+      '---\n' +
+      'title: My Article\n' +
+      'tags: [tag1, tag2]\n' +
+      '---\n' +
+      '\n' +
+      '# My Article\n' +
+      '\n' +
+      'This is the body of my article.';
 
-//     expect(() => getArticleFrontMatterOrFail(markdown)).toThrow(
-//       'getArticle: No cover image found in article.'
-//     );
-//   });
+    expect(() => getArticleFrontMatterOrFail(markdown)).toThrow(
+      'getArticle: No cover image found in article.'
+    );
+  });
 
-//   it('should throw an error when front matter is missing', () => {
-//     const markdown = '# My Article\n\nThis is the body of my article.';
+  it('should throw an error when front matter is missing', () => {
+    const markdown = '# My Article\n\nThis is the body of my article.';
 
-//     expect(() => getArticleFrontMatterOrFail(markdown)).toThrow(
-//       'getArticle: No front matter found in article.'
-//     );
-//   });
-// });
+    expect(() => getArticleFrontMatterOrFail(markdown)).toThrow(
+      'getArticle: No front matter found in article.'
+    );
+  });
+});
 
 describe('getArticleContent', () => {
   it('should remove front matter from markdown', () => {
