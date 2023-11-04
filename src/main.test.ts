@@ -1,9 +1,9 @@
 import { describe, expect, it, spyOn } from 'bun:test';
 
 import { publishArticles } from './main';
-import { expectToHaveBeenCalledWith } from './test/test-util';
 import * as file from './utils/file';
 import * as publish from './utils/publish';
+import { expectToHaveBeenCalledWith } from './utils/test';
 
 describe('publishArticles', () => {
   it('should call publishArticle for each new article path', async () => {

@@ -1,7 +1,7 @@
 import { describe, expect, it, spyOn } from 'bun:test';
 import mime from 'mime';
 
-import { expectToHaveBeenCalledWith } from '../test/test-util';
+import { expectToHaveBeenCalledWith } from '../utils/test';
 
 import { getImageOptions } from './supabase';
 

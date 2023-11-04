@@ -3,13 +3,13 @@ import { describe, it, jest, mock, spyOn } from 'bun:test';
 import * as devTo from '../fetchers/dev-to';
 import * as hashnode from '../fetchers/hashnode';
 import * as medium from '../fetchers/medium';
-import { expectToHaveBeenCalledWith } from '../test/test-util';
 import * as hashnodeUtil from '../utils/hashnode';
 
 import * as file from './file';
 import * as markdown from './markdown';
 import { publishArticle } from './publish';
 import * as supabase from './supabase';
+import { expectToHaveBeenCalledWith } from './test';
 
 void mock.module('../fetchers/supabase.ts', () => {
   return {

@@ -3,7 +3,7 @@ import * as child_process from 'child_process';
 import { AnyFunction } from 'bun';
 import { Mock, describe, expect, it, mock, spyOn } from 'bun:test';
 
-import { expectToHaveBeenCalledWith } from '../test/test-util';
+import { expectToHaveBeenCalledWith } from './test';
 
 import { getArticleFileString, getDirectoryPath, getImagePath, getNewArticlePaths } from './file';
 
