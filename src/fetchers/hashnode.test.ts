@@ -77,17 +77,6 @@ describe('getCreateHashnodeArticleRequest', () => {
       tags: ['test'],
     };
 
-    spyOn(supabase, 'getSupabaseUrl').mockReturnValueOnce(
-      'https://supabase.IgorKrpenja.com/storage/v1/object/public/images/path/to/image.jpg'
-    );
-    spyOn(hashnode, 'getHashnodeTags').mockReturnValueOnce([
-      {
-        name: 'test',
-        slug: 'test',
-        objectID: 'dummy',
-      },
-    ]);
-
     const expectedRequest = {
       query: `#graphql
         mutation createPublicationStory($input: CreateStoryInput!, $publicationId: String!) {
@@ -115,11 +104,18 @@ describe('getCreateHashnodeArticleRequest', () => {
       },
     };
 
-    const request = getCreateHashnodeArticleRequest(article);
+    spyOn(supabase, 'getSupabaseUrl').mockReturnValueOnce(
+      'https://supabase.IgorKrpenja.com/storage/v1/object/public/images/path/to/image.jpg'
+    );
+    spyOn(hashnode, 'getHashnodeTags').mockReturnValueOnce([
+      {
+        name: 'test',
+        slug: 'test',
+        objectID: 'dummy',
+      },
+    ]);
 
-    console.log(JSON.stringify(request));
-    console.log();
-    console.log(JSON.stringify(expectedRequest));
+    const request = getCreateHashnodeArticleRequest(article);
 
     expect(request).toEqual(expectedRequest);
   });
