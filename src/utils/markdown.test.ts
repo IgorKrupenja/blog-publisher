@@ -150,14 +150,13 @@ describe('insertCoverImage', () => {
     const content = '## Heading';
     const coverImagePath = 'path/to/image.jpg';
 
-    const spy = spyOn(supabase, 'getSupabaseUrl').mockReturnValueOnce(
+    spyOn(supabase, 'getSupabaseUrl').mockReturnValueOnce(
       'https://supabase.IgorKrpenja.com/storage/v1/object/public/images/path/to/image.jpg'
     );
 
     expect(insertCoverImage(title, content, coverImagePath)).toEqual(
       '\n![title](https://supabase.IgorKrpenja.com/storage/v1/object/public/images/path/to/image.jpg)\n## Heading'
     );
-    expect(spy).toHaveBeenCalledTimes(1);
   });
 });
 

@@ -1,5 +1,5 @@
 export interface CreateHashnodeArticleResponse {
-  data: {
+  data?: {
     createPublicationStory: {
       post: { slug: string };
     };

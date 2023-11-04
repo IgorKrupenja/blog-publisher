@@ -21,12 +21,17 @@ export const createHashnodeArticle = async (article: Article): Promise<string> =
   if (responseJson.errors && responseJson.errors.length > 0)
     throw Error(`Hashnode: ${responseJson.errors.map((error) => error.message).join(', ')}`);
 
+  if (!responseJson.data)
+    throw Error(
+      'Hashnode: no response data or errors received. Check if the article was published.'
+    );
+
   console.debug(`Hashnode: published article '${article.title}'`);
 
   return responseJson.data.createPublicationStory.post.slug;
 };
 
-const getCreateHashnodeArticleRequest = ({
+export const getCreateHashnodeArticleRequest = ({
   title,
   content,
   coverImagePath,
@@ -58,7 +63,7 @@ const getCreateHashnodeArticleRequest = ({
   };
 };
 
-const getHashnodeTags = (tags: string[]): HashnodeTag[] => {
+export const getHashnodeTags = (tags: string[]): HashnodeTag[] => {
   const hashnodeTags = tags.map((frontMatterTag) => {
     const hashnodeTag = HASHNODE_TAGS.find((tag) => tag.slug === frontMatterTag);
     if (hashnodeTag) return hashnodeTag;

@@ -19,7 +19,7 @@ export const createDevToArticle = async (article: Required<Article>): Promise<vo
   console.debug(`Dev.to: published draft article '${article.title}'`);
 };
 
-const getCreateDevToArticleRequest = ({
+export const getCreateDevToArticleRequest = ({
   content,
   canonicalUrl,
   coverImagePath,

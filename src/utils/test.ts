@@ -13,8 +13,8 @@ export const expectToHaveBeenCalledWith = (
 
   if (!match) {
     throw new Error(
-      `\n\nExpected: ${chalk.green(expectedArgs.toString())}\nReceived: ${chalk.red(
-        calls.toString()
+      `\n\nExpected: ${chalk.green(JSON.stringify(expectedArgs))}\nReceived: ${chalk.red(
+        JSON.stringify(calls)
       )}\n`
     );
   }
