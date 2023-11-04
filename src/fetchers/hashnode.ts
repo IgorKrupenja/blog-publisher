@@ -26,7 +26,7 @@ export const createHashnodeArticle = async (article: Article): Promise<string> =
   return responseJson.data.createPublicationStory.post.slug;
 };
 
-const getCreateHashnodeArticleRequest = ({
+export const getCreateHashnodeArticleRequest = ({
   title,
   content,
   coverImagePath,
@@ -58,7 +58,8 @@ const getCreateHashnodeArticleRequest = ({
   };
 };
 
-const getHashnodeTags = (tags: string[]): HashnodeTag[] => {
+export const getHashnodeTags = (tags: string[]): HashnodeTag[] => {
+  console.log('CALL IGOR ORIG');
   const hashnodeTags = tags.map((frontMatterTag) => {
     const hashnodeTag = HASHNODE_TAGS.find((tag) => tag.slug === frontMatterTag);
     if (hashnodeTag) return hashnodeTag;
