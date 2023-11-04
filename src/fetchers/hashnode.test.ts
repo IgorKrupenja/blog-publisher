@@ -6,7 +6,7 @@ import {
   CreateHashnodeArticleRequest,
   CreateHashnodeArticleResponse,
 } from '../interfaces';
-import * as supabase from '../utils/supabase';
+import * as supabaseUtil from '../utils/supabase';
 import { expectToHaveBeenCalledWith } from '../utils/test';
 
 import * as hashnode from './hashnode';
@@ -80,7 +80,7 @@ describe('createHashnodeArticle', () => {
       {} as CreateHashnodeArticleRequest
     );
 
-    expect(async () => createHashnodeArticle(mockArticle)).toThrow('Hashnode: test error');
+    expect(() => createHashnodeArticle(mockArticle)).toThrow('Hashnode: test error');
   });
 
   it('should throw an error if no data and no error was received from Hashnode', () => {
@@ -142,7 +142,7 @@ describe('getCreateHashnodeArticleRequest', () => {
       },
     };
 
-    spyOn(supabase, 'getSupabaseUrl').mockReturnValueOnce(
+    spyOn(supabaseUtil, 'getSupabaseUrl').mockReturnValueOnce(
       'https://supabase.IgorKrpenja.com/storage/v1/object/public/images/path/to/image.jpg'
     );
     spyOn(hashnode, 'getHashnodeTags').mockReturnValueOnce([
