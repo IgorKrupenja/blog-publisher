@@ -9,11 +9,27 @@ export const expectToHaveBeenCalledWith = (
 ): void => {
   const calls = mock.mock.calls;
 
-  const matchingCall = calls.find((call) =>
-    call.some((arg) => expectedArgs.some((expectedArg) => Bun.deepEquals(expectedArg, arg)))
-  );
+  // const match = calls.find((call) =>
+  //   call.some((arg) => expectedArgs.some((expectedArg) => Bun.deepEquals(expectedArg, arg)))
+  // );
 
-  if (!matchingCall) {
+  console.log(chalk.green(expectedArgs.toString()));
+
+  let match = false;
+
+  for (const call of calls) {
+    console.log(chalk.yellow(call));
+    console.log(chalk.blue(Bun.deepEquals(call, expectedArgs)));
+
+    if (Bun.deepEquals(call, expectedArgs)) {
+      match = true;
+      break;
+    }
+  }
+
+  // console.log(chalk.red('MATCH:', !!match));
+
+  if (!match) {
     throw new Error(
       `\n\nExpected: ${chalk.green(expectedArgs.toString())}\nReceived: ${chalk.red(
         calls.toString()
