@@ -19,6 +19,6 @@ jobs:
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: canary
-      - run: git fetch origin main:main
+      # - run: git fetch origin main:main
       - run: bun install
       - run: ${{ inputs.command }}
