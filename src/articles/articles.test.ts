@@ -10,7 +10,6 @@ import {
 import { getArticleContent, getArticleFrontMatter, getMarkdownImagePaths } from '../utils/markdown';
 
 describe('articles', () => {
-  // todo can use article interfacd?
   let articles: { path: string; frontMatter: PartialArticleFrontMatter; content: string }[] = [];
 
   beforeAll(async () => {
