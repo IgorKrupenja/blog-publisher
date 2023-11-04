@@ -51,6 +51,7 @@ describe('publishArticle', () => {
 
     await publishArticle('/path/to/article.md');
 
+    // todo two arg test here
     expectToHaveBeenCalledWith(getImagePathSpy, '/path/to/', 'cover.jpg');
     expectToHaveBeenCalledWith(
       getMarkdownImagePathsSpy,

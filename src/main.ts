@@ -8,7 +8,7 @@ export const publishArticles = async (): Promise<void> => {
     return;
   }
 
-  await Promise.all(paths.map(publishArticle));
+  await Promise.all(paths.map((path) => publishArticle(path)));
 };
 
 await publishArticles();
