@@ -1,6 +1,7 @@
 ---
 title: Next.js + Expo monorepo with pnpm
 tags: [nextjs, expo, typescript, react-native, mobile]
+coverImage: cover.jpg
 ---
 
 ## Why?

@@ -1,24 +1,21 @@
 import { beforeAll, describe, expect, it } from 'bun:test';
 
-import { ArticleFrontMatter } from '../interfaces';
+import { PartialArticleFrontMatter } from '../interfaces';
 import { getArticleFileString, getNewArticlePaths } from '../utils/file';
 import { getArticleFrontMatter } from '../utils/markdown';
 
 describe('articles', () => {
-  let articleFrontMatter: ArticleFrontMatter[] = [];
+  let articlesFrontMatter: PartialArticleFrontMatter[] = [];
 
   beforeAll(async () => {
     const paths = getNewArticlePaths();
-    console.log('paths', paths);
-
-    articleFrontMatter = await Promise.all(
+    articlesFrontMatter = await Promise.all(
       paths.map(async (path) => getArticleFrontMatter(await getArticleFileString(path)))
     );
   });
 
-  it.only('should should have frontmatter with title, tags and cover image', () => {
-    articleFrontMatter.forEach((frontMatter) => {
-      //   console.log(frontMatter);
+  it('should should have frontmatter with title, tags and cover image', () => {
+    articlesFrontMatter.forEach((frontMatter) => {
       expect(frontMatter).toBeDefined();
       expect(frontMatter).toHaveProperty('title');
       expect(frontMatter).toHaveProperty('tags');

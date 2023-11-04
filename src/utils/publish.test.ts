@@ -26,7 +26,7 @@ describe('publishArticle', () => {
       Promise.resolve('---\ntitle: Test Article\n---\n\nThis is a test article.')
     );
     spyOn(file, 'getDirectoryPath').mockReturnValueOnce('/path/to/');
-    spyOn(markdown, 'getArticleFrontMatter').mockReturnValueOnce({
+    spyOn(markdown, 'getArticleFrontMatterOrFail').mockReturnValueOnce({
       title: 'Test Article',
       tags: ['first', 'second'],
       coverImage: 'cover.jpg',
