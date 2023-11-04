@@ -1,6 +1,7 @@
 import { AnyFunction } from 'bun';
 import { Mock, describe, expect, it, mock, spyOn } from 'bun:test';
 
+import { CreateHashnodeArticleRequest } from '../interfaces';
 import * as supabase from '../utils/supabase';
 import { expectToHaveBeenCalledWith } from '../utils/test';
 
@@ -8,7 +9,7 @@ import * as hashnode from './hashnode';
 import { createHashnodeArticle, getCreateHashnodeArticleRequest } from './hashnode';
 
 describe('createHashnodeArticle', () => {
-  it.todo('should create an article on Hashnode', async () => {
+  it.only('should send a create article request to Hashnode', async () => {
     const mockArticle = {
       title: 'Test Article',
       content: 'This is a test article.',
@@ -16,7 +17,6 @@ describe('createHashnodeArticle', () => {
       coverImagePath: 'path/to/image.jpg',
       tags: ['test'],
     };
-
     const mockResponse = {
       data: {
         createPublicationStory: {
@@ -32,6 +32,11 @@ describe('createHashnodeArticle', () => {
         return { json: () => Promise.resolve(mockResponse) };
       }) as Mock<AnyFunction>
     );
+    const getCreateHashnodeArticleRequestSpy = spyOn(
+      hashnode,
+      'getCreateHashnodeArticleRequest'
+    ).mockReturnValueOnce({} as CreateHashnodeArticleRequest);
+    const consoleDebugSpy = spyOn(console, 'debug').mockImplementationOnce(() => {});
 
     const slug = await createHashnodeArticle(mockArticle);
 
@@ -41,30 +46,11 @@ describe('createHashnodeArticle', () => {
         'Content-Type': 'application/json',
         Authorization: Bun.env.HASHNODE_TOKEN,
       },
-      //   todo mock this crap?
-      body: {
-        query: JSON.stringify(
-          `#graphql
-        mutation CreatePublicationStory($input: CreateStoryInput!, $publicationId: String!) {
-          createPublicationStory(input: $input, publicationId: $publicationId) {
-            post { slug }
-          }
-        }
-        `
-        ),
-        variables: JSON.stringify({
-          publicationId: Bun.env.HASHNODE_PUBLICATION_ID,
-          hideFromHashnodeFeed: false,
-          input: {
-            title: mockArticle.title,
-            contentMarkdown: mockArticle.content,
-            coverImage: mockArticle.coverImage,
-            tags: mockArticle.tags,
-          },
-        }),
-      },
+      body: JSON.stringify({}),
     });
     expect(slug).toBe('test-article');
+    expectToHaveBeenCalledWith(getCreateHashnodeArticleRequestSpy, mockArticle);
+    expectToHaveBeenCalledWith(consoleDebugSpy, "Hashnode: published article 'Test Article'");
   });
 });
 
@@ -91,7 +77,6 @@ describe('getCreateHashnodeArticleRequest', () => {
         input: {
           title: article.title,
           contentMarkdown: article.content,
-          // todo wtf?
           tags: [
             {
               _id: 'dummy',
