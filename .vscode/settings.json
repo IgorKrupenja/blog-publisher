@@ -1,7 +1,7 @@
 {
   "editor.codeActionsOnSave": {
-    "source.addMissingImports": true,
-    "source.fixAll": true
+    "source.addMissingImports": "always",
+    "source.fixAll": "always"
   },
   "editor.formatOnSave": true,
   "[javascript][typescript][typescriptreact][json][jsonc][html]": {
