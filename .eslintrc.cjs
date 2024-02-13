@@ -18,6 +18,14 @@ module.exports = {
     node: true,
   },
   ignorePatterns: ['.eslintrc.cjs'],
+  settings: {
+    'import/resolver': {
+      'typescript-bun': {
+        project: true,
+        alwaysTryTypes: true,
+      },
+    },
+  },
   rules: {
     '@typescript-eslint/explicit-function-return-type': [
       'error',
@@ -28,12 +36,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/no-floating-promises': 'error',
     '@typescript-eslint/require-await': 'error',
-    'import/no-unresolved': [
-      'error',
-      {
-        ignore: ['bun:test', 'bun'],
-      },
-    ],
+    'import/no-unresolved': ['error'],
     'import/order': [
       'warn',
       {
