@@ -1,4 +1,4 @@
-# Blog publisher
+# pubb
 
 <!-- todo use similar in descr -->
 
@@ -34,8 +34,12 @@ will be addressed in the nearest future.
 
 ## Testing
 
+<!-- todo BUN 🚀 -->
+
 ## Performance
 
-<!-- todo BUN -->
+<!-- todo BUN 🚀 -->
 
 ## To do
+
+<!-- todo BUN 😢 -->
