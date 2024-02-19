@@ -2,8 +2,8 @@
 
 <!-- todo use similar in descr -->
 
-Looking for a way to publish your developer blog posts to multiple platforms? Look no further! This
-simple CLI tool provides an easy way to publish your blog posts on [Hashnode](https://hashnode.com/),
+Looking for a way to publish your developer blog posts to multiple platforms? Look no further!
+**pubb** is a simple CLI tool provides an easy way to publish your blog posts on [Hashnode](https://hashnode.com/),
 [Dev.to](https://dev.to/) and [Medium](https://medium.com/) and host images on
 [Supabase](https://supabase.com/).
 
