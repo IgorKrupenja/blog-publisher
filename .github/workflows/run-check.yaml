@@ -18,6 +18,6 @@ jobs:
           fetch-depth: 2
       - uses: oven-sh/setup-bun@v1
         with:
-          bun-version: canary
+          bun-version: 1.0.25
       - run: bun install
       - run: ${{ inputs.command }}
