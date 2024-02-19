@@ -16,8 +16,8 @@ The attribution requirement is only met when:
 
    ```html
    This article has been originally published on
-   <a href="https://blog.IgorKrupenja.com/">Igor Krupenja's blog</a> at this
-   <a href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm">link</a>.
+   <a href="https://blog.IgorKrupenja.com/">Igor Krupenja's blog</a> at
+   <a href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm">this link</a>.
    ```
 
 ## Other files
