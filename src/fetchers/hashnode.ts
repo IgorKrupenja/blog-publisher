@@ -8,6 +8,7 @@ import {
 import { getSupabaseUrl } from '../utils/supabase';
 
 export const createHashnodeArticle = async (article: Article): Promise<string> => {
+  console.debug(`Hashnode: creating article '${article.title}'`);
   const response = await fetch('https://api.hashnode.com', {
     method: 'POST',
     headers: {
@@ -16,7 +17,9 @@ export const createHashnodeArticle = async (article: Article): Promise<string> =
     },
     body: JSON.stringify(getCreateHashnodeArticleRequest(article)),
   });
+  console.log('response', response);
   const responseJson = (await response.json()) as CreateHashnodeArticleResponse;
+  console.debug(`Hashnode: response: ${JSON.stringify(responseJson)}`);
 
   if (responseJson.errors && responseJson.errors.length > 0)
     throw Error(`Hashnode: ${responseJson.errors.map((error) => error.message).join(', ')}`);

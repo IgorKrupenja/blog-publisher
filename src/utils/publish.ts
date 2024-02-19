@@ -1,5 +1,4 @@
 import { createDevToArticle } from '../fetchers/dev-to';
-import { createHashnodeArticle } from '../fetchers/hashnode';
 import { createMediumArticle } from '../fetchers/medium';
 import { uploadImage } from '../fetchers/supabase';
 import { Article } from '../interfaces';
@@ -26,8 +25,10 @@ export const publishArticle = async (filePath: string): Promise<void> => {
 
   const article: Article = { ...frontMatter, content, coverImagePath };
 
-  const slug = await createHashnodeArticle(article);
-  const canonicalUrl = getCanonicalUrl(slug);
+  console.log('supabase ok');
+
+  // const slug = await createHashnodeArticle(article);
+  const canonicalUrl = getCanonicalUrl('slug');
 
   await Promise.all([
     createDevToArticle({ ...article, canonicalUrl }),
