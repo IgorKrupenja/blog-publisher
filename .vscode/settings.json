@@ -4,7 +4,7 @@
     "source.fixAll": "always"
   },
   "editor.formatOnSave": true,
-  "[javascript][typescript][typescriptreact][json][jsonc][html]": {
+  "[javascript][typescript][typescriptreact][json][jsonc][html][yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[markdown]": {
