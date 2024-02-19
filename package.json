@@ -6,12 +6,13 @@
   "scripts": {
     "typecheck": "bun tsc --noEmit",
     "lint": "bun --bun eslint .",
+    "format": "prettier --write .",
     "publish": "bun src/main.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.4",
     "@types/mime": "^3.0.4",
-    "bun-types": "canary",
+    "bun-types": "latest",
     "chalk": "^5.3.0",
     "mime": "^4.0.1",
     "remark-frontmatter": "^5.0.0",

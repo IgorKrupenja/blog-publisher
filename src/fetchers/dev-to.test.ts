@@ -4,7 +4,6 @@ import { Mock, describe, expect, it, mock, spyOn } from 'bun:test';
 import { Article, CreateDevToArticleRequest, CreateDevToArticleResponse } from '../interfaces';
 import * as markdownUtil from '../utils/markdown';
 import * as supabaseUtil from '../utils/supabase';
-import { expectToHaveBeenCalledWith } from '../utils/test';
 
 import * as devTo from './dev-to';
 import { createDevToArticle, getCreateDevToArticleRequest } from './dev-to';
@@ -32,7 +31,7 @@ describe('createDevToArticle', () => {
 
     await createDevToArticle(mockArticle);
 
-    expectToHaveBeenCalledWith(fetchSpy, 'https://dev.to/api/articles', {
+    expect(fetchSpy).toHaveBeenCalledWith('https://dev.to/api/articles', {
       method: 'POST',
       headers: {
         'api-key': Bun.env.DEV_TO_KEY,
@@ -41,8 +40,8 @@ describe('createDevToArticle', () => {
       },
       body: JSON.stringify({}),
     });
-    expectToHaveBeenCalledWith(getCreateDevToArticleRequestSpy, mockArticle);
-    expectToHaveBeenCalledWith(consoleDebugSpy, "Dev.to: published draft article 'Test Article'");
+    expect(getCreateDevToArticleRequestSpy).toHaveBeenCalledWith(mockArticle);
+    expect(consoleDebugSpy).toHaveBeenCalledWith("Dev.to: published draft article 'Test Article'");
   });
 
   it('should throw an error if error response was received from Hashnode', () => {
@@ -96,7 +95,7 @@ describe('getCreateDevToArticleRequest', () => {
     const actualRequest = getCreateDevToArticleRequest(article);
 
     expect(actualRequest).toEqual(expectedRequest);
-    expectToHaveBeenCalledWith(insertCanonicalUrlSpy, article.content, article.canonicalUrl);
-    expectToHaveBeenCalledWith(getSupabaseUrlSpy, article.coverImagePath);
+    expect(insertCanonicalUrlSpy).toHaveBeenCalledWith(article.content, article.canonicalUrl);
+    expect(getSupabaseUrlSpy).toHaveBeenCalledWith(article.coverImagePath);
   });
 });

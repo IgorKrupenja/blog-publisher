@@ -1,8 +1,6 @@
 import { describe, expect, it, spyOn } from 'bun:test';
 import mime from 'mime';
 
-import { expectToHaveBeenCalledWith } from '../utils/test';
-
 import { getImageOptions } from './supabase';
 
 describe('getImageOptions', () => {
@@ -15,7 +13,7 @@ describe('getImageOptions', () => {
     const getTypeSpy = spyOn(mime, 'getType').mockReturnValueOnce('image/jpeg');
 
     expect(getImageOptions(imagePath)).toEqual(expectedOptions);
-    expectToHaveBeenCalledWith(getTypeSpy, imagePath);
+    expect(getTypeSpy).toHaveBeenCalledWith(imagePath);
   });
 
   it('should return default content type if mime type is not found', () => {
@@ -27,6 +25,6 @@ describe('getImageOptions', () => {
     const getTypeSpy = spyOn(mime, 'getType').mockReturnValueOnce(null);
 
     expect(getImageOptions(imagePath)).toEqual(expectedOptions);
-    expectToHaveBeenCalledWith(getTypeSpy, imagePath);
+    expect(getTypeSpy).toHaveBeenCalledWith(imagePath);
   });
 });
