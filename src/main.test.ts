@@ -15,9 +15,8 @@ describe('publishArticles', () => {
     await publishArticles();
 
     expect(getNewArticlePathsSpy).toHaveBeenCalled();
-
-    // expect(publishArticleSpy).toHaveBeenCalledTimes(newArticlePaths.length);
-    // newArticlePaths.forEach((path) => expect(publishArticleSpy).toHaveBeenCalledWith(path));
+    expect(publishArticleSpy).toHaveBeenCalledTimes(newArticlePaths.length);
+    newArticlePaths.forEach((path) => expect(publishArticleSpy).toHaveBeenCalledWith(path));
 
     getNewArticlePathsSpy.mockRestore();
     publishArticleSpy.mockRestore();
