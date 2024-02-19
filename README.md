@@ -29,7 +29,7 @@ will be addressed in the nearest future.
 
    - Hashnode: [token](https://hashnode.com/settings/developer) and [publication ID and URL](https://hashnode.com/settings/blog).
    - Dev.to: [API key](https://dev.to/settings/extensions).
-   - Medium: [integration token](https://medium.com/me/settings/security) and [publication ID](https://github.com/Medium/medium-api-docs#getting-the-authenticated-users-details). <!-- TODO: check where author ID is coming from. -->
+   - Medium: [integration token](https://medium.com/me/settings/security) and [publication ID](https://github.com/Medium/medium-api-docs#getting-the-authenticated-users-details).
    - Supabase: [get API key](https://supabase.com/dashboard/project/_/settings/api) and [create bucket](https://app.supabase.io/project/storage).
 
 ## Testing
