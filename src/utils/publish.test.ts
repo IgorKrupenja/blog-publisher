@@ -1,4 +1,4 @@
-import { describe, it, jest, mock, spyOn } from 'bun:test';
+import { describe, expect, it, jest, mock, spyOn } from 'bun:test';
 
 import * as devTo from '../fetchers/dev-to';
 import * as hashnode from '../fetchers/hashnode';
@@ -9,7 +9,6 @@ import * as file from './file';
 import * as markdown from './markdown';
 import { publishArticle } from './publish';
 import * as supabase from './supabase';
-import { expectToHaveBeenCalledWith } from './test';
 
 void mock.module('../fetchers/supabase.ts', () => {
   return {
@@ -51,22 +50,21 @@ describe('publishArticle', () => {
 
     await publishArticle('/path/to/article.md');
 
-    expectToHaveBeenCalledWith(getImagePathSpy, '/path/to/', 'cover.jpg');
-    expectToHaveBeenCalledWith(
-      getMarkdownImagePathsSpy,
+    expect(getImagePathSpy).toHaveBeenCalledWith('/path/to/', 'cover.jpg');
+    expect(getMarkdownImagePathsSpy).toHaveBeenCalledWith(
       '/path/to/',
       '---\ntitle: Test Article\n---\n\nThis is a test article.'
     );
-    expectToHaveBeenCalledWith(getSupabaseUrlSpy, '/path/to/');
+    expect(getSupabaseUrlSpy).toHaveBeenCalledWith('/path/to/');
 
-    expectToHaveBeenCalledWith(createHashnodeArticleSpy, {
+    expect(createHashnodeArticleSpy).toHaveBeenCalledWith({
       title: 'Test Article',
       tags: ['first', 'second'],
       coverImage: 'cover.jpg',
       content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
       coverImagePath: '/path/to/cover.jpg',
     });
-    expectToHaveBeenCalledWith(createDevToArticleSpy, {
+    expect(createDevToArticleSpy).toHaveBeenCalledWith({
       title: 'Test Article',
       tags: ['first', 'second'],
       coverImage: 'cover.jpg',
@@ -74,7 +72,7 @@ describe('publishArticle', () => {
       coverImagePath: '/path/to/cover.jpg',
       canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
     });
-    expectToHaveBeenCalledWith(createMediumArticleSpy, {
+    expect(createMediumArticleSpy).toHaveBeenCalledWith({
       title: 'Test Article',
       tags: ['first', 'second'],
       coverImage: 'cover.jpg',

@@ -7,7 +7,6 @@ import {
   CreateHashnodeArticleResponse,
 } from '../interfaces';
 import * as supabaseUtil from '../utils/supabase';
-import { expectToHaveBeenCalledWith } from '../utils/test';
 
 import * as hashnode from './hashnode';
 import {
@@ -47,7 +46,7 @@ describe('createHashnodeArticle', () => {
 
     const slug = await createHashnodeArticle(mockArticle);
 
-    expectToHaveBeenCalledWith(fetchSpy, 'https://api.hashnode.com', {
+    expect(fetchSpy).toHaveBeenCalledWith('https://api.hashnode.com', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,8 +55,8 @@ describe('createHashnodeArticle', () => {
       body: JSON.stringify({}),
     });
     expect(slug).toBe('test-article');
-    expectToHaveBeenCalledWith(getCreateHashnodeArticleRequestSpy, mockArticle);
-    expectToHaveBeenCalledWith(consoleDebugSpy, "Hashnode: published article 'Test Article'");
+    expect(getCreateHashnodeArticleRequestSpy).toHaveBeenCalledWith(mockArticle);
+    expect(consoleDebugSpy).toHaveBeenCalledWith("Hashnode: published article 'Test Article'");
   });
 
   it('should throw an error if error response was received from Hashnode', () => {

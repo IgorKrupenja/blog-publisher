@@ -15,9 +15,11 @@ The attribution requirement is only met when:
 2. The attribution message is displayed above and below the article, e.g.:
 
    ```html
-   This article has been originally published on <a href="https://blog.IgorKrupenja.com/">Igor Krupenja's blog</a> at this <a href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm">link</a>.
+   This article has been originally published on
+   <a href="https://blog.IgorKrupenja.com/">Igor Krupenja's blog</a> at this
+   <a href="https://blog.IgorKrupenja.com/nextjs-expo-monorepo-with-pnpm">link</a>.
    ```
-  
+
 ## Other files
 
 Files not mentioned in the previous paragraphs are licensed under MIT License.

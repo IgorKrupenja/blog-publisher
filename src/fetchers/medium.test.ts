@@ -3,7 +3,6 @@ import { Mock, describe, expect, it, mock, spyOn } from 'bun:test';
 
 import { Article, CreateMediumArticleRequest } from '../interfaces';
 import * as markdownUtil from '../utils/markdown';
-import { expectToHaveBeenCalledWith } from '../utils/test';
 
 import * as medium from './medium';
 import { createMediumArticle, getCreateMediumArticleRequest } from './medium';
@@ -29,8 +28,7 @@ describe('createMediumArticle', () => {
 
     await createMediumArticle(article);
 
-    expectToHaveBeenCalledWith(
-      fetchSpy,
+    expect(fetchSpy).toHaveBeenCalledWith(
       `https://api.medium.com/v1/users/${Bun.env.MEDIUM_AUTHOR_ID}/posts`,
       {
         method: 'POST',
@@ -43,9 +41,8 @@ describe('createMediumArticle', () => {
         body: JSON.stringify({}),
       }
     );
-    expectToHaveBeenCalledWith(getCreateMediumArticleRequestSpy, article);
-    expectToHaveBeenCalledWith(
-      consoleDebugSpy,
+    expect(getCreateMediumArticleRequestSpy).toHaveBeenCalledWith(article);
+    expect(consoleDebugSpy).toHaveBeenCalledWith(
       `Medium: published draft article '${article.title}'`
     );
   });
@@ -91,14 +88,12 @@ describe('getCreateMediumArticleRequest', () => {
     const actualRequest = getCreateMediumArticleRequest(article);
 
     expect(actualRequest).toEqual(expectedRequest);
-    expectToHaveBeenCalledWith(
-      insertCoverImageSpy,
+    expect(insertCoverImageSpy).toHaveBeenCalledWith(
       article.title,
       article.content,
       article.coverImagePath
     );
-    expectToHaveBeenCalledWith(
-      insertCanonicalUrlSpy,
+    expect(insertCanonicalUrlSpy).toHaveBeenCalledWith(
       `![My Article Cover Image](https://blog.IgorKrpenja.com/path/to/cover/image.jpg)\n\nThis is my article content`,
       article.canonicalUrl
     );

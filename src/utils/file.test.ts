@@ -4,7 +4,6 @@ import { AnyFunction } from 'bun';
 import { Mock, describe, expect, it, mock, spyOn } from 'bun:test';
 
 import { getArticleFileString, getDirectoryPath, getImagePath, getNewArticlePaths } from './file';
-import { expectToHaveBeenCalledWith } from './test';
 
 void mock.module('child_process', () => {
   return {
@@ -20,8 +19,7 @@ describe('getNewArticlePaths', () => {
       'src/articles/2023/01/01-article.md',
       'src/articles/2023/02/02-article.md',
     ]);
-    expectToHaveBeenCalledWith(
-      execSyncSpy,
+    expect(execSyncSpy).toHaveBeenCalledWith(
       'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
     );
   });
@@ -33,8 +31,7 @@ describe('getNewArticlePaths', () => {
       'src/articles/2023/01/01-article.md',
       'src/articles/2023/02/02-article.md',
     ]);
-    expectToHaveBeenCalledWith(
-      execSyncSpy,
+    expect(execSyncSpy).toHaveBeenCalledWith(
       'git diff main HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
     );
   });
@@ -44,8 +41,7 @@ describe('getNewArticlePaths', () => {
     const execSyncSpy = spyOn(child_process, 'execSync').mockReturnValueOnce(diffOutput);
 
     expect(getNewArticlePaths()).toEqual([]);
-    expectToHaveBeenCalledWith(
-      execSyncSpy,
+    expect(execSyncSpy).toHaveBeenCalledWith(
       'git diff HEAD^ HEAD --name-only --diff-filter=A -- "src/articles/**/*.md"'
     );
   });
@@ -64,7 +60,7 @@ describe('getArticleFileString', () => {
     );
 
     expect(await getArticleFileString(path)).toEqual(fileContents);
-    expectToHaveBeenCalledWith(bunFileSpy, path);
+    expect(bunFileSpy).toHaveBeenCalledWith(path);
   });
 
   it('should throw an error when the file is not found', () => {
@@ -75,7 +71,7 @@ describe('getArticleFileString', () => {
     });
 
     expect(() => getArticleFileString(path)).toThrow('getArticleFileString: file not found');
-    expectToHaveBeenCalledWith(bunFileSpy, path);
+    expect(bunFileSpy).toHaveBeenCalledWith(path);
   });
 });
 

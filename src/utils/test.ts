@@ -2,7 +2,8 @@ import { AnyFunction } from 'bun';
 import { Mock } from 'bun:test';
 import chalk from 'chalk';
 
-// TODO: Bun does not support .toHaveBeenCalledWith() yet, https://github.com/oven-sh/bun/issues/1825
+// TODO: Bun now supports .toHaveBeenCalledWith()
+// TODO: Use that instead https://github.com/oven-sh/bun/issues/1825
 export const expectToHaveBeenCalledWith = (
   mock: Mock<AnyFunction>,
   ...expectedArgs: unknown[]

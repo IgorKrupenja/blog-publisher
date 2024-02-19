@@ -3,7 +3,6 @@ import { describe, expect, it, spyOn } from 'bun:test';
 import { publishArticles } from './main';
 import * as file from './utils/file';
 import * as publish from './utils/publish';
-import { expectToHaveBeenCalledWith } from './utils/test';
 
 describe('publishArticles', () => {
   it('should call publishArticle for each new article path', async () => {
@@ -18,7 +17,7 @@ describe('publishArticles', () => {
     expect(getNewArticlePathsSpy).toHaveBeenCalled();
 
     expect(publishArticleSpy).toHaveBeenCalledTimes(newArticlePaths.length);
-    newArticlePaths.forEach((path) => expectToHaveBeenCalledWith(publishArticleSpy, path));
+    newArticlePaths.forEach((path) => expect(publishArticleSpy).toHaveBeenCalledWith(path));
 
     getNewArticlePathsSpy.mockRestore();
     publishArticleSpy.mockRestore();
@@ -31,6 +30,6 @@ describe('publishArticles', () => {
     await publishArticles();
 
     expect(getNewArticlePathsSpy).toHaveBeenCalled();
-    expectToHaveBeenCalledWith(consoleDebugSpy, 'publishArticles: No new articles to publish.');
+    expect(consoleDebugSpy).toHaveBeenCalledWith('publishArticles: No new articles to publish.');
   });
 });
