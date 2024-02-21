@@ -26,9 +26,8 @@ export const publishArticle = async (filePath: string): Promise<void> => {
 
   const article: Article = { ...frontMatter, content, coverImagePath };
 
-  // todo fix this
   const slug = await createHashnodeArticle(article);
-  const canonicalUrl = getCanonicalUrl('slug');
+  const canonicalUrl = getCanonicalUrl(slug);
 
   await Promise.all([
     createDevToArticle({ ...article, canonicalUrl }),
