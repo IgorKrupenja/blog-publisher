@@ -41,6 +41,6 @@ will be addressed in the nearest future.
 
 <!-- todo BUN 🚀 -->
 
-## To do
+## Limitations and to do
 
 <!-- todo BUN 😢 -->
