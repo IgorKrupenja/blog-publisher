@@ -17,7 +17,6 @@ export const createHashnodeArticle = async (article: Article): Promise<string> =
     },
     body: JSON.stringify(getCreateHashnodeArticleRequest(article)),
   });
-  console.log('response', response);
   const responseJson = (await response.json()) as CreateHashnodeArticleResponse;
   console.debug(`Hashnode: response: ${JSON.stringify(responseJson)}`);
 
