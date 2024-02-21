@@ -1,7 +1,8 @@
+import { getNewArticlePaths } from './utils/file';
 import { publishArticle } from './utils/publish';
 
 export const publishArticles = async (): Promise<void> => {
-  const paths = ['src/articles/2024/02-nextjs-expo-monorepo/nextjs-expo-monorepo.md'];
+  const paths = getNewArticlePaths();
   if (!paths.length) {
     console.debug('publishArticles: No new articles to publish.');
     return;

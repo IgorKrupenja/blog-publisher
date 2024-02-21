@@ -10,7 +10,7 @@ describe('publishArticles', () => {
     const getNewArticlePathsSpy = spyOn(file, 'getNewArticlePaths').mockReturnValue(
       newArticlePaths
     );
-    const publishArticleSpy = spyOn(publish, 'publishArticle').mockReturnValue(Promise.resolve());
+    const publishArticleSpy = spyOn(publish, 'publishArticle').mockResolvedValue(undefined);
 
     await publishArticles();
 
