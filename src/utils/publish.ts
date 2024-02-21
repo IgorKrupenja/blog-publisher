@@ -7,6 +7,7 @@ import { Article } from '../interfaces';
 import { getArticleFileString, getDirectoryPath, getImagePath } from './file';
 import { getCanonicalUrl } from './hashnode';
 import {
+  getArticleContent,
   getArticleFrontMatterOrFail,
   getMarkdownImagePaths,
   replaceMarkdownImagePaths,
@@ -20,7 +21,10 @@ export const publishArticle = async (filePath: string): Promise<void> => {
   const frontMatter = getArticleFrontMatterOrFail(articleFile);
   const coverImagePath = getImagePath(directoryPath, frontMatter.coverImage);
   const imagePaths = getMarkdownImagePaths(directoryPath, articleFile);
-  const content = replaceMarkdownImagePaths(getSupabaseUrl(directoryPath), articleFile);
+  const content = replaceMarkdownImagePaths(
+    getSupabaseUrl(directoryPath),
+    getArticleContent(articleFile)
+  );
 
   await Promise.all([coverImagePath, ...imagePaths].map(uploadImage));
 

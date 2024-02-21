@@ -1,14 +1,14 @@
 export interface CreateHashnodeArticleRequest {
   query: string;
   variables: {
-    publicationId: string;
-    hideFromHashnodeFeed?: boolean;
     input: {
+      publicationId: string;
       title: string;
       contentMarkdown: string;
-      tags: { _id: string }[];
-      isPartOfPublication: { publicationId: string };
-      coverImageURL?: string;
+      tags: { id: string }[];
+      coverImageOptions: {
+        coverImageURL: string;
+      };
     };
   };
 }
