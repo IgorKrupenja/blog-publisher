@@ -7,6 +7,7 @@
     "typecheck": "bun tsc --noEmit",
     "lint": "bun --bun eslint .",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "publish": "bun src/main.ts"
   },
   "dependencies": {

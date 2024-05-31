@@ -6,10 +6,10 @@ on:
     types: ['opened', 'reopened', 'synchronize', 'ready_for_review']
 
 jobs:
-  typecheck:
+  format:
     uses: ./.github/workflows/run-check.yaml
     with:
-      command: bun typecheck
+      command: bun format:check
   lint:
     uses: ./.github/workflows/run-check.yaml
     with:
@@ -23,6 +23,10 @@ jobs:
         with:
           config: '.markdownlint.json'
           args: '.'
+  typecheck:
+    uses: ./.github/workflows/run-check.yaml
+    with:
+      command: bun typecheck
   test:
     uses: ./.github/workflows/run-check.yaml
     with:

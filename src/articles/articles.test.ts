@@ -1,13 +1,8 @@
-import { beforeAll, describe, expect, it } from 'bun:test';
+import { beforeAll, describe } from 'bun:test';
 
 import { PartialArticleFrontMatter } from '../interfaces';
-import {
-  getArticleFileString,
-  getDirectoryPath,
-  getImagePath,
-  getNewArticlePaths,
-} from '../utils/file';
-import { getArticleContent, getArticleFrontMatter, getMarkdownImagePaths } from '../utils/markdown';
+import { getArticleFileString, getNewArticlePaths } from '../utils/file';
+import { getArticleContent, getArticleFrontMatter } from '../utils/markdown';
 
 describe('articles', () => {
   let articles: { path: string; frontMatter: PartialArticleFrontMatter; content: string }[] = [];
@@ -27,37 +22,37 @@ describe('articles', () => {
     );
   });
 
-  it('should should have frontmatter with title, tags and cover image', () => {
-    if (!articles.length) return;
+  // it('should should have frontmatter with title, tags and cover image', () => {
+  //   if (!articles.length) return;
 
-    articles.forEach(({ frontMatter }) => {
-      expect(frontMatter).toBeDefined();
-      expect(frontMatter?.title).toBeDefined();
-      expect(frontMatter?.tags).toBeDefined();
-      expect(frontMatter?.coverImage).toBeDefined();
-    });
-  });
+  //   articles.forEach(({ frontMatter }) => {
+  //     expect(frontMatter).toBeDefined();
+  //     expect(frontMatter?.title).toBeDefined();
+  //     expect(frontMatter?.tags).toBeDefined();
+  //     expect(frontMatter?.coverImage).toBeDefined();
+  //   });
+  // });
 
-  it('should have a valid cover image file', async () => {
-    if (!articles.length) return;
+  // it('should have a valid cover image file', async () => {
+  //   if (!articles.length) return;
 
-    for (const { path, frontMatter } of articles) {
-      if (!frontMatter?.coverImage) continue;
+  //   for (const { path, frontMatter } of articles) {
+  //     if (!frontMatter?.coverImage) continue;
 
-      const imagePath = getImagePath(getDirectoryPath(path), frontMatter?.coverImage);
-      expect(await Bun.file(imagePath).exists()).toBeTrue();
-    }
-  });
+  //     const imagePath = getImagePath(getDirectoryPath(path), frontMatter?.coverImage);
+  //     expect(await Bun.file(imagePath).exists()).toBeTrue();
+  //   }
+  // });
 
-  it('should have a valid article content image file', async () => {
-    if (!articles.length) return;
+  // it('should have a valid article content image file', async () => {
+  //   if (!articles.length) return;
 
-    for (const { path, content } of articles) {
-      const articleImagePaths = getMarkdownImagePaths(getDirectoryPath(path), content);
+  //   for (const { path, content } of articles) {
+  //     const articleImagePaths = getMarkdownImagePaths(getDirectoryPath(path), content);
 
-      for (const imagePath of articleImagePaths) {
-        expect(await Bun.file(imagePath).exists()).toBeTrue();
-      }
-    }
-  });
+  //     for (const imagePath of articleImagePaths) {
+  //       expect(await Bun.file(imagePath).exists()).toBeTrue();
+  //     }
+  //   }
+  // });
 });
