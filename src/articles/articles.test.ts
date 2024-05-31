@@ -5,6 +5,7 @@ import { getArticleFileString, getNewArticlePaths } from '../utils/file';
 import { getArticleContent, getArticleFrontMatter } from '../utils/markdown';
 
 describe('articles', () => {
+  // eslint-disable-next-line unused-imports/no-unused-vars
   let articles: { path: string; frontMatter: PartialArticleFrontMatter; content: string }[] = [];
 
   beforeAll(async () => {
