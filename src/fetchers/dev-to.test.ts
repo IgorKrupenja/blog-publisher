@@ -52,7 +52,7 @@ describe('createDevToArticle', () => {
     spyOn(global, 'fetch').mockImplementationOnce(
       mock(() => {
         return { json: () => Promise.resolve(mockResponse) };
-      }) as Mock<AnyFunction>
+      }) as unknown as Mock<typeof fetch>
     );
     spyOn(devTo, 'getCreateDevToArticleRequest').mockReturnValueOnce(
       {} as CreateDevToArticleRequest

@@ -1,6 +1,5 @@
 import * as child_process from 'child_process';
 
-import { AnyFunction } from 'bun';
 import { Mock, describe, expect, it, mock, spyOn } from 'bun:test';
 
 import { getArticleFileString, getDirectoryPath, getImagePath, getNewArticlePaths } from './file';
@@ -56,7 +55,7 @@ describe('getArticleFileString', () => {
         return {
           text: () => Promise.resolve(fileContents),
         };
-      }) as Mock<AnyFunction>
+      }) as unknown as Mock<typeof Bun.file>
     );
 
     expect(await getArticleFileString(path)).toEqual(fileContents);

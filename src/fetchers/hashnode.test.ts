@@ -1,4 +1,3 @@
-import { AnyFunction } from 'bun';
 import { Mock, describe, expect, it, mock, spyOn } from 'bun:test';
 
 import {
@@ -36,7 +35,7 @@ describe('createHashnodeArticle', () => {
     const fetchSpy = spyOn(global, 'fetch').mockImplementationOnce(
       mock(() => {
         return { json: () => Promise.resolve(mockResponse) };
-      }) as Mock<AnyFunction>
+      }) as unknown as Mock<typeof fetch>
     );
     const getCreateHashnodeArticleRequestSpy = spyOn(
       hashnode,
@@ -73,7 +72,7 @@ describe('createHashnodeArticle', () => {
     spyOn(global, 'fetch').mockImplementationOnce(
       mock(() => {
         return { json: () => Promise.resolve(mockResponse) };
-      }) as Mock<AnyFunction>
+      }) as unknown as Mock<typeof fetch>
     );
     spyOn(hashnode, 'getCreateHashnodeArticleRequest').mockReturnValueOnce(
       {} as CreateHashnodeArticleRequest
@@ -94,7 +93,7 @@ describe('createHashnodeArticle', () => {
     spyOn(global, 'fetch').mockImplementationOnce(
       mock(() => {
         return { json: () => Promise.resolve(mockResponse) };
-      }) as Mock<AnyFunction>
+      }) as unknown as Mock<typeof fetch>
     );
     spyOn(hashnode, 'getCreateHashnodeArticleRequest').mockReturnValueOnce(
       {} as CreateHashnodeArticleRequest
