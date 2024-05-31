@@ -25,7 +25,7 @@ describe('createHashnodeArticle', () => {
     };
     const mockResponse: CreateHashnodeArticleResponse = {
       data: {
-        createPublicationStory: {
+        publishPost: {
           post: {
             slug: 'test-article',
           },
@@ -46,7 +46,7 @@ describe('createHashnodeArticle', () => {
 
     const slug = await createHashnodeArticle(mockArticle);
 
-    expect(fetchSpy).toHaveBeenCalledWith('https://api.hashnode.com', {
+    expect(fetchSpy).toHaveBeenCalledWith('https://gql.hashnode.com', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -117,26 +117,26 @@ describe('getCreateHashnodeArticleRequest', () => {
 
     const expectedRequest = {
       query: `#graphql
-        mutation createPublicationStory($input: CreateStoryInput!, $publicationId: String!) {
-          createPublicationStory(input: $input, publicationId: $publicationId) {
+        mutation PublishPost($input: PublishPostInput!) {
+          publishPost(input: $input) {
             post { slug }
           }
         }
       `,
       variables: {
-        publicationId: Bun.env.HASHNODE_PUBLICATION_ID,
-        hideFromHashnodeFeed: false,
         input: {
+          publicationId: Bun.env.HASHNODE_PUBLICATION_ID,
           title: article.title,
           contentMarkdown: article.content,
           tags: [
             {
-              _id: 'dummy',
+              id: 'dummy',
             },
           ],
-          isPartOfPublication: { publicationId: Bun.env.HASHNODE_PUBLICATION_ID },
-          coverImageURL:
-            'https://supabase.IgorKrpenja.com/storage/v1/object/public/images/path/to/image.jpg',
+          coverImageOptions: {
+            coverImageURL:
+              'https://supabase.IgorKrpenja.com/storage/v1/object/public/images/path/to/image.jpg',
+          },
         },
       },
     };

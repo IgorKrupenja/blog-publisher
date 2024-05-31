@@ -8,7 +8,8 @@ import {
 import { getSupabaseUrl } from '../utils/supabase';
 
 export const createHashnodeArticle = async (article: Article): Promise<string> => {
-  const response = await fetch('https://api.hashnode.com', {
+  console.debug(`Hashnode: creating article '${article.title}'`);
+  const response = await fetch('https://gql.hashnode.com', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -28,7 +29,7 @@ export const createHashnodeArticle = async (article: Article): Promise<string> =
 
   console.debug(`Hashnode: published article '${article.title}'`);
 
-  return responseJson.data.createPublicationStory.post.slug;
+  return responseJson.data.publishPost.post.slug;
 };
 
 export const getCreateHashnodeArticleRequest = ({
@@ -43,21 +44,21 @@ export const getCreateHashnodeArticleRequest = ({
 
   return {
     query: `#graphql
-        mutation createPublicationStory($input: CreateStoryInput!, $publicationId: String!) {
-          createPublicationStory(input: $input, publicationId: $publicationId) {
+        mutation PublishPost($input: PublishPostInput!) {
+          publishPost(input: $input) {
             post { slug }
           }
         }
       `,
     variables: {
-      publicationId: HASHNODE_PUBLICATION_ID,
-      hideFromHashnodeFeed: false,
       input: {
+        publicationId: HASHNODE_PUBLICATION_ID,
         title,
         contentMarkdown: content,
-        tags: hashnodeTags.map((tag) => ({ _id: tag.objectID })),
-        isPartOfPublication: { publicationId: HASHNODE_PUBLICATION_ID },
-        coverImageURL: getSupabaseUrl(coverImagePath),
+        tags: hashnodeTags.map((tag) => ({ id: tag.objectID })),
+        coverImageOptions: {
+          coverImageURL: getSupabaseUrl(coverImagePath),
+        },
       },
     },
   };

@@ -36,6 +36,9 @@ describe('publishArticle', () => {
       []
     );
     const getSupabaseUrlSpy = spyOn(supabase, 'getSupabaseUrl').mockReturnValueOnce('');
+    const getArticleContentSpy = spyOn(markdown, 'getArticleContent').mockReturnValueOnce(
+      'This is a test article.'
+    );
 
     const createHashnodeArticleSpy = spyOn(
       hashnode,
@@ -56,19 +59,22 @@ describe('publishArticle', () => {
       '---\ntitle: Test Article\n---\n\nThis is a test article.'
     );
     expect(getSupabaseUrlSpy).toHaveBeenCalledWith('/path/to/');
+    expect(getArticleContentSpy).toHaveBeenCalledWith(
+      '---\ntitle: Test Article\n---\n\nThis is a test article.'
+    );
 
     expect(createHashnodeArticleSpy).toHaveBeenCalledWith({
       title: 'Test Article',
       tags: ['first', 'second'],
       coverImage: 'cover.jpg',
-      content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
+      content: 'This is a test article.',
       coverImagePath: '/path/to/cover.jpg',
     });
     expect(createDevToArticleSpy).toHaveBeenCalledWith({
       title: 'Test Article',
       tags: ['first', 'second'],
       coverImage: 'cover.jpg',
-      content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
+      content: 'This is a test article.',
       coverImagePath: '/path/to/cover.jpg',
       canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
     });
@@ -76,7 +82,7 @@ describe('publishArticle', () => {
       title: 'Test Article',
       tags: ['first', 'second'],
       coverImage: 'cover.jpg',
-      content: '---\ntitle: Test Article\n---\n\nThis is a test article.',
+      content: 'This is a test article.',
       coverImagePath: '/path/to/cover.jpg',
       canonicalUrl: 'https://blog.IgorKrpenja.com/test-article',
     });
