@@ -4,7 +4,8 @@
   "module": "src/main.ts",
   "type": "module",
   "scripts": {
-    "typecheck": "bun tsc --noEmit",
+    "ts:check": "bun tsc --noEmit",
+    "lockfile:check": "cp bun.lockb bun.lockb.orig && pnpm install && cmp -s bun.lockb bun.lockb.orig",
     "lint": "bun --bun eslint . --fix --max-warnings 0",
     "lint:check": "bun --bun eslint . --max-warnings 0",
     "format": "prettier --write .",

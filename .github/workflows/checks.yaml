@@ -9,6 +9,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  check-lockfile:
+    uses: ./.github/workflows/check-setup.yml
+    with:
+      command: bun lockfile:check
   format:
     uses: ./.github/workflows/check-setup.yaml
     with:
@@ -29,7 +33,7 @@ jobs:
   typecheck:
     uses: ./.github/workflows/check-setup.yaml
     with:
-      command: bun typecheck
+      command: bun ts:check
   test:
     uses: ./.github/workflows/check-setup.yaml
     with:
