@@ -26,8 +26,7 @@ export const getCreateDevToArticleRequest = ({
   tags,
   title,
 }: Required<Article>): CreateDevToArticleRequest => {
-  if (tags.length > 4)
-    console.warn('publishArticleOnDevTo: more than 4 tags, publishing only first 4');
+  if (tags.length > 4) console.warn('Dev.to: more than four tags, publishing only the first four.');
 
   return {
     article: {
