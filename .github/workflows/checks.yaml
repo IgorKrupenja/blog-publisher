@@ -10,11 +10,11 @@ concurrency:
 
 jobs:
   format:
-    uses: ./.github/workflows/run-check.yaml
+    uses: ./.github/workflows/check-setup.yaml
     with:
       command: bun format:check
   lint:
-    uses: ./.github/workflows/run-check.yaml
+    uses: ./.github/workflows/check-setup.yaml
     with:
       command: bun lint:check
   lint-markdown:
@@ -27,11 +27,11 @@ jobs:
           config: '.markdownlint.json'
           args: '.'
   typecheck:
-    uses: ./.github/workflows/run-check.yaml
+    uses: ./.github/workflows/check-setup.yaml
     with:
       command: bun typecheck
   test:
-    uses: ./.github/workflows/run-check.yaml
+    uses: ./.github/workflows/check-setup.yaml
     with:
       # TODO: why I need explicitly specifying fetch main branch here?
       command: git fetch origin main:main && bun test
