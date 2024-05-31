@@ -11,7 +11,6 @@ describe('publishArticles', () => {
       'path/to/article1',
       'path/to/article2',
     ]);
-    console.log('spy ', getNewArticlePathsSpy.mock);
     const publishArticleSpy = spyOn(publish, 'publishArticle').mockResolvedValue(undefined);
 
     await publishArticles();
