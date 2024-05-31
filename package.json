@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "typecheck": "bun tsc --noEmit",
-    "lint": "bun --bun eslint .",
+    "lint": "bun --bun eslint . --fix --max-warnings 0",
+    "lint:check": "bun --bun eslint . --max-warnings 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "publish": "bun src/main.ts"

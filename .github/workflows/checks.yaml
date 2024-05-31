@@ -13,7 +13,7 @@ jobs:
   lint:
     uses: ./.github/workflows/run-check.yaml
     with:
-      command: bun lint
+      command: bun lint:check
   lint-markdown:
     if: '! github.event.pull_request.draft'
     runs-on: ubuntu-latest
