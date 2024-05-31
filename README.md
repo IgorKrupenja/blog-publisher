@@ -1,5 +1,7 @@
 # Blog publisher
 
+**⚠️ Nothing is ready, including this README.**
+
 <!-- todo use similar in descr -->
 
 Looking for a way to publish your developer blog posts to multiple platforms? Look no further!
