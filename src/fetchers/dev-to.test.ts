@@ -1,4 +1,3 @@
-import { AnyFunction } from 'bun';
 import { Mock, describe, expect, it, mock, spyOn } from 'bun:test';
 
 import { Article, CreateDevToArticleRequest, CreateDevToArticleResponse } from '../interfaces';
@@ -21,7 +20,7 @@ describe('createDevToArticle', () => {
     const fetchSpy = spyOn(global, 'fetch').mockImplementationOnce(
       mock(() => {
         return { json: () => Promise.resolve({ status: 201 }) };
-      }) as Mock<AnyFunction>
+      }) as unknown as Mock<typeof fetch>
     );
     const getCreateDevToArticleRequestSpy = spyOn(
       devTo,
