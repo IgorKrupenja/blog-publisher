@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   check-lockfile:
-    uses: ./.github/workflows/check-setup.yml
+    uses: ./.github/workflows/check-setup.yaml
     with:
       command: bun lockfile:check
   format:
