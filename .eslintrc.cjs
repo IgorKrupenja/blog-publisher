@@ -36,7 +36,8 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/no-floating-promises': 'error',
     '@typescript-eslint/require-await': 'error',
-    'import/no-unresolved': ['error'],
+    // TODO: Enable this rule in https://github.com/IgorKrupenja/blog-publisher/issues/127
+    'import/no-unresolved': 'off',
     'import/order': [
       'warn',
       {
