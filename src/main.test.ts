@@ -7,7 +7,7 @@ import * as publish from './utils/publish';
 describe('publishArticles', () => {
   it('should call publishArticle for each new article path', async () => {
     const newArticlePaths = ['path/to/article1', 'path/to/article2'];
-    const getNewArticlePathsSpy = spyOn(file, 'getNewArticlePaths').mockReturnValue([
+    const getNewArticlePathsSpy = spyOn(file, 'getNewArticlePaths').mockReturnValueOnce([
       'path/to/article1',
       'path/to/article2',
     ]);
