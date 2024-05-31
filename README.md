@@ -35,7 +35,7 @@ will be addressed in the nearest future.
 
 ## Testing
 
-<!-- todo BUN 🚀 -->
+<!-- todo BUN  🚀 -->
 
 ## Performance
 
