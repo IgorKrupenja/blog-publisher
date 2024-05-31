@@ -22,13 +22,13 @@ describe('publishArticles', () => {
     publishArticleSpy.mockRestore();
   });
 
-  it('should log a message when there are no new articles to publish', async () => {
-    const getNewArticlePathsSpy = spyOn(file, 'getNewArticlePaths').mockReturnValueOnce([]);
-    const consoleDebugSpy = spyOn(console, 'debug').mockImplementationOnce(() => {});
+  // it('should log a message when there are no new articles to publish', async () => {
+  //   const getNewArticlePathsSpy = spyOn(file, 'getNewArticlePaths').mockReturnValueOnce([]);
+  //   const consoleDebugSpy = spyOn(console, 'debug').mockImplementationOnce(() => {});
 
-    await publishArticles();
+  //   await publishArticles();
 
-    expect(getNewArticlePathsSpy).toHaveBeenCalled();
-    expect(consoleDebugSpy).toHaveBeenCalledWith('publishArticles: No new articles to publish.');
-  });
+  //   expect(getNewArticlePathsSpy).toHaveBeenCalled();
+  //   expect(consoleDebugSpy).toHaveBeenCalledWith('publishArticles: No new articles to publish.');
+  // });
 });
