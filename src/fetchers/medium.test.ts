@@ -1,4 +1,3 @@
-import { AnyFunction } from 'bun';
 import { Mock, describe, expect, it, mock, spyOn } from 'bun:test';
 
 import { Article, CreateMediumArticleRequest } from '../interfaces';
@@ -18,7 +17,7 @@ describe('createMediumArticle', () => {
 
   it('should make a POST request to Medium API with correct parameters', async () => {
     const fetchSpy = spyOn(global, 'fetch').mockImplementationOnce(
-      mock(() => ({ status: 201 })) as Mock<AnyFunction>
+      mock(() => ({ status: 201 })) as unknown as Mock<typeof fetch>
     );
     const getCreateMediumArticleRequestSpy = spyOn(
       medium,
@@ -49,7 +48,7 @@ describe('createMediumArticle', () => {
 
   it('should throw an error if the response status is not 201', () => {
     spyOn(global, 'fetch').mockImplementationOnce(
-      mock(() => ({ status: 400, statusText: 'Bad Request' })) as Mock<AnyFunction>
+      mock(() => ({ status: 400, statusText: 'Bad Request' })) as unknown as Mock<typeof fetch>
     );
     spyOn(medium, 'getCreateMediumArticleRequest').mockReturnValueOnce(
       {} as CreateMediumArticleRequest
