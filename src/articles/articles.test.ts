@@ -1,26 +1,23 @@
 import { beforeAll, describe } from 'bun:test';
 
 import { PartialArticleFrontMatter } from '../interfaces';
-import { getArticleFileString, getNewArticlePaths } from '../utils/file';
-import { getArticleContent, getArticleFrontMatter } from '../utils/markdown';
 
 describe('articles', () => {
   // eslint-disable-next-line unused-imports/no-unused-vars
-  let articles: { path: string; frontMatter: PartialArticleFrontMatter; content: string }[] = [];
+  const articles: { path: string; frontMatter: PartialArticleFrontMatter; content: string }[] = [];
 
   beforeAll(async () => {
-    const paths = getNewArticlePaths('test');
-    const articleFileStrings = await Promise.all(paths.map(getArticleFileString));
-
-    articles = await Promise.all(
-      paths.map((path, index) => {
-        return {
-          path,
-          frontMatter: getArticleFrontMatter(articleFileStrings[index]),
-          content: getArticleContent(articleFileStrings[index]),
-        };
-      })
-    );
+    // const paths = getNewArticlePaths('test');
+    // const articleFileStrings = await Promise.all(paths.map(getArticleFileString));
+    // articles = await Promise.all(
+    //   paths.map((path, index) => {
+    //     return {
+    //       path,
+    //       frontMatter: getArticleFrontMatter(articleFileStrings[index]),
+    //       content: getArticleContent(articleFileStrings[index]),
+    //     };
+    //   })
+    // );
   });
 
   // it('should should have frontmatter with title, tags and cover image', () => {
