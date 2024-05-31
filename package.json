@@ -34,7 +34,7 @@
     "eslint-import-resolver-typescript-bun": "^0.0.77",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-sort-export-all": "^1.4.1",
-    "eslint-plugin-unicorn": "^51.0.1",
+    "eslint-plugin-unicorn": "^53.0.0",
     "eslint-plugin-unused-imports": "^4.0.0",
     "prettier": "^3.2.5"
   }
